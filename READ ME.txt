@@ -1,0 +1,6 @@
+1. Untuk mengganti url di localhost, tinggal mengganti nama folder. Saat ini untuk mengaksesnya : http://localhost/suratsidang/
+2. Untuk databasenya tinggal di import, file database terlampir di folder aplikasi. Nama file: ptdepok.sql
+3. Untuk akun administrator. Username: administrator , Password: 123456
+4. Untuk menambahkan user, dilakukan oleh administrator, dan default passwordnya adalah 123456 (nantinya bisa diubah oleh user)
+5. Untuk tipe surat, bisa ditambahkan manual di sistem.
+6. Nama file scan surat yg diupload, akan sama berdasarkan no surat yg diinputkan, dan disimpan di folder /uploads/
