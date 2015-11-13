@@ -17,14 +17,14 @@ class Usr extends CI_Model {
     public $upp;
     public $ubirth;
     public $ustat;
-    public $tdata = array();
-    private $tbl = 'usr';
-    private $core;
+    public $tdata = [];
+    private $_tbl = 'usr';
+    private $_core;
     protected $cwp;
     
     public function __construct() {
         parent::__construct();
-        $this->core =& get_instance();
+        $this->_core =& get_instance();
         $this->cwp = (int) $this->cfg->init('COUNT_WRONG_PASSWORD');
     }
     
@@ -33,14 +33,14 @@ class Usr extends CI_Model {
             return;
         
         $this->db->where('uid', $uid);
-        $query = $this->db->get($this->tbl);
+        $query = $this->db->get($this->_tbl);
         if ($query->num_rows() > 0) {
             $result = $query->row_array();
             $this->setval($result);
         }
     }
 
-    public function setval($array_key) {
+    public function setval($array_key = []) {
         $REF_CLASS = new ReflectionClass($this);
         if (is_array($array_key) and !empty($array_key)) {
             foreach ($array_key as $key => $value) {
@@ -64,7 +64,7 @@ class Usr extends CI_Model {
         if(!empty($limit))
             $this->db->limit($limit, $start);
         
-        $query = $this->db->get($this->tbl);
+        $query = $this->db->get($this->_tbl);
         $result = $query->result_array();
         return ($query->num_rows() > 0) ? $result : false;
     }
@@ -73,7 +73,7 @@ class Usr extends CI_Model {
         if($stat)
             $this->db->where('ustat', true);
         
-        return $this->db->count_all($this->tbl);
+        return $this->db->count_all($this->_tbl);
     }
     
     public function susr($param = null) {
@@ -84,15 +84,15 @@ class Usr extends CI_Model {
         $this->db->or_like('uninme', $param);
         $this->db->or_like('ufnme', $param);
         $this->db->or_like('umail', $param);
-        $query = $this->db->get($this->tbl);
+        $query = $this->db->get($this->_tbl);
         $result = $query->result_array();
         return ($query->num_rows() > 0) ? $result : false;
     }
 
     public function iusr() {
-        $this->tdata['cu'] = $this->core->sess;
+        $this->tdata['cu'] = $this->_core->sess;
         $this->tdata['cd'] = date('Y-m-d H:i:s');
-        $this->db->insert($this->tbl, $this->tdata);
+        $this->db->insert($this->_tbl, $this->tdata);
         return ($this->db->affected_rows() > 0) ? $this->db->insert_id() : false;
     }
 
@@ -100,10 +100,10 @@ class Usr extends CI_Model {
         if (empty($this->uid))
             return;
         
-        $this->tdata['uu'] = $this->core->sess;
+        $this->tdata['uu'] = $this->_core->sess;
         $this->tdata['ud'] = date('Y-m-d H:i:s');
         $this->db->where('uid', $this->uid);
-        $this->db->update($this->tbl, $this->tdata);
+        $this->db->update($this->_tbl, $this->tdata);
         return ($this->db->affected_rows() > 0) ? true : false;
     }
 
@@ -112,30 +112,30 @@ class Usr extends CI_Model {
             return;
         
         $this->db->where('uid', $this->uid);
-        $this->db->delete($this->tbl);
+        $this->db->delete($this->_tbl);
         return ($this->db->affected_rows() > 0) ? true : false;
     }
     
     public function in($key = null, $pass = null) {
-        $key = $this->core->security->xss_clean($key);
-        $this->db->where(array('ustat' => true, 'unme' => $key));
+        $key = $this->_core->security->xss_clean($key);
+        $this->db->where(['ustat' => true, 'unme' => $key]);
         $this->db->or_where('umail', $key);
-        $query = $this->db->get($this->tbl);
+        $query = $this->db->get($this->_tbl);
         if ($query->num_rows() == 0)
             return 'invalid';
 
         $result = $query->row_array();
-        $decode = $this->core->encrypt->decode($result['upass']);
+        $decode = $this->_core->encrypt->decode($result['upass']);
         if ($pass == $decode) {
-            $this->core->session->set_userdata('user', $result['uid']);
-            $this->core->session->set_userdata('name', $result['ufnme']);
-            $this->core->session->set_userdata('username', $result['unme']);
-            $this->core->session->set_userdata('nick', $result['uninme']);
-            $this->core->session->set_userdata('uava', $result['upp']);
+            $this->_core->session->set_userdata('user', $result['uid']);
+            $this->_core->session->set_userdata('name', $result['ufnme']);
+            $this->_core->session->set_userdata('username', $result['unme']);
+            $this->_core->session->set_userdata('nick', $result['uninme']);
+            $this->_core->session->set_userdata('uava', $result['upp']);
             return 'success';
         } else {
             $this->init($result['uid']);
-            $this->tdata = array('uu' => $this->uid, 'ud' => date('Y-m-d H:i:s'));
+            $this->tdata = ['uu' => $this->uid, 'ud' => date('Y-m-d H:i:s')];
             if ($this->uwpas < $this->cwp) {
                 $this->tdata['uwpas'] = $this->uwpas + 1;
                 $count = $this->eusr();

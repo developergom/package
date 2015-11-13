@@ -2,10 +2,12 @@
     <div class="col-xs-12">
         <div class="box">
             <div class="box-header">
-                <?php
-                if (in_array('c', $this->sso->access))
-                    echo heading(anchor('sso/users/form', '<span class="fa fa-plus"></span> New User'), 3, 'class="box-title"');
-                ?>
+                <h3 class="box-title">
+                    <?php
+                    if (in_array('c', $this->sso->access))
+                        echo anchor('sso/users/form', '<span class="fa fa-plus"></span> New User');
+                    ?>
+                </h3>
                 <div class="box-tools">
                     <?php echo form_open('sso/users/search/') ?>
                     <div class="input-group input-group-sm" style="width:150px;">

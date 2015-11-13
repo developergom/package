@@ -9,12 +9,12 @@ class Users extends CI_Controller {
 
     public $sess = NULL;
     protected $app_name = NULL;
-    protected $page = array();
+    protected $page = [];
     protected $perpage = NULL;
-    protected $style = array();
-    protected $script = array();
-    protected $header = array();
-    protected $footer = array();
+    protected $style = [];
+    protected $script = [];
+    protected $header = [];
+    protected $footer = [];
 
     public function __construct() {
         parent::__construct();
@@ -25,13 +25,13 @@ class Users extends CI_Controller {
         $this->page = $this->mn->gtbylnk($this->uri->segment(1) . '/' . $this->uri->segment(2));
         $this->app_name = $this->cfg->init('APPLICATION_NAME');
         $this->perpage = (int) $this->cfg->init('ROW_PERPAGE');
-        $this->header = array(
+        $this->header = [
             'app_name' => $this->app_name,
             'title' => $this->page['mnme'],
             'content_header' => '<i class="fa ' . $this->page['mico'] . '"></i> ' . $this->page['mnme'],
             'style' => $this->style
-        );
-        $this->footer = array('script' => $this->script);
+        ];
+        $this->footer = ['script' => $this->script];
     }
 
     public function index() {
@@ -42,9 +42,9 @@ class Users extends CI_Controller {
         $config['total_rows'] = $this->usr->cusr();
         $udata = $this->usr->fusr($config['per_page'], $page);
         $this->pagination->initialize($config);
-        $this->header['breadcrumb'] = array(anchor('/', '<i class="fa fa-home"></i> Home'), $this->page['mnme']);
+        $this->header['breadcrumb'] = [anchor('/', '<i class="fa fa-home"></i> Home'), $this->page['mnme']];
         $this->load->view('header', $this->header);
-        $this->load->view('sso/user', array('data' => $udata, 'row' => $this->usr->cusr(), 'links' => $this->pagination->create_links()));
+        $this->load->view('sso/user', ['data' => $udata, 'row' => $this->usr->cusr(), 'links' => $this->pagination->create_links()]);
         $this->load->view('footer', $this->footer);
     }
 
