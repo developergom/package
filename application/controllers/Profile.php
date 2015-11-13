@@ -82,7 +82,7 @@ class Profile extends CI_Controller {
         if ($this->form_validation->run() == false) {
             $this->index($uid);
         } else {
-            $config['upload_path']          = './uploads/ava/';
+            $config['upload_path']          = './asset/img/avatar/';
             $config['allowed_types']        = 'gif|jpg|png';
             $config['max_size']             = 100;
             $config['max_width']            = 1024;

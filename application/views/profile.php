@@ -67,7 +67,7 @@
 
                     </div>
                     <div class="col-xs-5 col-md-5">
-                        <img src="uploads/ava/<?php echo $this->session->userdata('uava'); ?>" class="pull-left img-thumbnail" style="width:150px;">
+                        <img src="asset/img/avatar/<?php echo $this->session->userdata('uava'); ?>" class="pull-left img-thumbnail" style="width:150px;">
                     </div>
                     <div class="col-xs-5 col-md-5" id="avatar-section">
                         <div class="small action-avatar" id="qe-avatar" style="margin: 10px 0px">

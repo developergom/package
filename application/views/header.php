@@ -80,13 +80,13 @@
                             <!-- User Account: style can be found in dropdown.less -->
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <img src="uploads/ava/<?php echo $this->session->userdata('uava'); ?>" class="user-image" alt="User Image"/>
+                                    <img src="asset/img/avatar/<?php echo $this->session->userdata('uava'); ?>" class="user-image" alt="User Image"/>
                                     <span class="hidden-xs"><?php echo $this->session->userdata('nick') ?></span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <!-- User image -->
                                     <li class="user-header">
-                                        <img src="uploads/ava/<?php echo $this->session->userdata('uava'); ?>" class="img-circle" alt="User Image" />
+                                        <img src="asset/img/avatar/<?php echo $this->session->userdata('uava'); ?>" class="img-circle" alt="User Image" />
                                         <p>
                                             <?php echo '<strong>'.$this->session->userdata('username').'</strong><br/>'.$this->session->userdata('name') ?>
                                         </p>
@@ -118,7 +118,7 @@
                     <!-- Sidebar user panel -->
                     <div class="user-panel">
                         <div class="pull-left image">
-                            <img src="uploads/ava/<?php echo $this->session->userdata('uava'); ?>" class="img-circle" alt="User Image" />
+                            <img src="asset/img/avatar/<?php echo $this->session->userdata('uava'); ?>" class="img-circle" alt="User Image" />
                         </div>
                         <div class="pull-left info">
                             <p><?php echo $this->session->userdata('name').' <small>('.$this->session->userdata('nick').')</small>' ?></p>
