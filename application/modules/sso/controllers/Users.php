@@ -7,10 +7,8 @@
  */
 class Users extends CI_Controller {
 
-    public $sess = NULL;
-    protected $app_name = NULL;
     protected $page = [];
-    protected $perpage = NULL;
+    protected $segment = 4;
     protected $style = [];
     protected $script = [];
     protected $header = [];
@@ -18,28 +16,26 @@ class Users extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->sess = $this->session->userdata('user');
-        if (empty($this->sess))
+        if (empty($this->cfg->sess))
             redirect('in/');
 
         $this->page = $this->mn->gtbylnk($this->uri->segment(1) . '/' . $this->uri->segment(2));
-        $this->app_name = $this->cfg->init('APPLICATION_NAME');
-        $this->perpage = (int) $this->cfg->init('ROW_PERPAGE');
         $this->header = [
-            'app_name' => $this->app_name,
+            'app_name' => $this->cfg->app_name,
             'title' => $this->page['mnme'],
-            'content_header' => '<i class="fa ' . $this->page['mico'] . '"></i> ' . $this->page['mnme'],
+            'content_header' => anchor($this->page['mlnk'], '<i class="fa ' . $this->page['mico'] . '"></i> ' . $this->page['mnme']),
             'style' => $this->style
         ];
         $this->footer = ['script' => $this->script];
     }
 
     public function index() {
-        $page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
-        $config['base_url'] = base_url('sso/users/index/');
-        $config['per_page'] = $this->perpage;
-        $config['uri_segment'] = 4;
+        $page = ($this->uri->segment($this->segment)) ? $this->uri->segment($this->segment) : 0;
+        $config['base_url'] = base_url('sso/users/');
+        $config['per_page'] = $this->cfg->perpage;
+        $config['uri_segment'] = $this->segment;
         $config['total_rows'] = $this->usr->cusr();
+        //$key = $this->input->get();
         $udata = $this->usr->fusr($config['per_page'], $page);
         $this->pagination->initialize($config);
         $this->header['breadcrumb'] = [anchor('/', '<i class="fa fa-home"></i> Home'), $this->page['mnme']];
@@ -48,18 +44,9 @@ class Users extends CI_Controller {
         $this->load->view('footer', $this->footer);
     }
 
-    public function search() {
-        $key = $this->input->post('key');
-        $data = $this->usr->susr($key);
-        $this->header['breadcrumb'] = array(anchor('/', '<i class="fa fa-home"></i> Home'), anchor($this->page['mlnk'], $this->page['mnme']), 'Search');
-        $this->load->view('header', $this->header);
-        $this->load->view('sso/user', array('data' => $data, 'row' => count($data)));
-        $this->load->view('footer', $this->footer);
-    }
-
     public function form() {
-        $id = $this->uri->segment(4);
-        $udata = array();
+        $id = $this->uri->segment($this->segment);
+        $udata = [];
         if (!empty($id)) {
             $this->usr->init($id);
             $udata = $this->usr->tdata;
@@ -68,9 +55,9 @@ class Users extends CI_Controller {
         $rldata = $this->rl->opt();
         $urldata = $this->url->init($id);
         $br3 = (empty($udata)) ? 'Insert' : 'Edit';
-        $this->header['breadcrumb'] = array(anchor('/', '<i class="fa fa-home"></i> Home'), anchor($this->page['mlnk'], $this->page['mnme']), $br3);
+        $this->header['breadcrumb'] = [anchor('/', '<i class="fa fa-home"></i> Home'), anchor($this->page['mlnk'], $this->page['mnme']), $br3];
         $this->load->view('header', $this->header);
-        $this->load->view('sso/user_form', array('data' => $udata, 'rldata' => $rldata, 'urldata' => $urldata));
+        $this->load->view('sso/user_form', ['data' => $udata, 'rldata' => $rldata, 'urldata' => $urldata]);
         $this->load->view('footer', $this->footer);
     }
 
@@ -93,7 +80,7 @@ class Users extends CI_Controller {
             $stat = ($ustat) ? TRUE : FALSE;
             $this->usr->init($uid);
             $pass = $this->encrypt->encode($upass);
-            $this->usr->tdata = array('unme' => $unme, 'uninme' => $uninme, 'ufnme' => $ufnme, 'umail' => $umail, 'upp' => 'avatar.png', 'ubirth' => '1990-01-01', 'ustat' => $stat);
+            $this->usr->tdata = ['unme' => $unme, 'uninme' => $uninme, 'ufnme' => $ufnme, 'umail' => $umail, 'upp' => 'avatar.png', 'ubirth' => '1990-01-01', 'ustat' => $stat];
             if (!empty($upass))
                 $this->usr->tdata['upass'] = $pass;
 
@@ -118,7 +105,7 @@ class Users extends CI_Controller {
     }
 
     public function erase() {
-        $id = $this->uri->segment(4);
+        $id = $this->uri->segment($this->segment);
         if (empty($id))
             return;
 

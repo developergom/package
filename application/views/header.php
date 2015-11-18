@@ -14,7 +14,7 @@
             'font-awesome.min',
             'AdminLTE.min',
             'skins/_all-skins.min',
-            'morris',
+            //'morris',
             'datepicker3',
             'daterangepicker-bs3',
             'bootstrap3-wysihtml5.min'
@@ -41,7 +41,7 @@
                 <!-- Logo -->
                 <a href="#" class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini"><b><?php echo substr($app_name,0,3); ?></b></span>
+                    <span class="logo-mini"><b><?php echo substr($app_name, 0, 3); ?></b></span>
                     <!-- logo for regular state and mobile devices -->
                     <span class="logo-lg"><?php echo $app_name; ?></span>
                 </a>
@@ -88,7 +88,7 @@
                                     <li class="user-header">
                                         <img src="asset/img/avatar/<?php echo $this->session->userdata('uava'); ?>" class="img-circle" alt="User Image" />
                                         <p>
-                                            <?php echo '<strong>'.$this->session->userdata('username').'</strong><br/>'.$this->session->userdata('name') ?>
+                                            <?php echo '<strong>' . $this->session->userdata('username') . '</strong><br/>' . $this->session->userdata('name') ?>
                                         </p>
                                     </li>
                                     <!-- Menu Body -->
@@ -121,7 +121,7 @@
                             <img src="asset/img/avatar/<?php echo $this->session->userdata('uava'); ?>" class="img-circle" alt="User Image" />
                         </div>
                         <div class="pull-left info">
-                            <p><?php echo $this->session->userdata('name').' <small>('.$this->session->userdata('nick').')</small>' ?></p>
+                            <p><?php echo $this->session->userdata('name') . ' <small>(' . $this->session->userdata('nick') . ')</small>' ?></p>
                             <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                         </div>
                     </div>
@@ -154,4 +154,3 @@
                     ?>
                 </section>
                 <section class="content">
-                    <?php //echo '<pre>'; print_r($this->session->all_userdata()); die; ?>

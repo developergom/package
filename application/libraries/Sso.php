@@ -9,12 +9,12 @@ class Sso {
 
     var $core;
     var $id;
-    private $data = array();
-    public $menu = array();
-    public $access = array();
+    private $data = [];
+    public $menu = [];
+    public $access = [];
 
     public function __construct() {
-        $this->core = & get_instance();
+        $this->core =& get_instance();
         $this->core->load->model('sso/mn');
         $this->id = $this->core->session->userdata('user');
         if (!isset($this->id))
@@ -28,26 +28,26 @@ class Sso {
     private function get_data() {
         $this->core->db->join('rm r', 'r.mid = m.mid');
         $this->core->db->join('url u', 'u.rid = r.rid');
-        $query = $this->core->db->get_where('mn m', array('u.uid' => $this->id, 'm.mstat' => true));
+        $query = $this->core->db->get_where('mn m', ['u.uid' => $this->id, 'm.mstat' => TRUE]);
         $result = $query->result_array();
         if (!empty($result)) {
-            $data = array();
-            $tmp = array();
+            $data = [];
+            $tmp = [];
             foreach ($result as $val) {
                 $mpar = ($val['mpar'] == 1) ? 0 : $val['mpar'];
                 $tmp[$val['mid']][] = json_decode($val['rmk']);
-                $data[$val['mid']] = array(
+                $data[$val['mid']] = [
                     'mid' => $val['mid'],
                     'mpar' => $mpar,
                     'mnme' => $val['mnme'],
                     'mico' => $val['mico'],
                     'mlnk' => $val['mlnk']
-                );
+                ];
             }
 
-            $array_key = array();
+            $array_key = [];
             foreach ($tmp as $k => $v) {
-                $array_key[$k] = array();
+                $array_key[$k] = [];
                 foreach ($v as $vv)
                     $array_key[$k] = array_merge($array_key[$k], $vv);
 
@@ -55,16 +55,16 @@ class Sso {
                 sort($array_key[$k]);
             }
 
-            foreach ($data as $kk => $vvv) {
+            foreach ($data as $kk => $vvv)
                 $data[$kk]['key'] = $array_key[$kk];
-            }
+            
         }
 
-        return (isset($data)) ? $data : array();
+        return (isset($data)) ? $data : [];
     }
 
     private function set_menu() {
-        $tmp = array();
+        $tmp = [];
         foreach ($this->data as $v)
             $tmp[] = $v;
 
@@ -72,20 +72,20 @@ class Sso {
         return $this->menu_tree($menu);
     }
 
-    protected function menu_tree($data = array()) {
-        $str = null;
+    protected function menu_tree($data = []) {
+        $str = NULL;
         if (!empty($data)) {
             foreach ($data as $v) {
                 $lv1 = $v['data'];
                 if (!empty($v['sub'])) {
-                    $attr1 = (!empty($v['sub'])) ? '<i class="fa fa-angle-left pull-right"></i>' : null;
-                    $c1 = (!empty($v['sub'])) ? 'class="treeview"' : null;
+                    $attr1 = (!empty($v['sub'])) ? '<i class="fa fa-angle-left pull-right"></i>' : NULL;
+                    $c1 = (!empty($v['sub'])) ? 'class="treeview"' : NULL;
                     $str .= '<li ' . $c1 . '>' . anchor($lv1['mlnk'], '<i class="fa ' . $lv1['mico'] . '"></i> <span>' . $lv1['mnme'] . '</span>' . $attr1);
                     $str .= '<ul class="treeview-menu">';
                     foreach ($v['sub'] as $vv) {
                         $lv2 = $vv['data'];
                         if (!empty($vv['sub'])) {
-                            $attr2 = (!empty($vv['sub'])) ? '<i class="fa fa-angle-left pull-right"></i>' : null;
+                            $attr2 = (!empty($vv['sub'])) ? '<i class="fa fa-angle-left pull-right"></i>' : NULL;
                             $str .= '<li>' . anchor($lv2['mlnk'], '<i class="fa ' . $lv2['mico'] . '"></i>' . $lv2['mnme'] . $attr2);
                             $str .= '<ul class="treeview-menu">';
                             foreach ($vv['sub'] as $vvv) {
@@ -110,13 +110,12 @@ class Sso {
     }
 
     protected function set_access() {
-        $app = $this->core->uri->segment(1);
-        $key = $this->core->uri->segment(2);
-        $mdata = $this->core->mn->gtbylnk($app . '/' . $key);
-        $tmp = array();
+        $appkey = $this->core->uri->segment(1) . '/' . $this->core->uri->segment(2);
+        $mdata = $this->core->mn->gtbylnk($appkey);
+        $tmp = [];
         if (!empty($mdata)) {
             foreach ($this->data as $k => $v) {
-                if ($k == $mdata['mid'] && $v['mlnk'] == $app . '/' . $key)
+                if ($k == $mdata['mid'] && $v['mlnk'] == $appkey)
                     $tmp[] = $v['key'];
             }
         }

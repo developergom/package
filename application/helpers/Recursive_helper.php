@@ -2,11 +2,11 @@
 
 if (!function_exists('data_recursive')) {
 
-    function data_recursive($data = array(), $parent_name = null, $sub_name = null, $parent = 0) {
+    function data_recursive($data = [], $parent_name = NULL, $sub_name = NULL, $parent = 0) {
         if (empty($data))
             return;
 
-        $d = array();
+        $d = [];
         $dat = $data;
         if (!empty($dat)) {
             foreach ($dat as $key => $val) {
@@ -29,8 +29,8 @@ if (!function_exists('data_recursive')) {
 
 if (!function_exists('option_recursive')) {
 
-    function option_recursive($data = array(), $value = null, $label = null, $default_option = null, $arr_option = array(), $depth = 0) {
-        $separator = null;
+    function option_recursive($data = [], $value = NULL, $label = NULL, $default_option = NULL, $arr_option = [], $depth = 0) {
+        $separator = NULL;
         for ($i = 0; $i < $depth; $i++)
             $separator .= nbs(4);
 
@@ -48,7 +48,7 @@ if (!function_exists('option_recursive')) {
                 $arr_option[$d[$value]] = $separator . $d[$label];
                 if (!empty($val['sub'])) {
                     $newdepth = $depth + 1;
-                    $arr_option = option_recursive($val['sub'], $value, $label, null, $arr_option, $newdepth);
+                    $arr_option = option_recursive($val['sub'], $value, $label, NULL, $arr_option, $newdepth);
                 }
             }
         }
@@ -60,13 +60,12 @@ if (!function_exists('option_recursive')) {
 
 if (!function_exists('datagrid_recursive')) {
 
-    function datagrid_recursive($data = array(), $name = null, $divider = '___', $tmpdata = array(), $depth = 0) {
+    function datagrid_recursive($data = [], $name = NULL, $divider = '___', $tmpdata = [], $depth = 0) {
 
-        $separator = null;
-        for ($i = 0; $i < $depth; $i++) {
+        $separator = NULL;
+        for ($i = 0; $i < $depth; $i++)
             $separator .= $divider;
-        }
-
+        
         if (!empty($data)) {
             foreach ($data as $val) {
                 $d = $val['data'];

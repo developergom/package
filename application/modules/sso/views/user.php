@@ -9,23 +9,36 @@
                     ?>
                 </h3>
                 <div class="box-tools">
-                    <?php echo form_open('sso/users/search/') ?>
-                    <div class="input-group input-group-sm" style="width:150px;">
-                        <?php echo form_input('key', '', 'class="form-control pull-right" placeholder="Search user"') ?>
+                    <?php echo form_open('sso/users/', ['method' => 'GET']) ?>
+                    <div class="input-group input-group-sm">
+                        <?php echo form_input('search', '', 'class="form-control pull-right" placeholder="Search user"') ?>
                         <div class="input-group-btn">
                             <button class="btn btn-default"><i class="fa fa-search"></i></button>
                         </div>
                     </div>
+                    <!--                    
+                    <div class="btn-group btn-group-sm">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><?php echo anchor(current_url() . '/?perpage=10', '10') ?></li>
+                            <li><?php echo anchor(current_url() . '/?perpage=50', '50') ?></li>
+                            <li><?php echo anchor(current_url() . '/?perpage=100', '100') ?></li>
+                            <li role="separator" class="divider"></li>
+                            <li><?php echo anchor(current_url() . '/?perpage=all', 'All Records') ?></li>
+                        </ul>
+                    </div>
+                    -->
                     <?php echo form_close() ?>
                 </div>
             </div>
             <div class="box-body table-responsive">
                 <table class="table table-hover">
                     <tr>
-                        <th class="text-center">Username</th>
-                        <th class="text-center">Fullname</th>
-                        <th class="text-center">Nickname</th>
-                        <th class="text-center">Email</th>
+                        <th class="text-center"><?php echo anchor(current_url() . '/?sort=unm&order=asc', 'Username <i class="pull-right fa fa-sort"></i>') ?></th>
+                        <th class="text-center"><?php echo anchor(current_url() . '/?sort=ufnm&order=asc', 'Name <i class="pull-right fa fa-sort"></i>') ?></th>
+                        <th class="text-center"><?php echo anchor(current_url() . '/?sort=uml&order=asc', 'Email <i class="pull-right fa fa-sort"></i>') ?></th>
                         <th class="text-center">Last activity</th>
                     </tr>
                     <?php
@@ -46,8 +59,7 @@
                                         ?>
                                     </div>
                                 </td>
-                                <td><?php echo $v['ufnme'] ?></td>
-                                <td><?php echo $v['uninme'] ?></td>
+                                <td><?php echo $v['ufnme'] . br() . '<em class="small">' . $v['uninme'] . '</em>' ?></td>
                                 <td><?php echo mailto($v['umail'], $v['umail'], 'title="Send mail to ' . $v['ufnme'] . ' ?"'); ?></td>
                                 <td>
                                     <?php echo mdate('%F %j, %Y on %H:%i', strtotime($v['ud'])) . br() . '<span class="small text-muted">' . time_elapsed($v['ud']) . '</span>' ?>
@@ -57,10 +69,12 @@
                         }
                     }
                     ?>
-                    <tr><td colspan="4"><span class="pull-right small text-muted"><em><?php echo (isset($row) || $row > 1) ? $row . ' rows' : $row . ' row' ?></em></span></td></tr>
                 </table>
             </div>
-            <div class="box-footer clearfix"><nav><?php echo (isset($links)) ? $links : null ?></nav></div>
+            <div class="box-footer clearfix">
+                <nav><?php echo (isset($links)) ? $links : NULL ?></nav>
+                <em class="pull-right small text-muted"><?php echo singular_plural($row, 'row') ?></em>
+            </div>
         </div>
     </div>    
 </div>
