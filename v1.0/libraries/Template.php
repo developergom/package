@@ -24,10 +24,9 @@ class Template {
             show_error('Unable to find the requested file: ' . $view);
         }
 
-        
         $data['app_name'] = $this->_core->cfg->app_name;
-        $data['title' ] = $this->_core->cfg->page['mnme'];
-        $data['content_header'] = anchor($this->_core->cfg->page['mlnk'], '<i class="fa ' . $this->_core->cfg->page['mico'] . '"></i> ' . $this->_core->cfg->page['mnme']);
+        $data['title'] = (!empty($data['title'])) ? $data['title'] : $this->_core->cfg->page['mnme'];
+        $data['content_header'] = (!empty($data['content_header'])) ? $data['content_header'] : anchor($this->_core->cfg->page['mlnk'], '<i class="fa ' . $this->_core->cfg->page['mico'] . '"></i> ' . $this->_core->cfg->page['mnme']);
         $data['style'] = $this->_core->cfg->style;
         $data['script'] = $this->_core->cfg->script;
         

@@ -67,10 +67,12 @@
                                             } else {
                                                 $checked = ($kk == 'r') ? TRUE : FALSE;
                                             }
+                                            
+                                            $readonly = ($kk == 'r') ? 'disabled' : NULL;
                                             ?>
                                             <th class="text-center">
-                                            <div class="checkbox">
-                                                <?php echo form_label(form_checkbox('acc[' . $v['mid'] . '][]', $kk, $checked, 'class="acc-' . $v['mid'] . '"')) ?>
+                                            <div class="checkbox <?php echo $readonly ?>">
+                                                <?php echo form_label(form_checkbox('acc[' . $v['mid'] . '][]', $kk, $checked, 'class="acc-' . $v['mid'] . '"' . $readonly)) ?>
                                             </div>
                                             </th>
                                             <?php

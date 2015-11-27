@@ -15,7 +15,7 @@ class In extends CI_Controller {
         $this->load->view('in');
     }
 
-    public function come($key = null, $pass = null) {
+    public function come($key = NULL, $pass = NULL) {
         $key = $this->security->sanitize_filename($this->input->post('key'));
         $pass = $this->input->post('pass');
         $in = $this->usr->in($key, $pass);
