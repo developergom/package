@@ -1,7 +1,6 @@
 <?php
 
-if (!defined('BASEPATH'))
-    exit('No direct script access allowed');
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * Description of usr
@@ -23,29 +22,24 @@ class Usr extends CI_Model {
     public $tdata = [];
     private $_tbl = 'usr';
     private $_core;
-    protected $cwp;
 
     public function __construct() {
         parent::__construct();
         $this->_core = & get_instance();
-        $this->cwp = (int) $this->cfg->init('COUNT_WRONG_PASSWORD');
     }
 
     public function init($uid = NULL) {
         if (empty($uid))
             return;
 
-        $this->db->where('uid', $uid);
-        $query = $this->db->get($this->_tbl);
-        if ($query->num_rows() > 0) {
-            $result = $query->row_array();
-            $this->setval($result);
-        }
+        $query = $this->db->get_where($this->_tbl, ['uid' => $uid]);
+        if ($query->num_rows() > 0)
+            $this->_setval($query->row_array());
     }
 
-    public function setval($array_key = []) {
+    private function _setval($array_key = []) {
         $REF_CLASS = new ReflectionClass($this);
-        if (is_array($array_key) and ! empty($array_key)) {
+        if (is_array($array_key) && !empty($array_key)) {
             foreach ($array_key as $key => $value) {
                 if ($REF_CLASS->hasProperty($key)) {
                     $this->$key = $value;
@@ -60,56 +54,41 @@ class Usr extends CI_Model {
         }
     }
 
-//    public function fusr($limit = 0, $start = 0, $where = NULL, $stat = FALSE) {
-//        if(isset($where) && !empty($where)) {
-//            $this->db->like('unme', $where);
-//            $this->db->or_like('uninme', $where);
-//            $this->db->or_like('ufnme', $where);
-//            $this->db->or_like('umail', $where);
-//        }
-//            
-//        if($stat)
-//            $this->db->where('ustat', TRUE);
-//        
-//        if(!empty($limit))
-//            $this->db->limit($limit, $start);
-//        
-//        $query = $this->db->get($this->_tbl);
-//        $result = $query->result_array();
-//        return ($query->num_rows() > 0) ? $result : FALSE;
-//    }
-
-    public function fusr($limit = 0, $start = 0, $param = []) {
-        if (isset($param) && !empty($param)) {
-            foreach ($param as $key => $val) {
-                if ($key === 'sort' OR $key === 'order') {
-                    
-                } else if ($key === 'search') {
-                    $this->db->like('unme', $val);
-                    $this->db->or_like('uninme', $val);
-                    $this->db->or_like('ufnme', $val);
-                    $this->db->or_like('umail', $val);
-                } else {
-                    continue;
-                }
-            }
+    public function fusr($limit = 0, $param = []) {
+        if (array_key_exists('search', $param)) {
+            $this->db->like('unme', $param['search']);
+            $this->db->or_like('ufnme', $param['search']);
+            $this->db->or_like('uninme', $param['search']);
+            $this->db->or_like('umail', $param['search']);
         }
 
-        if (!empty($limit))
-            $this->db->limit($limit, $start);
+        if (!empty($param['sort'])) {
+            $this->db->order_by($param['sort']);
+        } else {
+            $this->db->order_by('uid');
+        }
 
+        $offset = (!empty($param['page'])) ? $this->cfg->perpage : 0;
+        $this->db->limit($limit, $offset);
         $query = $this->db->get($this->_tbl);
-        return ($query->num_rows() > 0) ? $query->result_array() : FALSE;
+        return ($query->num_rows() > 0) ? $query->result_array() : [];
     }
 
-    public function cusr() {
-        return $this->db->count_all($this->_tbl);
+    public function cusr($param = []) {
+        if (array_key_exists('search', $param)) {
+            $this->db->like('unme', $param['search']);
+            $this->db->or_like('ufnme', $param['search']);
+            $this->db->or_like('uninme', $param['search']);
+            $this->db->or_like('umail', $param['search']);
+        }
+        $query = $this->db->get($this->_tbl);
+        return $query->num_rows();
     }
 
     public function iusr() {
-        $this->tdata['cu'] = $this->_core->sess;
+        $this->tdata['cu'] = $this->cfg->sess;
         $this->tdata['cd'] = date('Y-m-d H:i:s');
-        $this->tdata['uu'] = $this->_core->sess;
+        $this->tdata['uu'] = $this->cfg->sess;
         $this->tdata['ud'] = date('Y-m-d H:i:s');
         $this->db->insert($this->_tbl, $this->tdata);
         return ($this->db->affected_rows() > 0) ? $this->db->insert_id() : FALSE;
@@ -119,7 +98,7 @@ class Usr extends CI_Model {
         if (empty($this->uid))
             return;
 
-        $this->tdata['uu'] = $this->_core->sess;
+        $this->tdata['uu'] = $this->cfg->sess;
         $this->tdata['ud'] = date('Y-m-d H:i:s');
         $this->db->where('uid', $this->uid);
         $this->db->update($this->_tbl, $this->tdata);
@@ -130,8 +109,7 @@ class Usr extends CI_Model {
         if (empty($this->uid))
             return;
 
-        $this->db->where('uid', $this->uid);
-        $this->db->delete($this->_tbl);
+        $this->db->delete($this->_tbl, ['uid' => $this->uid]);
         return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
     }
 
@@ -155,14 +133,12 @@ class Usr extends CI_Model {
         } else {
             $this->init($result['uid']);
             $this->tdata = ['uu' => $this->uid, 'ud' => date('Y-m-d H:i:s')];
-            if ($this->uwpas < $this->cwp) {
+            if ($this->uwpas < $this->cfg->cwp) {
                 $this->tdata['uwpas'] = $this->uwpas + 1;
-                $count = $this->eusr();
-                return ($count) ? 'warning' : FALSE;
-            } else if ($this->uwpas == $this->cwp) {
+                return ($this->eusr()) ? 'warning' : FALSE;
+            } else if ($this->uwpas == $this->cfg->cwp) {
                 $this->tdata['ustat'] = FALSE;
-                $block = $this->eusr();
-                return ($block) ? 'blocked' : FALSE;
+                return ($this->eusr()) ? 'blocked' : FALSE;
             } else {
                 return 'wrong';
             }

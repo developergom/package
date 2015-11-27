@@ -7,86 +7,56 @@
  */
 class Roles extends CI_Controller {
 
-    public $sess = null;
-    protected $app_name = null;
-    protected $page = array();
-    protected $perpage = null;
-    protected $style = array();
-    protected $script = array();
-    protected $header = array();
-    protected $footer = array();
+    private $_attr = [];
+    private $_id = NULL;
 
     public function __construct() {
         parent::__construct();
-        $this->sess = $this->session->userdata('user');
-        if (empty($this->sess))
-            redirect('in/');
-        
-        $this->page = $this->mn->gtbylnk($this->uri->segment(1) . '/' . $this->uri->segment(2));
-        $this->app_name = $this->cfg->init('APPLICATION_NAME');
-        $this->perpage = (int) $this->cfg->init('ROW_PERPAGE');
-        $this->script = array('rolemenu-checkbox');
-        $this->header = array(
-            'app_name' => $this->app_name,
-            'title' => $this->page['mnme'],
-            'content_header' => '<i class="fa ' . $this->page['mico'] . '"></i> ' . $this->page['mnme'],
-            'style' => $this->style
-        );
-        $this->footer = array('script' => $this->script);
+        $this->cfg->check_session();
+        $this->_id = $this->uri->segment($this->cfg->segment);
     }
 
     public function index() {
-        $page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
-        $config['base_url'] = base_url('sso/roles/index/');
-        $config['per_page'] = $this->perpage;
-        $config['uri_segment'] = 4;
-        $config['total_rows'] = $this->rl->crl();
-        $udata = $this->rl->frl($config['per_page'], $page);
+        $config['base_url'] = base_url('sso/roles/');
+        $config['per_page'] = $this->cfg->perpage;
+        $config['uri_segment'] = $this->cfg->segment;
+        $config['total_rows'] = $this->rl->crl($this->input->get());
         $this->pagination->initialize($config);
-        $this->header['breadcrumb'] = array(anchor('/', '<i class="fa fa-home"></i> Home'), $this->page['mnme']);
-        $this->load->view('header', $this->header);
-        $this->load->view('sso/role', array('data' => $udata, 'row' => $this->rl->crl(), 'links' => $this->pagination->create_links()));
-        $this->load->view('footer', $this->footer);
-    }
-
-    public function search() {
-        $key = $this->input->post('key');
-        $data = $this->rl->srl($key);
-        $this->header['breadcrumb'] = array(anchor('/', '<i class="fa fa-home"></i> Home'), anchor($this->page['mlnk'], $this->page['mnme']), 'Search');
-        $this->load->view('header', $this->header);
-        $this->load->view('sso/role', array('data' => $data, 'row' => count($data)));
-        $this->load->view('footer', $this->footer);
+        $this->_attr['breadcrumb'] = [anchor('/', '<i class="fa fa-home"></i> Home'), $this->cfg->page['mnme']];
+        $this->_attr['data'] = $this->rl->frl($this->cfg->perpage, $this->input->get());
+        $this->_attr['row'] = $this->rl->crl($this->input->get());
+        $this->_attr['pagination'] = $this->pagination->create_links();
+        $this->template->load('AdminLTE', 'sso/role', $this->_attr);
     }
 
     public function form() {
-        $id = $this->uri->segment(4);
-        $udata = array();
-        if (!empty($id)) {
-            $this->rl->init($id);
-            $udata = $this->rl->tdata;
+        $this->cfg->script = ['rolemenu-checkbox'];
+        $this->_attr['data'] = [];
+        if (!empty($this->_id)) {
+            $this->rl->init($this->_id);
+            $this->_attr['data'] = $this->rl->tdata;
         }
-        $mdata = $this->mn->fmn(true);
-        $acc_key = $this->cfg->init('ACCESS_KEY');
-        $br3 = (empty($udata)) ? 'Insert' : 'Edit';
-        $this->header['breadcrumb'] = array(anchor('/', '<i class="fa fa-home"></i> Home'), anchor($this->page['mlnk'], $this->page['mnme']), $br3);
-        $rmdata = $this->rm->init($id);
-        $this->load->view('header', $this->header);
-        $this->load->view('sso/role_form', array('data' => $udata, 'mdata' => $mdata, 'rmdata' => $rmdata, 'acc_key' => json_decode($acc_key)));
-        $this->load->view('footer', $this->footer);
+        $br3 = (empty($this->_attr['data'])) ? 'Create New' : 'Edit Data';
+        $this->_attr['breadcrumb'] = [anchor('/', '<i class="fa fa-home"></i> Home'), anchor($this->cfg->page['mlnk'], $this->cfg->page['mnme']), $br3];
+        $this->_attr['mdata'] = $this->mn->fmn();
+        $this->_attr['rmdata'] = $this->rm->init($this->_id);
+        $this->_attr['acc_key'] = json_decode($this->cfg->access_key);
+        $this->template->load('AdminLTE', 'sso/role_form', $this->_attr);
     }
 
     public function act() {
         $rid = $this->input->post('rid');
         $rnme = $this->input->post('rnme');
+        $rdesc = $this->input->post('rdesc');
         $rstat = $this->input->post('rstat');
-        $rm_acc = (isset($_POST['acc'])) ? $_POST['acc'] : array();
+        $rm_acc = $this->input->post('acc');
         $this->form_validation->set_rules('rnme', 'role name', 'required');
-        if ($this->form_validation->run() == false) {
+        if ($this->form_validation->run() == FALSE) {
             redirect('sso/roles/form/');
         } else {
-            $stat = ($rstat) ? true : false;
+            $stat = ($rstat) ? TRUE : FALSE;
             $this->rl->init($rid);
-            $this->rl->tdata = array('rnme' => $rnme, 'rstat' => (isset($rstat)) ? $stat : $this->rl->rstat);
+            $this->rl->tdata = ['rnme' => $rnme, 'rdesc' => $rdesc, 'rstat' => (isset($rstat)) ? $stat : $this->rl->rstat];
             if (empty($this->rl->rid)) {
                 $this->rl->irl();
             } else {
@@ -98,7 +68,7 @@ class Roles extends CI_Controller {
                     foreach ($rm_acc as $k => $v) {
                         $this->rm->tdata['rid'] = $rid;
                         $this->rm->tdata['mid'] = $k;
-                        $this->rm->tdata['rmk'] = json_encode($v);
+                        $this->rm->tdata['rmk'] = json_encode_db($v);
                         $this->rm->irm();
                     }
                 }
@@ -109,11 +79,10 @@ class Roles extends CI_Controller {
     }
 
     public function erase() {
-        $id = $this->uri->segment(4);
-        if (empty($id))
+        if (empty($this->_id))
             return;
 
-        $this->rl->init($id);
+        $this->rl->init($this->_id);
         $this->rl->drl();
         redirect('sso/roles/', 'refresh');
     }

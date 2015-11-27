@@ -1,4 +1,6 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * Description of users
@@ -7,45 +9,28 @@
  */
 class Users extends CI_Controller {
 
-    protected $page = [];
-    protected $segment = 4;
-    protected $style = [];
-    protected $script = [];
-    protected $header = [];
-    protected $footer = [];
+    private $_attr = [];
 
     public function __construct() {
         parent::__construct();
-        if (empty($this->cfg->sess))
-            redirect('in/');
-
-        $this->page = $this->mn->gtbylnk($this->uri->segment(1) . '/' . $this->uri->segment(2));
-        $this->header = [
-            'app_name' => $this->cfg->app_name,
-            'title' => $this->page['mnme'],
-            'content_header' => anchor($this->page['mlnk'], '<i class="fa ' . $this->page['mico'] . '"></i> ' . $this->page['mnme']),
-            'style' => $this->style
-        ];
-        $this->footer = ['script' => $this->script];
+        $this->cfg->check_session();
     }
 
     public function index() {
-        $page = ($this->uri->segment($this->segment)) ? $this->uri->segment($this->segment) : 0;
         $config['base_url'] = base_url('sso/users/');
         $config['per_page'] = $this->cfg->perpage;
-        $config['uri_segment'] = $this->segment;
-        $config['total_rows'] = $this->usr->cusr();
-        //$key = $this->input->get();
-        $udata = $this->usr->fusr($config['per_page'], $page);
+        $config['uri_segment'] = $this->cfg->segment;
+        $config['total_rows'] = $this->usr->cusr($this->input->get());
         $this->pagination->initialize($config);
-        $this->header['breadcrumb'] = [anchor('/', '<i class="fa fa-home"></i> Home'), $this->page['mnme']];
-        $this->load->view('header', $this->header);
-        $this->load->view('sso/user', ['data' => $udata, 'row' => $this->usr->cusr(), 'links' => $this->pagination->create_links()]);
-        $this->load->view('footer', $this->footer);
+        $this->_attr['breadcrumb'] = [anchor('/', '<i class="fa fa-home"></i> Home'), $this->cfg->page['mnme']];
+        $this->_attr['data'] = $this->usr->fusr($this->cfg->perpage, $this->input->get());
+        $this->_attr['row'] = $this->usr->cusr($this->input->get());
+        $this->_attr['pagination'] = $this->pagination->create_links();
+        $this->template->load('AdminLTE', 'sso/user', $this->_attr);
     }
 
     public function form() {
-        $id = $this->uri->segment($this->segment);
+        $id = $this->uri->segment($this->cfg->segment);
         $udata = [];
         if (!empty($id)) {
             $this->usr->init($id);
@@ -54,11 +39,12 @@ class Users extends CI_Controller {
 
         $rldata = $this->rl->opt();
         $urldata = $this->url->init($id);
-        $br3 = (empty($udata)) ? 'Insert' : 'Edit';
-        $this->header['breadcrumb'] = [anchor('/', '<i class="fa fa-home"></i> Home'), anchor($this->page['mlnk'], $this->page['mnme']), $br3];
-        $this->load->view('header', $this->header);
-        $this->load->view('sso/user_form', ['data' => $udata, 'rldata' => $rldata, 'urldata' => $urldata]);
-        $this->load->view('footer', $this->footer);
+        $br3 = (empty($udata)) ? 'Create New' : 'Edit Data';
+        $this->_attr['breadcrumb'] = [anchor('/', '<i class="fa fa-home"></i> Home'), anchor($this->cfg->page['mlnk'], $this->cfg->page['mnme']), $br3];
+        $this->_attr['data'] = $udata;
+        $this->_attr['rldata'] = $rldata;
+        $this->_attr['urldata'] = $urldata;
+        $this->template->load('AdminLTE', 'sso/user_form', $this->_attr);
     }
 
     public function act() {
@@ -69,7 +55,7 @@ class Users extends CI_Controller {
         $ufnme = $this->input->post('ufnme');
         $umail = $this->input->post('umail');
         $ustat = $this->input->post('ustat');
-        $rl = (isset($_POST['rl'])) ? $_POST['rl'] : NULL;
+        $rl = $this->input->post('rl');
         $this->form_validation->set_rules('unme', 'username', 'required');
         $this->form_validation->set_rules('uninme', 'nickname', 'required');
         $this->form_validation->set_rules('ufnme', 'name', 'required');
@@ -105,7 +91,7 @@ class Users extends CI_Controller {
     }
 
     public function erase() {
-        $id = $this->uri->segment($this->segment);
+        $id = $this->uri->segment($this->cfg->segment);
         if (empty($id))
             return;
 

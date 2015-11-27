@@ -10,37 +10,35 @@ class Url extends CI_Model {
     public $uid;
     public $rid;
     public $tdata;
-    private $tbl = 'url';
+    private $_tbl = 'url';
     
     public function __construct() {
         parent::__construct();
     }
     
-    public function init($uid = null) {
-        $query = $this->db->get_where($this->tbl, array('uid' => $uid));
-        $tmp = array();
+    public function init($uid = NULL) {
+        $query = $this->db->get_where($this->_tbl, ['uid' => $uid]);
+        $tmp = [];
         if ($query->num_rows() > 0) {
-            $result = $query->result_array();
             $this->uid = $uid;
-            foreach($result as $v) {
-                $tmp[] = $v['rid'];
-            }
+            foreach($query->result_array() as $row)
+                $tmp[] = $row['rid'];
+            
             return $tmp;
         }
     }
     
     public function iurl() {
-        $this->db->insert($this->tbl, $this->tdata);
-        return ($this->db->affected_rows() > 0) ? true : false;
+        $this->db->insert($this->_tbl, $this->tdata);
+        return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
     }
     
     public function durl() {
         if (empty($this->uid))
             return;
         
-        $this->db->where('uid', $this->uid);
-        $this->db->delete($this->tbl);
-        return ($this->db->affected_rows() > 0) ? true : false;
+        $this->db->delete($this->_tbl, ['uid' => $this->uid]);
+        return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
     }
 
 }

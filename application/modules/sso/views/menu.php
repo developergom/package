@@ -1,16 +1,15 @@
-<?php //debug($data)  ?>
 <div class="row">
     <div class="col-xs-12">
-        <div class="box">
+        <div class="box box-info">
             <div class="box-header">
                 <?php
                 if (in_array('c', $this->sso->access))
                     echo anchor('sso/menus/form', '<i class="fa fa-plus"></i> New Menu', 'class="box-title"');
                 ?>
                 <div class="box-tools">
-                    <?php echo form_open('sso/menus/search/') ?>
-                    <div class="input-group input-group-sm" style="width:150px;">
-                        <?php echo form_input('key', '', 'class="form-control input-sm" placeholder="Search menu"') ?>
+                    <?php echo form_open('sso/menus/', ['method' => 'GET']) ?>
+                    <div class="input-group input-group-sm">
+                        <?php echo form_input('search', NULL, 'class="form-control input-sm" placeholder="Search menu"') ?>
                         <div class="input-group-btn">
                             <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
                         </div>
@@ -34,7 +33,7 @@
                             <tr class="tr <?php echo $stat ?>" data-key="<?php echo $v['mid'] ?>">
                                 <td>
                                     <?php echo ($v['mstat'] == FALSE) ? $v['mnme'] . ' <small class="text-muted">(Inactive)</small>' : $v['mnme'] ?>
-                                    <div class="small action" id="qe-<?php echo $v['mid'] ?>" style="margin: 10px 0px">
+                                    <div class="small action" id="qe-<?php echo $v['mid'] ?>">
                                         <?php
                                         if ($v['mpar'] != FALSE) {
                                             if (in_array('u', $this->sso->access)) {
@@ -51,7 +50,7 @@
                                         <div class="form-group">
                                             <?php echo form_label('Name', 'mnme', array('class' => 'col-xs-4 col-md-2 control-label')) ?>
                                             <div class="col-xs-4 col-md-10">
-                                                <?php echo form_input('mnme', str_replace('_', '', $v['mnme']), 'class="input-sm form-control" id="mnme" placeholder="Menu name"') ?>
+                                                <?php echo form_input('mnme', str_replace('_', NULL, $v['mnme']), 'class="input-sm form-control" id="mnme" placeholder="Menu name"') ?>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -71,10 +70,10 @@
                         }
                     }
                     ?>
-                    <tr><td colspan="4"><span class="pull-right small text-muted"><em><?php echo (isset($row) || $row > 1) ? $row . ' rows' : $row . ' row' ?></em></span></td></tr>
                 </table>
+                <em class="pull-right small text-muted"><?php echo br() . singular_plural($row, 'row') ?></em>
             </div>
-            <div class="box-footer clearfix"><nav><?php echo (isset($links)) ? $links : NULL ?></nav></div>
+            <div class="box-footer clearfix"><nav><?php echo (isset($pagination)) ? $pagination : NULL ?></nav></div>
         </div>
     </div>    
 </div>

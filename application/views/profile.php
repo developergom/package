@@ -15,32 +15,32 @@
                     </div>
                     <div class="col-xs-7 col-md-7">
                         <div class="form-group">
-                            <?php echo form_label('Username', '', array('class' => 'col-md-4 control-label')) ?>
+                            <?php echo form_label('Username', '', ['class' => 'col-md-4 control-label']) ?>
                             <div class="col-md-8">
                                 <p class="form-control-static"><?php echo $this->usr->unme ?></p>
                             </div>
                         </div>
                         <div class="form-group">
-                            <?php echo form_label('Fullname', '', array('class' => 'col-md-4 control-label')) ?>
+                            <?php echo form_label('Fullname', '', ['class' => 'col-md-4 control-label']) ?>
                             <div class="col-md-8">
                                 <p class="form-control-static"><?php echo $this->usr->ufnme ?></p>
                             </div>
                         </div>
                         <div class="form-group">
-                            <?php echo form_label('Nickname', '', array('class' => 'col-md-4 control-label')) ?>
+                            <?php echo form_label('Nickname', '', ['class' => 'col-md-4 control-label']) ?>
                             <div class="col-md-8">
                                 <p class="form-control-static"><?php echo $this->usr->uninme ?></p>
                             </div>
                         </div>
                         <div class="form-group" id="birth-section">
-                            <?php echo form_label('Birthdate', '', array('class' => 'col-md-4 control-label')) ?>
+                            <?php echo form_label('Birthdate', '', ['class' => 'col-md-4 control-label']) ?>
                             <div class="col-md-8">
                                 <p class="form-control-static"><?php echo mdate('%d/%m/%Y',strtotime($this->usr->ubirth)) ?>
                                     <div class="small action" id="qe-profile" style="margin: 10px 0px">
                                         <a href="javascript:void(0)" class="quick-edit" id="qt-profile" title="Quick edit birthdate"><i class="fa fa-pencil"></i>  Quick Edit</a>
                                     </div>
                                     <div class="quick-form-profile" id="qf-profile">
-                                        <?php echo form_open('profile/change_birth', 'class="form-horizontal"', array('uid' => (isset($this->usr->uid)) ? $this->usr->uid : set_value('uid'), 'quick' => TRUE)) ?>
+                                        <?php echo form_open('profile/change_birth', 'class="form-horizontal"', ['uid' => (isset($this->usr->uid)) ? $this->usr->uid : set_value('uid'), 'quick' => TRUE]) ?>
                                         <div class="form-group">
                                             <?php echo form_label('Birthdate', 'ubirth', array('class' => 'col-xs-4 col-md-2 control-label')) ?>
                                             <div class="col-xs-4 col-md-10">
@@ -59,7 +59,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <?php echo form_label('Email', '', array('class' => 'col-md-4 control-label')) ?>
+                            <?php echo form_label('Email', '', ['class' => 'col-md-4 control-label']) ?>
                             <div class="col-md-8">
                                 <p class="form-control-static"><?php echo $this->usr->umail ?></p>
                             </div>
@@ -74,7 +74,7 @@
                             <a href="javascript:void(0)" class="quick-edit" id="qt-avatar" title="Change avatar"><i class="fa fa-pencil"></i> Change Avatar</a>
                         </div>
                         <div class="quick-form-avatar" id="qf-avatar">
-                            <?php echo form_open('profile/change_ava', 'class="form-horizontal" enctype="multipart/form-data"', array('uid' => (isset($this->usr->uid)) ? $this->usr->uid : set_value('uid'), 'quick' => TRUE)) ?>
+                            <?php echo form_open('profile/change_ava', 'class="form-horizontal" enctype="multipart/form-data"', ['uid' => (isset($this->usr->uid)) ? $this->usr->uid : set_value('uid'), 'quick' => TRUE]) ?>
                             <div class="form-group">
                                 <div class="col-xs-4 col-md-10">
                                     <input type="file" name="upp" id="upp" required="true">

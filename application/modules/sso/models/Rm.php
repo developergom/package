@@ -10,41 +10,36 @@ class Rm extends CI_Model {
     public $rid;
     public $mid;
     public $rmk;
-    public $tdata = array();
-    private $tbl = 'rm';
-    private $core;
+    public $tdata = [];
+    private $_tbl = 'rm';
     
     public function __construct() {
         parent::__construct();
-        $this->core =& get_instance();
     }
     
-    public function init($rid = null) {
-        $this->db->select('mid, rmk');
-        $query = $this->db->get_where($this->tbl, array('rid' => $rid));
-        $tmp = array();
+    public function init($rid = NULL) {
+        $query = $this->db->select('mid, rmk')->get_where($this->_tbl, ['rid' => $rid]);
+        $tmp = [];
         if ($query->num_rows() > 0) {
-            $result = $query->result_array();
             $this->rid = $rid;
-            foreach($result as $v) {
-                $tmp[$v['mid']] = json_decode($v['rmk']);
-            }
+            foreach($query->result_array() as $row)
+                $tmp[$row['mid']] = json_decode_db($row['rmk']);
+            
             return $tmp;
         }
     }
     
     public function irm() {
-        $this->db->insert($this->tbl, $this->tdata);
-        return ($this->db->affected_rows() > 0) ? true : false;
+        $this->db->insert($this->_tbl, $this->tdata);
+        return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
     }
     
     public function drm() {
         if (empty($this->rid))
             return;
         
-        $this->db->where('rid', $this->rid);
-        $this->db->delete($this->tbl);
-        return ($this->db->affected_rows() > 0) ? true : false;
+        $this->db->delete($this->_tbl, ['rid' => $this->rid]);
+        return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
     }
 
 }

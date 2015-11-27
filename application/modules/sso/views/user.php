@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-xs-12">
-        <div class="box">
+        <div class="box box-info">
             <div class="box-header">
                 <h3 class="box-title">
                     <?php
@@ -16,29 +16,15 @@
                             <button class="btn btn-default"><i class="fa fa-search"></i></button>
                         </div>
                     </div>
-                    <!--                    
-                    <div class="btn-group btn-group-sm">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-bars"></i>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><?php echo anchor(current_url() . '/?perpage=10', '10') ?></li>
-                            <li><?php echo anchor(current_url() . '/?perpage=50', '50') ?></li>
-                            <li><?php echo anchor(current_url() . '/?perpage=100', '100') ?></li>
-                            <li role="separator" class="divider"></li>
-                            <li><?php echo anchor(current_url() . '/?perpage=all', 'All Records') ?></li>
-                        </ul>
-                    </div>
-                    -->
                     <?php echo form_close() ?>
                 </div>
             </div>
             <div class="box-body table-responsive">
                 <table class="table table-hover">
                     <tr>
-                        <th class="text-center"><?php echo anchor(current_url() . '/?sort=unm&order=asc', 'Username <i class="pull-right fa fa-sort"></i>') ?></th>
-                        <th class="text-center"><?php echo anchor(current_url() . '/?sort=ufnm&order=asc', 'Name <i class="pull-right fa fa-sort"></i>') ?></th>
-                        <th class="text-center"><?php echo anchor(current_url() . '/?sort=uml&order=asc', 'Email <i class="pull-right fa fa-sort"></i>') ?></th>
+                        <th class="text-center"><?php echo anchor(current_url() . '/?sort=unme', 'Username <i class="pull-right fa fa-sort"></i>') ?></th>
+                        <th class="text-center"><?php echo anchor(current_url() . '/?sort=ufnme', 'Name <i class="pull-right fa fa-sort"></i>') ?></th>
+                        <th class="text-center"><?php echo anchor(current_url() . '/?sort=umail', 'Email <i class="pull-right fa fa-sort"></i>') ?></th>
                         <th class="text-center">Last activity</th>
                     </tr>
                     <?php
@@ -49,7 +35,7 @@
                             <tr class="tr <?php echo $stat ?>" data-key="<?php echo $v['unme'] ?>">
                                 <td>
                                     <span class="text-muted"><?php echo $v['unme'] ?></span>
-                                    <div class="small action" id="qe-<?php echo $v['unme'] ?>" style="margin: 10px 0px">
+                                    <div class="small action" id="qe-<?php echo $v['unme'] ?>">
                                         <?php
                                         if (in_array('u', $this->sso->access))
                                             echo anchor('sso/users/form/' . $v['uid'], '<i class="fa fa-edit"></i>' . nbs() . 'Edit', 'title="Edit user"') . nbs(2) . '<span class="text-muted small">|</span>' . nbs(2);
@@ -70,10 +56,10 @@
                     }
                     ?>
                 </table>
+                <em class="pull-right small text-muted"><?php echo br() . singular_plural($row, 'row') ?></em>
             </div>
             <div class="box-footer clearfix">
-                <nav><?php echo (isset($links)) ? $links : NULL ?></nav>
-                <em class="pull-right small text-muted"><?php echo singular_plural($row, 'row') ?></em>
+                <nav><?php echo (isset($pagination)) ? $pagination : nbs() ?></nav>
             </div>
         </div>
     </div>    

@@ -10,7 +10,7 @@
         <?php
         $style = array('bootstrap.min', 'AdminLTE.min', 'font-awesome.min', 'bootstrap-validator.min');
         foreach ($style as $css)
-            echo link_tag($css);
+            echo link_tag('asset/css/' . $css . '.css');
         ?>
         <!--[if lt IE 9]>
             <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -68,7 +68,7 @@
                     <p>- OR -</p>
                     <?php
                     echo anchor('#', '<i class="fa fa-facebook"></i> Sign in using Facebook', 'class="btn btn-block btn-social btn-facebook btn-flat"');
-                    echo anchor('#', '<i class="fa fa-google-plus"></i> Sign in using Google+', 'class="btn btn-block btn-social btn-google-plus btn-flat"');
+                    echo anchor('#', '<i class="fa fa-google-plus"></i> Sign in using Google+', 'class="btn btn-block btn-social btn-google btn-flat"');
                     ?>
                 </div>
                 <?php

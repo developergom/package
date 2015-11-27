@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * Description of sso
@@ -35,7 +37,7 @@ class Sso {
             $tmp = [];
             foreach ($result as $val) {
                 $mpar = ($val['mpar'] == 1) ? 0 : $val['mpar'];
-                $tmp[$val['mid']][] = json_decode($val['rmk']);
+                $tmp[$val['mid']][] = json_decode_db($val['rmk']);
                 $data[$val['mid']] = [
                     'mid' => $val['mid'],
                     'mpar' => $mpar,
@@ -48,9 +50,12 @@ class Sso {
             $array_key = [];
             foreach ($tmp as $k => $v) {
                 $array_key[$k] = [];
-                foreach ($v as $vv)
+                foreach ($v as $vv) {
+                    if(is_array($vv) == FALSE)
+                        continue;
+                    
                     $array_key[$k] = array_merge($array_key[$k], $vv);
-
+                }
                 $array_key[$k] = array_unique($array_key[$k]);
                 sort($array_key[$k]);
             }

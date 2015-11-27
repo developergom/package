@@ -19,7 +19,7 @@
             </div>
         </div>
         <?php
-        $js = array(
+        $js = [
             'jQuery-2.1.4.min', 
             'jquery-ui.min', 
             'bootstrap.min', 
@@ -38,7 +38,7 @@
             'jquery.inputmask',
             'jquery.inputmask.date.extensions',
             'jquery.inputmask.extensions'
-        );
+        ];
         foreach ($js as $v)
             echo script_tag($v);
                 
@@ -120,7 +120,6 @@
 
                 //Datemask dd/mm/yyyy
                 $("#ubirth").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
-
 
                 $('#qf-avatar').hide();
                 $('.action-avatar').css('visibility', 'hidden');

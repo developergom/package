@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-12">
-        <div class="box">
-            <?php echo form_open('sso/menus/act/', 'class="form-horizontal"', array('mid' => (isset($data['mid'])) ? $data['mid'] : null)) ?>
+        <div class="box box-info">
+            <?php echo form_open('sso/menus/act/', 'class="form-horizontal"', ['mid' => (isset($data['mid'])) ? $data['mid'] : NULL]) ?>
             <div class="box-header">
                 <?php echo heading('<i class="fa fa-pencil"></i> Form user', 3, 'class="box-title"') ?>
             </div>
@@ -10,37 +10,44 @@
                     <div class="col-md-10 col-md-offset-1"><?php echo validation_errors() ?></div>
                 </div>
                 <div class="form-group has-feedback">
-                    <?php echo form_label('Name', '', array('class' => 'col-xs-4 col-sm-4 col-md-2 col-lg-2 control-label')) ?>
+                    <?php echo form_label('Name', NULL, ['class' => 'col-xs-4 col-sm-4 col-md-2 col-lg-2 control-label']) ?>
                     <div class="col-xs-4 col-sm-4 col-md-7 col-lg-7">
                         <?php echo form_input('mnme', (isset($data['mnme'])) ? $data['mnme'] : set_value('mnme'), 'class="form-control" placeholder="Name" data-bv-notempty="true"') ?>
                     </div>
-                    <?php //echo form_label(form_error('mnme'), '', array('class' => 'col-xs-4 col-sm-4 col-md-3 col-lg-3')) ?>
+                    <?php //echo form_label(form_error('mnme'), NULL, array('class' => 'col-xs-4 col-sm-4 col-md-3 col-lg-3')) ?>
                 </div>
                 <div class="form-group has-feedback">
-                    <?php echo form_label('Is Sub From', '', array('class' => 'col-xs-4 col-sm-4 col-md-2 col-lg-2 control-label')) ?>
+                    <?php echo form_label('Is Sub From', NULL, ['class' => 'col-xs-4 col-sm-4 col-md-2 col-lg-2 control-label']) ?>
                     <div class="col-xs-4 col-sm-4 col-md-7 col-lg-7">
-                        <?php echo form_dropdown('mpar', option_recursive(data_recursive($opt, 'mid', 'mpar'), 'mid', 'mnme'), array((isset($data['mpar'])) ? $data['mpar'] : null), 'class="form-control" data-bv-notempty="true"') ?>
+                        <?php echo form_dropdown('mpar', option_recursive($opt, 'mid', 'mnme'), [(isset($data['mpar'])) ? $data['mpar'] : NULL], 'class="form-control" data-bv-notempty="true"') ?>
                     </div>
-                    <?php //echo form_label(form_error('mpar'), '', array('class' => 'col-xs-4 col-sm-4 col-md-3 col-lg-3')) ?>
+                    <?php //echo form_label(form_error('mpar'), NULL, array('class' => 'col-xs-4 col-sm-4 col-md-3 col-lg-3')) ?>
                 </div>
                 <div class="form-group has-feedback">
-                    <?php echo form_label('Url/Link', '', array('class' => 'col-xs-4 col-sm-4 col-md-2 col-lg-2 control-label')) ?>
+                    <?php echo form_label('Url/Link', NULL, ['class' => 'col-xs-4 col-sm-4 col-md-2 col-lg-2 control-label']) ?>
                     <div class="col-xs-4 col-sm-4 col-md-7 col-lg-7">
                         <?php echo form_input('mlnk', (isset($data['mlnk'])) ? $data['mlnk'] : set_value('mlnk'), 'class="form-control" placeholder="Url/Link" data-bv-notempty="true"') ?>
                     </div>
-                    <?php //echo form_label(form_error('mlnk'), '', array('class' => 'col-xs-4 col-sm-4 col-md-3 col-lg-3')) ?>
+                    <?php //echo form_label(form_error('mlnk'), NULL, array('class' => 'col-xs-4 col-sm-4 col-md-3 col-lg-3')) ?>
                 </div>
                 <div class="form-group has-feedback">
-                    <?php echo form_label('Icon', '', array('class' => 'col-xs-4 col-sm-4 col-md-2 col-lg-2 control-label')) ?>
+                    <?php echo form_label('Order', NULL, ['class' => 'col-xs-4 col-sm-4 col-md-2 col-lg-2 control-label']) ?>
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <?php echo form_input('mordr', (isset($data['mordr'])) ? $data['mordr'] : set_value('mordr'), 'class="form-control" placeholder="Sort Order" data-bv-notempty="true" data-bv-numeric="true"') ?>
+                    </div>
+                    <?php //echo form_label(form_error('mlnk'), NULL, array('class' => 'col-xs-4 col-sm-4 col-md-3 col-lg-3')) ?>
+                </div>
+                <div class="form-group has-feedback">
+                    <?php echo form_label('Icon', NULL, ['class' => 'col-xs-4 col-sm-4 col-md-2 col-lg-2 control-label']) ?>
                     <div class="col-xs-4 col-sm-4 col-md-7 col-lg-7">
                         <?php echo form_input('mico', (isset($data['mico'])) ? $data['mico'] : set_value('mico'), 'class="form-control" placeholder="Icon" data-bv-notempty="true" readonly') ?>
                     </div>
-                    <?php //echo form_label(form_error('mico'), '', array('class' => 'col-xs-4 col-sm-4 col-md-3 col-lg-3')) ?>
+                    <?php //echo form_label(form_error('mico'), NULL, array('class' => 'col-xs-4 col-sm-4 col-md-3 col-lg-3')) ?>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         <div class="checkbox">
-                            <?php echo form_label(form_checkbox('mstat', true, (isset($data['mstat']) && $data['mstat']) ? true : false) . ' Is Active ?') ?>
+                            <?php echo form_label(form_checkbox('mstat', TRUE, (isset($data['mstat']) && $data['mstat']) ? TRUE : FALSE) . ' Is Active ?') ?>
                         </div>
                     </div>
                 </div>

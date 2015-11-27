@@ -793,47 +793,4 @@ if ( ! function_exists('date_range'))
 
 		return $range;
 	}
-
-
-	/**
-	 * Time Elapsed
-	 *
-	 * Returns a span of seconds in this format:
-	 *	10 days ago
-	 *
-	 * @access	public
-	 * @param	integer	Unix timestamp
-	 * @return	string
-	 */
-	if (!function_exists('time_elapsed')) 
-	{
-	        function time_elapsed($time = '') 
-	        {
-	                $time = strtotime($time);
-	                $time = strtotime(date('Y-m-d H:i:s')) - $time; // to get the time since that moment
-
-	                $tokens = array(
-	                    31536000 => 'years',
-	                    2592000 => 'months',
-	                    604800 => 'weeks',
-	                    86400 => 'days',
-	                    3600 => 'hours',
-	                    60 => 'minutes',
-	                    1 => 'seconds'
-	                );
-
-	                foreach ($tokens as $unit => $text) 
-	                {
-	                        if ($time < $unit) 
-	                        {
-	                                continue;
-	                        }
-
-	                        $numberOfUnits = floor($time / $unit);
-	                        return $numberOfUnits . nbs() . $text . ' ago';
-	                }
-
-	                return '';
-	        }
-	}
 }

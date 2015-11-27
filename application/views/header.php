@@ -8,7 +8,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
         <?php
-        $css = array(
+        $css = [
             'bootstrap.min',
             'bootstrap-validator.min',
             'font-awesome.min',
@@ -18,16 +18,16 @@
             'datepicker3',
             'daterangepicker-bs3',
             'bootstrap3-wysihtml5.min'
-        );
+        ];
         foreach ($css as $v)
-            echo link_tag($v);
+            echo link_tag('asset/css/' . $v . '.css');
 
         if (!empty($style)) {
             if (!is_array($style))
-                $style = array($style);
+                $style = [$style];
 
             foreach ($style as $_style)
-                echo link_tag($_style);
+                echo link_tag('asset/css/' . $_style . '.css');
         }
         ?>
         <!--[if lt IE 9]>

@@ -288,11 +288,11 @@ if ( ! function_exists('link_tag'))
 				{
 					if ($index_page === TRUE)
 					{
-						$link .= 'href="'.$CI->config->site_url('asset/css/'.$v.'.css').'" ';
+						$link .= 'href="'.$CI->config->site_url($v).'" ';
 					}
 					else
 					{
-						$link .= 'href="'.$CI->config->slash_item('base_url').'asset/css/'.$v.'.css" ';
+						$link .= 'href="'.$CI->config->slash_item('base_url').$v.'" ';
 					}
 				}
 				else
@@ -309,11 +309,11 @@ if ( ! function_exists('link_tag'))
 			}
 			elseif ($index_page === TRUE)
 			{
-				$link .= 'href="'.$CI->config->site_url('asset/css/'.$href.'.css').'" ';
+				$link .= 'href="'.$CI->config->site_url($href).'" ';
 			}
 			else
 			{
-				$link .= 'href="'.$CI->config->slash_item('base_url').'asset/css/'.$href.'.css" ';
+				$link .= 'href="'.$CI->config->slash_item('base_url').$href.'" ';
 			}
 
 			$link .= 'rel="'.$rel.'" type="'.$type.'" ';
@@ -406,47 +406,5 @@ if ( ! function_exists('nbs'))
 	function nbs($num = 1)
 	{
 		return str_repeat('&nbsp;', $num);
-	}
-}
-
-
-// ------------------------------------------------------------------------
-
-/**
-* Script
-*
-* Generates an HTML script tag for importing an external javascript file.
-*
-* @access   public
-* @param   string
-* @return   string
-*/
-
-if ( ! function_exists('script_tag'))
-{
-	function script_tag($src = '', $index_page = FALSE)
-	{
-		$CI =& get_instance();
-
-		$script = '<script type="text/javascript" ';
-
-		if($src !== '')
-		{
-			if ( strpos($src, '://') !== FALSE)
-			{
-				$script .= 'src="asset/js/'.$src.'.js" ';
-			}
-			elseif ($index_page === TRUE)
-			{
-				$script .= 'src="'.$CI->config->site_url('asset/js/'.$src.'.js').'" ';
-			}
-			else
-			{
-				$script .= 'src="'.$CI->config->slash_item('base_url').'asset/js/'.$src.'.js" ';
-			}
-		}
-                  $script .= ' ></script>';
-
-                return $script;
 	}
 }
