@@ -7,8 +7,6 @@
 * indexActiveColumn = index of column Status in JSON list
 */
 function generateServerSideDataTables(tableID,tableURL,tableColumnSetting,indexIDColumn,indexActiveColumn){
-    var tableData = [];
-    
     $('#'+tableID).dataTable({
         "bSort": true,
         "sDom": 'fCl<"clear">rtip',
@@ -20,7 +18,6 @@ function generateServerSideDataTables(tableID,tableURL,tableColumnSetting,indexI
         "bServerSide": true,
         "sAjaxSource": tableURL,
         "fnServerData": function( sUrl, aaData, fnCallback, oSettings ) {
-            tableData[tableID] = aaData;
             oSettings.jqXHR = $.ajax({
                 "url": sUrl,
                 "data": aaData,
