@@ -38,7 +38,7 @@ class Menus extends CI_Controller {
 
         $this->_attr['breadcrumb'] = [anchor('/', '<i class="fa fa-home"></i> Home'), $this->cfg->page['mnme']];
         $this->_attr['pagination'] = $this->pagination->create_links();
-        $this->template->load('AdminLTE', 'sso/menu', $this->_attr);
+        $this->template->load($this->cfg->template . '/default', 'sso/menu', $this->_attr);
     }
 
     public function form() {
@@ -52,7 +52,7 @@ class Menus extends CI_Controller {
         $br3 = (empty($this->_attr['data'])) ? 'Insert' : 'Edit';
         $this->_attr['breadcrumb'] = [anchor('/', '<i class="fa fa-home"></i> Home'), anchor($this->cfg->page['mlnk'], $this->cfg->page['mnme']), $br3];
         $this->_attr['opt'] = data_recursive($this->mn->fmn(), 'mid', 'mpar');
-        $this->template->load('AdminLTE', 'sso/menu_form', $this->_attr);
+        $this->template->load($this->cfg->template . '/default', 'sso/menu_form', $this->_attr);
         $this->load->view('sso/modal-list-icon');
     }
 

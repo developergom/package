@@ -13,14 +13,14 @@
                     <div class="input-group input-group-sm">
                         <?php echo form_input('search', '', 'class="form-control pull-right" placeholder="Search user"') ?>
                         <div class="input-group-btn">
-                            <button class="btn btn-default"><i class="fa fa-search"></i></button>
+                            <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
                         </div>
                     </div>
                     <?php echo form_close() ?>
                 </div>
             </div>
             <div class="box-body table-responsive">
-                <table class="table table-hover">
+                <table class="table table-condensed table-hover">
                     <tr>
                         <th class="text-center"><?php echo anchor(current_url() . '/?sort=unme', 'Username <i class="pull-right fa fa-sort"></i>') ?></th>
                         <th class="text-center"><?php echo anchor(current_url() . '/?sort=ufnme', 'Name <i class="pull-right fa fa-sort"></i>') ?></th>

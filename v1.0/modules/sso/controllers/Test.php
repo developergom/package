@@ -1,4 +1,7 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
 
 /**
  * Description of menus
@@ -51,7 +54,7 @@ class Test extends CI_Controller {
     public function index() {
         $udata = data_recursive($this->mn->fmn(), 'mid', 'mpar');
         $recursive = datagrid_recursive($udata, 'mnme');
-        /*$this->header['breadcrumb'] = array(anchor('/', '<i class="fa fa-home"></i> Home'), $this->page['mnme']);*/
+        /* $this->header['breadcrumb'] = array(anchor('/', '<i class="fa fa-home"></i> Home'), $this->page['mnme']); */
         $this->header['breadcrumb'] = array(anchor('/', '<i class="fa fa-home"></i> Home'), '');
         $page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
         $config['base_url'] = base_url('sso/menus/index/');
@@ -65,31 +68,32 @@ class Test extends CI_Controller {
         $this->load->view('footer', $this->footer);
     }
 
-    function list_json(){
-		//custom header table taken from field
-		$order_field=array(
-				'mnme',
-				'mlnk',
-				'ufnme',
-				'mn.uu'
-			);
+    function list_json() {
+        //custom header table taken from field
+        $order_field = array(
+            'mnme',
+            'mlnk',
+            'ufnme',
+            'mn.uu'
+        );
 
-		//don't edit me
-		$order_key = (!$this->input->get('iSortCol_0'))?0:$this->input->get('iSortCol_0');
-		$order = (!$this->input->get('iSortCol_0'))?'mnme':$order_field[$order_key];
-		$sort = (!$this->input->get('sSortDir_0'))?'desc':$this->input->get('sSortDir_0');
-		$search = (!$this->input->get('sSearch'))?'':$this->input->get('sSearch');
+        //don't edit me
+        $order_key = (!$this->input->get('iSortCol_0')) ? 0 : $this->input->get('iSortCol_0');
+        $order = (!$this->input->get('iSortCol_0')) ? 'mnme' : $order_field[$order_key];
+        $sort = (!$this->input->get('sSortDir_0')) ? 'desc' : $this->input->get('sSortDir_0');
+        $search = (!$this->input->get('sSearch')) ? '' : $this->input->get('sSearch');
 
-		$limit = (!$this->input->get('iDisplayLength'))?10:$this->input->get('iDisplayLength');
-		$start = (!$this->input->get('iDisplayStart'))?0:$this->input->get('iDisplayStart');
-		$data['no'] = $start+1;
-		$data['sEcho'] = (!$this->input->get('callback'))?0:$this->input->get('callback');
-		$data['iTotalRecords'] = $this->ts->count_all($search,$order_field);
-		$data['test'] = $this->ts->get_paged_list($limit, $start, $order, $sort, $search, $order_field)->result();
-		$data['callback'] = $this->input->get('callback');
+        $limit = (!$this->input->get('iDisplayLength')) ? 10 : $this->input->get('iDisplayLength');
+        $start = (!$this->input->get('iDisplayStart')) ? 0 : $this->input->get('iDisplayStart');
+        $data['no'] = $start + 1;
+        $data['sEcho'] = (!$this->input->get('callback')) ? 0 : $this->input->get('callback');
+        $data['iTotalRecords'] = $this->ts->count_all($search, $order_field);
+        $data['test'] = $this->ts->get_paged_list($limit, $start, $order, $sort, $search, $order_field)->result();
+        $data['callback'] = $this->input->get('callback');
 
-		$this->load->view('test/list_json', $data);
-	}
+        $this->load->view('test/list_json', $data);
+    }
+
 }
 
 /* End of file test.php */

@@ -4,15 +4,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Template {
 
-    private $_core = NULL;
+    var $ci;
 
     public function __construct() {
-        $this->_core =& get_instance();
+        $this->ci =& get_instance();
     }
 
-    public function load($template, $view = NULL, $data = NULL) {
+    public function load($template, $view = NULL, $data = NULL, $use_default = FALSE) {
         if (!is_null($view)) {
-            $body = $this->_core->load->view($view, $data, TRUE);
+            if ($use_default)
+                $view = 'templates/' . $view;
+            
+            $body = $this->ci->load->view($view, $data, TRUE);
             if (is_null($data)) {
                 $data = ['body' => $body];
             } else if (is_array($data)) {
@@ -24,13 +27,13 @@ class Template {
             show_error('Unable to find the requested file: ' . $view);
         }
 
-        $data['app_name'] = $this->_core->cfg->app_name;
-        $data['title'] = (!empty($data['title'])) ? $data['title'] : $this->_core->cfg->page['mnme'];
-        $data['content_header'] = (!empty($data['content_header'])) ? $data['content_header'] : anchor($this->_core->cfg->page['mlnk'], '<i class="fa ' . $this->_core->cfg->page['mico'] . '"></i> ' . $this->_core->cfg->page['mnme']);
-        $data['style'] = $this->_core->cfg->style;
-        $data['script'] = $this->_core->cfg->script;
-        
-        $this->_core->load->view('templates/' . $template, $data);
+        $data['app_name'] = $this->ci->setting->app_name;
+        $data['title'] = (!empty($data['title'])) ? $data['title'] : $this->ci->setting->page['mnme'];
+        $data['content_header'] = (!empty($data['content_header'])) ? $data['content_header'] : anchor($this->ci->setting->page['mlnk'], '<i class="fa ' . $this->ci->setting->page['mico'] . '"></i> ' . $this->ci->setting->page['mnme']);
+        $data['style'] = $this->ci->setting->style;
+        $data['script'] = $this->ci->setting->script;
+
+        $this->ci->load->view('templates/' . $template, $data);
     }
 
 }

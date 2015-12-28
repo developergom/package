@@ -1,15 +1,6 @@
 <?php
 
 // ------------------------------------------------------------------------
-/**
- * Singular Plural
- *
- * Returns a singular or plural string
- *
- * @access	public
- * @param	integer	
- * @return	string
- */
 if (!function_exists('singular_plural')) {
 
     function singular_plural($int = 0, $text = NULL) {
@@ -24,16 +15,6 @@ if (!function_exists('singular_plural')) {
 }
 
 // ------------------------------------------------------------------------
-/**
- * Time Elapsed
- *
- * Returns a span of seconds in this format:
- * 	10 days ago
- *
- * @access	public
- * @param	integer	Unix timestamp
- * @return	string
- */
 if (!function_exists('time_elapsed')) {
 
     function time_elapsed($time = NULL) {
@@ -63,30 +44,21 @@ if (!function_exists('time_elapsed')) {
 
 }
 // ------------------------------------------------------------------------
-
-/**
- * Script Tag
- *
- * Generates an HTML script tag for importing an external javascript file.
- *
- * @access   public
- * @param   string
- * @return   string
- */
 if (!function_exists('script_tag')) {
 
     function script_tag($src = NULL, $index_page = FALSE) {
-        $CI = & get_instance();
+        $CI =& get_instance();
 
+        $v = '?v=' . random_string('alnum', 7);
         $script = '<script type="text/javascript" ';
 
         if ($src !== '') {
             if (strpos($src, '://') !== FALSE) {
-                $script .= 'src="asset/js/' . $src . '.js" ';
+                $script .= 'src="asset/js/' . $src . '.js' . $v . '" ';
             } elseif ($index_page === TRUE) {
-                $script .= 'src="' . $CI->config->site_url('asset/js/' . $src . '.js') . '" ';
+                $script .= 'src="' . $CI->config->site_url('asset/js/' . $src . '.js' . $v) . '" ';
             } else {
-                $script .= 'src="' . $CI->config->slash_item('base_url') . 'asset/js/' . $src . '.js" ';
+                $script .= 'src="' . $CI->config->slash_item('base_url') . 'asset/js/' . $src . '.js' . $v . '" ';
             }
         }
         $script .= ' ></script>';
@@ -96,6 +68,26 @@ if (!function_exists('script_tag')) {
 
 }
 // ------------------------------------------------------------------------
+if (!function_exists('form_email')) {
+
+    function form_email($data = '', $value = '', $extra = '') {
+        is_array($data) OR $data = array('name' => $data);
+        $data['type'] = 'email';
+        return form_input($data, $value, $extra);
+    }
+
+}
+// ------------------------------------------------------------------------
+if (!function_exists('form_date')) {
+
+    function form_date($data = '', $value = '', $extra = '') {
+        is_array($data) OR $data = array('name' => $data);
+        $data['type'] = 'input';
+        $extra .= 'data-inputmask="\'alias\': \'yyyy-mm-dd\'" data-mask';
+        return form_input($data, $value, $extra);
+    }
+
+}
 
 if (!function_exists('clearfix')) {
 
@@ -120,7 +112,7 @@ if (!function_exists('array_to_object')) {
             }
             return $object;
         } else {
-            return false;
+            return FALSE;
         }
     }
 

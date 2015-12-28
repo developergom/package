@@ -3,7 +3,7 @@
     <head>
         <base href="<?php echo base_url() ?>" />
         <title>Package</title>
-        <link rel="shortcut icon" href="#">
+        <?php echo link_tag('asset/img/fav.gif', 'shortcut icon') ?>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -44,7 +44,7 @@
                     }
                     ?>
                 </p>
-                <?php echo form_open('in/come', 'role="form"') ?>
+                <?php echo form_open('in/do', 'role="form"') ?>
                 <div class="form-group has-feedback">
                     <?php echo form_input('key', '', 'placeholder="Username/email" class="form-control" autofocus') ?>
                     <span class="glyphicon glyphicon-user form-control-feedback"></span>

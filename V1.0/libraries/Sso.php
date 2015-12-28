@@ -9,28 +9,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class Sso {
 
-    var $core;
+    var $ci;
     var $id;
     private $data = [];
     public $menu = [];
     public $access = [];
 
     public function __construct() {
-        $this->core =& get_instance();
-        $this->core->load->model('sso/mn');
-        $this->id = $this->core->session->userdata('user');
-        if (!isset($this->id))
-            return;
+        $this->ci =& get_instance();
+        $this->ci->load->model('Sso/Mn', 'mn');
+        $this->ci->load->library('Setting');
 
+        $this->id = $this->ci->session->userdata('user');
         $this->data = $this->get_data();
         $this->menu = $this->set_menu();
         $this->access = $this->set_access();
+        if (!isset($this->id))
+            return;
     }
 
     private function get_data() {
-        $this->core->db->join('rm r', 'r.mid = m.mid');
-        $this->core->db->join('url u', 'u.rid = r.rid');
-        $query = $this->core->db->get_where('mn m', ['u.uid' => $this->id, 'm.mstat' => TRUE]);
+        $this->ci->db->join('rm r', 'r.mid = m.mid');
+        $this->ci->db->join('url u', 'u.rid = r.rid');
+        $query = $this->ci->db->get_where('mn m', ['u.uid' => $this->id, 'm.mstat' => TRUE]);
         $result = $query->result_array();
         if (!empty($result)) {
             $data = [];
@@ -115,12 +116,11 @@ class Sso {
     }
 
     protected function set_access() {
-        $appkey = $this->core->uri->segment(1) . '/' . $this->core->uri->segment(2);
-        $mdata = $this->core->mn->gtbylnk($appkey);
+        $mdata = $this->ci->mn->gtbylnk($this->ci->setting->uri_string());
         $tmp = [];
         if (!empty($mdata)) {
             foreach ($this->data as $k => $v) {
-                if ($k == $mdata['mid'] && $v['mlnk'] == $appkey)
+                if ($k == $mdata['mid'] && $v['mlnk'] == $this->ci->setting->uri_string())
                     $tmp[] = $v['key'];
             }
         }

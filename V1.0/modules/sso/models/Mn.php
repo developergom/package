@@ -16,7 +16,7 @@ class Mn extends CI_Model {
     public $mico;
     public $mordr;
     public $mstat;
-    public $tdata;
+    public $tdata = [];
     private $_tbl = 'mn';
 
     public function __construct() {
@@ -27,8 +27,7 @@ class Mn extends CI_Model {
         if (empty($mid))
             return;
 
-        $this->db->where('mid', $mid);
-        $query = $this->db->get($this->_tbl);
+        $query = $this->db->get_where($this->_tbl, ['mid' => $mid]);
         if ($query->num_rows() > 0)
             $this->_setval($query->row_array());
     }
@@ -42,7 +41,7 @@ class Mn extends CI_Model {
                     $this->tdata[$key] = $value;
                 }
             }
-        } else if (is_string($array_key) and ! empty($array_key)) {
+        } else if (is_string($array_key) && !empty($array_key)) {
             if ($REF_CLASS->hasProperty($array_key)) {
                 $this->$array_key = $value;
                 $this->tdata[$array_key] = $value;
@@ -55,7 +54,7 @@ class Mn extends CI_Model {
             $this->db->like('m.mnme', $param);
             $this->db->or_like('m.mlnk', $param);
         }
-        
+
         $this->db->join('usr u', 'u.uid = m.uu', 'LEFT');
         $query = $this->db->get($this->_tbl . ' m');
         $result = $query->result_array();

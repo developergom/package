@@ -14,6 +14,7 @@ class Users extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->cfg->check_session();
+        $this->load->library('encrypt');
     }
 
     public function index() {
@@ -26,7 +27,7 @@ class Users extends CI_Controller {
         $this->_attr['data'] = $this->usr->fusr($this->cfg->perpage, $this->input->get());
         $this->_attr['row'] = $this->usr->cusr($this->input->get());
         $this->_attr['pagination'] = $this->pagination->create_links();
-        $this->template->load('AdminLTE', 'sso/user', $this->_attr);
+        $this->template->load($this->cfg->template . '/default', 'sso/user', $this->_attr);
     }
 
     public function form() {
@@ -44,7 +45,7 @@ class Users extends CI_Controller {
         $this->_attr['data'] = $udata;
         $this->_attr['rldata'] = $rldata;
         $this->_attr['urldata'] = $urldata;
-        $this->template->load('AdminLTE', 'sso/user_form', $this->_attr);
+        $this->template->load($this->cfg->template . '/default', 'sso/user_form', $this->_attr);
     }
 
     public function act() {

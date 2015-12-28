@@ -9,7 +9,7 @@ class Url extends CI_Model {
     
     public $uid;
     public $rid;
-    public $tdata;
+    public $tdata = [];
     private $_tbl = 'url';
     
     public function __construct() {

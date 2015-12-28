@@ -26,7 +26,7 @@ class Roles extends CI_Controller {
         $this->_attr['data'] = $this->rl->frl($this->cfg->perpage, $this->input->get());
         $this->_attr['row'] = $this->rl->crl($this->input->get());
         $this->_attr['pagination'] = $this->pagination->create_links();
-        $this->template->load('AdminLTE', 'sso/role', $this->_attr);
+        $this->template->load($this->cfg->template . '/default', 'sso/role', $this->_attr);
     }
 
     public function form() {
@@ -41,7 +41,7 @@ class Roles extends CI_Controller {
         $this->_attr['mdata'] = $this->mn->fmn();
         $this->_attr['rmdata'] = $this->rm->init($this->_id);
         $this->_attr['acc_key'] = json_decode($this->cfg->access_key);
-        $this->template->load('AdminLTE', 'sso/role_form', $this->_attr);
+        $this->template->load($this->cfg->template . '/default', 'sso/role_form', $this->_attr);
     }
 
     public function act() {
@@ -66,6 +66,7 @@ class Roles extends CI_Controller {
                         $this->rm->drm();
 
                     foreach ($rm_acc as $k => $v) {
+                        $v[] = 'r';
                         $this->rm->tdata['rid'] = $rid;
                         $this->rm->tdata['mid'] = $k;
                         $this->rm->tdata['rmk'] = json_encode_db($v);

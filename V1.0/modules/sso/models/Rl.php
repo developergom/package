@@ -13,14 +13,14 @@ class Rl extends CI_Model {
     public $rnme;
     public $rdesc;
     public $rstat;
-    public $tdata;
+    public $tdata = [];
     private $_tbl = 'rl';
 
     public function __construct() {
         parent::__construct();
     }
 
-    public function init($rid = null) {
+    public function init($rid = NULL) {
         if (empty($rid))
             return;
 
@@ -38,7 +38,7 @@ class Rl extends CI_Model {
                     $this->tdata[$key] = $value;
                 }
             }
-        } else if (is_string($array_key) and ! empty($array_key)) {
+        } else if (is_string($array_key) && !empty($array_key)) {
             if ($REF_CLASS->hasProperty($array_key)) {
                 $this->$array_key = $value;
                 $this->tdata[$array_key] = $value;
@@ -53,13 +53,7 @@ class Rl extends CI_Model {
 
         $offset = (!empty($param['page'])) ? $this->cfg->perpage : 0;
         $this->db->join('usr u', 'u.uid = r.uu', 'INNER');
-
-        if (!empty($param['sort'])) {
-            $this->db->order_by($param['sort']);
-        } else {
-            $this->db->order_by('r.rid');
-        }
-
+        $this->db->order_by((!empty($param['sort'])) ? $param['sort'] : 'r.rid');
         $this->db->limit($limit, $offset);
         $query = $this->db->get($this->_tbl . ' r ');
         return ($query->num_rows() > 0) ? $query->result_array() : [];

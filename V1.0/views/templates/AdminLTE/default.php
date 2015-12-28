@@ -2,20 +2,22 @@
 <html lang="en">
     <head>
         <base href="<?php echo base_url() ?>" />
-        <title><?php echo $app_name . ' :: ' . $title ?></title>
-        <link rel="shortcut icon" href="#">
+        <title><?php echo $app_name . ' | ' . $title ?></title>
+        <?php echo link_tag('asset/img/fav.gif', 'shortcut icon') ?>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
         <?php
         $css = [
             'bootstrap.min',
+            'select2.min',
             'bootstrap-validator.min',
             'font-awesome.min',
             'AdminLTE.min',
             'skins/_all-skins.min',
             //'morris',
-            'bootstrap3-wysihtml5.min',
+            'iCheck/all',
+            //'bootstrap3-wysihtml5.min',
             'initialize'
         ];
         foreach ($css as $v)
@@ -38,7 +40,7 @@
         <div class="wrapper">
             <header class="main-header">
                 <a href="#" class="logo">
-                    <span class="logo-mini"><b><?php echo substr($app_name, 0, 3); ?></b></span>
+                    <span class="logo-mini"><strong><?php echo substr($app_name, 0, 3); ?></strong></span>
                     <span class="logo-lg"><?php echo $app_name; ?></span>
                 </a>
                 <nav class="navbar navbar-static-top" role="navigation">
@@ -90,7 +92,7 @@
                                             <?php echo anchor('profile/index/' . $this->session->userdata('user'), '<i class="fa fa-user"></i> Profile', 'class="btn btn-default btn-flat"') ?>
                                         </div>
                                         <div class="pull-right">
-                                            <?php echo anchor('in/out/', '<i class="fa fa-sign-out"></i> Sign out', 'class="btn btn-default btn-flat"') ?>
+                                            <?php echo anchor('out/', '<i class="fa fa-sign-out"></i> Sign out', 'class="btn btn-default btn-flat"') ?>
                                         </div>
                                     </li>
                                 </ul>
@@ -129,19 +131,27 @@
                 </section>
             </div>
             <footer class="main-footer">
-                <strong>Copyright &copy; <?php echo date('Y') ?></strong> All rights reserved.
+                <div class="row">
+                    <div class="col-sm-6">
+<!--                        <strong>Copyright &copy; <?php echo date('Y') ?></strong> All rights reserved.-->
+                        <em>Page rendered in <strong>{elapsed_time}</strong> seconds. </em>
+                    </div>
+                    <div class="col-sm-6">
+                        <em class="pull-right"><?php echo (ENVIRONMENT === 'development') ? 'CodeIgniter Version <strong>' . CI_VERSION . '</strong>' : '' ?></em>
+                    </div>
+                </div>
             </footer>
         </div>
         <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
                     <div class="modal-body">
-                        <span class="fa fa-warning"></span>
+                        <i class="fa fa-warning fa-3x pull-left"></i>
                         <strong> Are you sure want to delete this data ?</strong>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                        <a href="#" class="btn btn-danger danger">Delete</a>
+                        <a href="#" class="btn btn-danger delete">Delete</a>
                     </div>
                 </div>
             </div>
@@ -156,14 +166,14 @@
             //'morris.min',
             //'jquery.sparkline.min',
             //'jquery.knob',
-            'daterangepicker',
+            'icheck.min',
+            'select2.min',
             'bootstrap-datepicker',
-            'bootstrap3-wysihtml5.all.min',
-            'jquery.slimscroll.min',
+            //'bootstrap3-wysihtml5.all.min',
+            //'jquery.slimscroll.min',
             //'fastclick.min',
             //'demo',
-            'app.min',
-            'initialize'
+            'app.min'
         ];
         foreach ($js as $v)
             echo script_tag($v);
@@ -175,6 +185,8 @@
             foreach ($script as $_script)
                 echo script_tag($_script);
         }
+
+        echo script_tag('initialize');
         ?>
     </body>
 </html>

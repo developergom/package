@@ -11,13 +11,14 @@ class Home extends CI_Controller {
     
     public function __construct() {
         parent::__construct();
-        $this->cfg->check_session();
+        $this->load->library('template');
+        $this->setting->check_session();
     }
     
     public function index() {
         $this->_attr['title'] = 'Home';
-        $this->_attr['breadcrumb'] = array(anchor('/', '<i class="fa fa-home"></i> Home'));
-        $this->template->load('AdminLTE', 'home', $this->_attr);
+        $this->_attr['breadcrumb'] = [anchor('/', '<i class="fa fa-home"></i> Home')];
+        $this->template->load($this->setting->template . '/default', 'home', $this->_attr);
     }
     
 }

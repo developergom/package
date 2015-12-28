@@ -25,7 +25,8 @@ class Usr extends CI_Model {
 
     public function __construct() {
         parent::__construct();
-        $this->_core = & get_instance();
+        $this->_core =& get_instance();
+        $this->load->library('encrypt');
     }
 
     public function init($uid = NULL) {
@@ -46,7 +47,7 @@ class Usr extends CI_Model {
                     $this->tdata[$key] = $value;
                 }
             }
-        } else if (is_string($array_key) and ! empty($array_key)) {
+        } else if (is_string($array_key) && !empty($array_key)) {
             if ($REF_CLASS->hasProperty($array_key)) {
                 $this->$array_key = $value;
                 $this->tdata[$array_key] = $value;
@@ -62,12 +63,7 @@ class Usr extends CI_Model {
             $this->db->or_like('umail', $param['search']);
         }
 
-        if (!empty($param['sort'])) {
-            $this->db->order_by($param['sort']);
-        } else {
-            $this->db->order_by('uid');
-        }
-
+        $this->db->order_by((!empty($param['sort'])) ? $param['sort'] : 'uid');
         $offset = (!empty($param['page'])) ? $this->cfg->perpage : 0;
         $this->db->limit($limit, $offset);
         $query = $this->db->get($this->_tbl);

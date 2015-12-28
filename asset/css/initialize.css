@@ -13,6 +13,10 @@ and open the template in the editor.
     visibility: hidden;
 }
 
+.dataTables_filter > label > input {
+    width: 200px;
+}
+
 .quick-form {
     display: none;
 }
