@@ -9,7 +9,7 @@ class In extends CI_Controller {
     
     public function __construct() {
         parent::__construct();
-        $this->load->model('Sso/Usr', 'usr');
+        $this->load->model('Sso_ORI/Usr', 'usr');
     }
 
     public function index() {

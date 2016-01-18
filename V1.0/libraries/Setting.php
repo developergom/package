@@ -22,10 +22,8 @@ class Setting {
     public $template = NULL;
 
     public function __construct() {
-        $this->ci = & get_instance();
+        $this->ci =& get_instance();
         $this->ci->load->model('Cfg', 'cfg');
-        $this->ci->load->model('Sso/Mn', 'mn');
-
         $this->initialize();
     }
 
@@ -35,7 +33,7 @@ class Setting {
         $this->perpage = (int) $this->ci->cfg->init('ROW_PERPAGE');
         $this->cwp = (int) $this->ci->cfg->init('COUNT_WRONG_PASSWORD');
         $this->access_key = $this->ci->cfg->init('ACCESS_KEY');
-        $this->page = $this->ci->mn->gtbylnk($this->uri_string());
+        $this->page = $this->_get_page($this->uri_string());
         $this->template = $this->ci->cfg->init('TEMPLATE_NAME');
     }
 
@@ -76,6 +74,10 @@ class Setting {
 
     public function uri_string() {
         return $this->ci->router->module . '/' . $this->ci->router->fetch_class();
+    }
+    
+    private function _get_page($link) {
+        return $this->ci->db->get_where('Mn', ['mlnk' => $link])->row_array();
     }
 
 }

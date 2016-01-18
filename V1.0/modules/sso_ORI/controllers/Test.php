@@ -46,6 +46,7 @@ class Test extends CI_Controller {
         $js = 'pages/test';
         array_push($this->script, 'jquery.dataTables');
         array_push($this->script, 'dataTables.bootstrap');
+        array_push($this->script, 'serverSideDataTables');
         array_push($this->script, $js);
 
         $this->footer = array('script' => $this->script);

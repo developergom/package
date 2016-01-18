@@ -11,11 +11,12 @@ class Template {
     }
 
     public function load($template, $view = NULL, $data = NULL, $use_default = FALSE) {
-        if (!is_null($view)) {
+        if (is_null($view) === FALSE) {
             if ($use_default)
                 $view = 'templates/' . $view;
-            
+
             $body = $this->ci->load->view($view, $data, TRUE);
+            //$body = [];
             if (is_null($data)) {
                 $data = ['body' => $body];
             } else if (is_array($data)) {

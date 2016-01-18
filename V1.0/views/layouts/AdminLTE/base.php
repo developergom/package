@@ -7,7 +7,7 @@
                 </div>
             <?php endif ?>
             <div class="box-body">
-                <?php echo (isset($datagrid)) ? $datagrid : nbs() ?>
+                <?php //echo (isset($datagrid)) ? $datagrid : nbs() ?>
             </div>
         </div>
     </div>    

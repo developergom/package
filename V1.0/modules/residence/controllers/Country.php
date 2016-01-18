@@ -7,29 +7,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * @author nanank
  */
-class Country extends CI_Controller {
+class Country extends GN_Controller {
 
-    private $_attr = [];
+    protected $models = ['Cntry'];
+    protected $model_string = '%';
+    protected $helpers = [];
 
     public function __construct() {
         parent::__construct();
-        $this->cfg->check_session();
-        $this->load->model('Cntry', 'cntry');
     }
 
-    public function index() {
-        $this->cfg->style = ['dataTables.bootstrap'];
-        $this->cfg->script = ['jquery.dataTables.min', 'dataTables.bootstrap.min', 'JessicaMila'];
-        $this->_attr['breadcrumb'] = [anchor('/', '<i class="fa fa-home"></i> Home'), $this->cfg->page['mnme']];
-        $this->template->load('AdminLTE', 'residence/country', $this->_attr);
-    }
+//    public function index() {
+//        $this->data[] = $this->Cntry->get_all();
+//    }
     
-    public function dataTables() {
-        $param = (!empty($this->input->post())) ? $this->input->post() : [];
-        exit(json_encode($this->cntry->dttable($param)));
-    }
+//    public function show() {
+//        
+//    }
 
 }
-
-/* End of file Country.php */
-/* Location: ./application/controllers/Country.php */

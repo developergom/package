@@ -1,6 +1,18 @@
 <?php
 
 // ------------------------------------------------------------------------
+if (!function_exists('app_name')) {
+
+    function app_name() {
+        $ci = & get_instance();
+        return $ci->setting->app_name;
+    }
+
+}
+
+
+
+// ------------------------------------------------------------------------
 if (!function_exists('singular_plural')) {
 
     function singular_plural($int = 0, $text = NULL) {
@@ -39,7 +51,7 @@ if (!function_exists('time_elapsed')) {
             return $numberOfUnits . nbs() . $text . ' ago';
         }
 
-        return '';
+        return;
     }
 
 }
@@ -47,7 +59,7 @@ if (!function_exists('time_elapsed')) {
 if (!function_exists('script_tag')) {
 
     function script_tag($src = NULL, $index_page = FALSE) {
-        $CI =& get_instance();
+        $CI = & get_instance();
 
         $v = '?v=' . random_string('alnum', 7);
         $script = '<script type="text/javascript" ';
@@ -121,9 +133,8 @@ if (!function_exists('array_to_object')) {
 if (!function_exists('object_to_array')) {
 
     function object_to_array($d) {
-        if (is_object($d)) {
+        if (is_object($d))
             $d = get_object_vars($d);
-        }
 
         if (is_array($d)) {
             return array_map(__FUNCTION__, $d);
@@ -141,7 +152,6 @@ if (!function_exists('json_encode_db')) {
             return;
         $json = json_encode($json);
         $json = addslashes($json);
-        //debug($json);
         return $json;
     }
 
@@ -161,3 +171,24 @@ if (!function_exists('json_decode_db')) {
     }
 
 }
+
+if (!function_exists('find_array')) {
+
+    function find_array($needle, Array $array) {
+        $return = [];
+        foreach ($array as $row) {
+            if (count(array_filter($row, 'is_array')) > 0) {
+                find_array($needle, $row);
+            } else {
+                foreach ($row as $v) {
+                    if (stripos($v, $needle) !== FALSE)
+                        $return[] = $row;
+                }
+            }
+        }
+        return $return;
+    }
+
+}
+
+

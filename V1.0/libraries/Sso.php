@@ -17,8 +17,7 @@ class Sso {
 
     public function __construct() {
         $this->ci =& get_instance();
-        $this->ci->load->model('Sso/Mn', 'mn');
-        $this->ci->load->library('Setting');
+        $this->ci->load->helper('recursive');
 
         $this->id = $this->ci->session->userdata('user');
         $this->data = $this->get_data();
@@ -116,11 +115,10 @@ class Sso {
     }
 
     protected function set_access() {
-        $mdata = $this->ci->mn->gtbylnk($this->ci->setting->uri_string());
         $tmp = [];
-        if (!empty($mdata)) {
+        if (!empty($this->ci->setting->page)) {
             foreach ($this->data as $k => $v) {
-                if ($k == $mdata['mid'] && $v['mlnk'] == $this->ci->setting->uri_string())
+                if ($k == $this->ci->setting->page['mid'] && $v['mlnk'] == $this->ci->setting->uri_string())
                     $tmp[] = $v['key'];
             }
         }
