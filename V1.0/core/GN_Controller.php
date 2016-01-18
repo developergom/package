@@ -44,7 +44,7 @@ class GN_Controller extends CI_Controller {
      * A formatting string for the model autoloading feature.
      * The percent symbol (%) will be replaced with the model name.
      */
-    protected $model_string = '%';
+    protected $model_string = '%_model';
 
     /**
      * A list of helpers to be autoloaded
@@ -63,7 +63,7 @@ class GN_Controller extends CI_Controller {
         parent::__construct();
         $this->_load_models();
         $this->_load_helpers();
-        $this->data['title'] = anchor($this->setting->page['mlnk'], '<i class="fa ' . $this->setting->page['mico'] . '"></i> ' . $this->setting->page['mnme']);
+        //$this->data['title'] = anchor($this->setting->page['mlnk'], '<i class="fa ' . $this->setting->page['mico'] . '"></i> ' . $this->setting->page['mnme']);
         
     }
 
@@ -159,14 +159,14 @@ class GN_Controller extends CI_Controller {
     }
     
     public function index() {
-        $this->data['breadcrumb'] = [anchor('/', '<i class="fa fa-home"></i> Home'), $this->setting->page['mnme']];
+        //$this->data['breadcrumb'] = [anchor('/', '<i class="fa fa-home"></i> Home'), $this->setting->page['mnme']];
     }
     
     public function form() {
-        $this->data['breadcrumb'] = [anchor('/', '<i class="fa fa-home"></i> Home'), $this->setting->page['mnme'], 'Form'];
-        $this->data['action'] = $this->setting->uri_string();
-        $this->data['key'] = [];
-        $this->view = 'layouts/' . $this->setting->template . '/form';
+        //$this->data['breadcrumb'] = [anchor('/', '<i class="fa fa-home"></i> Home'), $this->setting->page['mnme'], 'Form'];
+        //$this->data['action'] = $this->setting->uri_string();
+        //$this->data['key'] = [];
+        //$this->view = 'layouts/' . $this->setting->template . '/form';
     }
 
 }

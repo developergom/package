@@ -1,45 +1,27 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * Description of in
+ * Description of In
  *
  * @author nanank
  */
-class In extends CI_Controller {
+class In extends GN_Controller {
     
+    protected $models = ['Sign'];
+    protected $helpers = [];
+
     public function __construct() {
         parent::__construct();
-        $this->load->model('Sso_ORI/Usr', 'usr');
+        $this->view = FALSE;
     }
-
+    
     public function index() {
-        $this->load->view('in');
+        //$this->load->view('in');
+        $data = $this->Sign->get(1);
+        debug($data);
     }
-
-    public function come() {
-        $key = $this->security->sanitize_filename($this->input->post('key'));
-        $pass = $this->input->post('pass');
-        $in = $this->usr->in($key, $pass);
-        if ($in == 'invalid') {
-            redirect('in/index?error=invalid');
-        } else if ($in == 'wrong') {
-            redirect('in/index?error=wrong');
-        } else if ($in == 'blocked') {
-            redirect('in/index?error=blocked');
-        } else if ($in == 'warning') {
-            redirect('in/index?error=warning');
-        } else if ($in == 'success') {
-            redirect('home/');
-        }
-    }
-
-    public function out() {
-        $this->session->unset_userdata();
-        $this->session->sess_destroy();
-        redirect('in/');
-    }
-
+    
+    
 }
-
-/* End of file in.php */
-/* Location: ./application/controllers/in.php */

@@ -21,7 +21,7 @@ V1.0/logs/*
 
 READ ME.txt
 license.txt
-package.sql
+*.sql
 readme.rst
 
 

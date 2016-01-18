@@ -8,9 +8,9 @@ $config['enable_query_strings'] = TRUE;
 $config['page_query_string'] = TRUE;
 //$config['reuse_query_string'] = TRUE;
 
-$config['base_url'] = base_url($this->setting->uri_string());
+//$config['base_url'] = base_url($this->setting->uri_string());
 //$config['per_page'] = $this->setting->perpage;
-$config['uri_segment'] = $this->setting->segment;
+//$config['uri_segment'] = $this->setting->segment;
 
 $config['query_string_segment'] = 'page';
 $config['full_tag_open'] = '<nav><ul class="pagination">';
