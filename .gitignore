@@ -28,6 +28,7 @@ readme.rst
 
 # IDE Files
 #-------------------------
+nbproject/
 /nbproject/
 .idea/*
 
