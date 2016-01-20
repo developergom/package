@@ -490,22 +490,26 @@ class GN_Model extends CI_Model {
      * ------------------------------------------------------------ */
 
     /**
-     * MySQL DATETIME created_at and updated_at
+     * SQL Log Record create_log and update_log
      */
-    public function created_at($row) {
+    public function create_log($row) {
         if (is_object($row)) {
-            $row->created_at = date('Y-m-d H:i:s');
+            $row->create_by = '';
+            $row->create_when = date('Y-m-d H:i:s');
         } else {
-            $row['created_at'] = date('Y-m-d H:i:s');
+            $row['create_by'] = '';
+            $row['create_when'] = date('Y-m-d H:i:s');
         }
         return $row;
     }
 
-    public function updated_at($row) {
+    public function update_log($row) {
         if (is_object($row)) {
-            $row->updated_at = date('Y-m-d H:i:s');
+            $row->update_by = '';
+            $row->update_when = date('Y-m-d H:i:s');
         } else {
-            $row['updated_at'] = date('Y-m-d H:i:s');
+            $row['update_by'] = '';
+            $row['update_when'] = date('Y-m-d H:i:s');
         }
         return $row;
     }
@@ -622,7 +626,7 @@ class GN_Model extends CI_Model {
      */
     private function _fetch_table() {
         if ($this->_table == NULL)
-            $this->_table = preg_replace('/(_m|_model)?$/', '', strtolower(get_class($this)));
+            $this->_table = plural(preg_replace('/(_m|_model)?$/', '', strtolower(get_class($this))));
     }
 
     /**
