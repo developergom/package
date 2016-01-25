@@ -10,7 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Category extends GN_Controller {
 
     protected $models = ['category'];
-    protected $helpers = ['extension', 'string'];
+    protected $helpers = [];
     
 
     public function __construct() {
@@ -20,9 +20,7 @@ class Category extends GN_Controller {
     }
     
     public function index() {
-        $this->load->view('header');
-        $this->load->view('portal/category', $this->data);
-        $this->load->view('footer');
+        debug($this->data);
     }
 
 }

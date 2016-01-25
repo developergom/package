@@ -15,6 +15,7 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 /vendor/
 
 user_guide/
+/user_guide/
 V1.0/config/config.php
 V1.0/config/database.php
 V1.0/logs/*
