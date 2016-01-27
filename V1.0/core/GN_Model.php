@@ -494,21 +494,25 @@ class GN_Model extends CI_Model {
      */
     public function create_log($row) {
         if (is_object($row)) {
-            $row->create_by = '';
+            $row->create_by = 'session';
             $row->create_when = date('Y-m-d H:i:s');
+            $row->update_by = 'session';
+            $row->update_when = date('Y-m-d H:i:s');
         } else {
-            $row['create_by'] = '';
+            $row['create_by'] = 'session';
             $row['create_when'] = date('Y-m-d H:i:s');
+            $row['update_by'] = 'session';
+            $row['update_when'] = date('Y-m-d H:i:s');
         }
         return $row;
     }
 
     public function update_log($row) {
         if (is_object($row)) {
-            $row->update_by = '';
+            $row->update_by = 'session';
             $row->update_when = date('Y-m-d H:i:s');
         } else {
-            $row['update_by'] = '';
+            $row['update_by'] = 'session';
             $row['update_when'] = date('Y-m-d H:i:s');
         }
         return $row;

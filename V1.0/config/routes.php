@@ -54,6 +54,3 @@ $route['404_override'] = 'notfound';
 $route['translate_uri_dashes'] = FALSE;
 
 //$route['ServiceLoginAuth'] = 'Sign/come';
-//$route['in/do'] = 'in/come';
-//$route['out'] = 'in/out';
-//$route['(:any)/(:any)/erase/:num'] = $this->setting->uri_string();

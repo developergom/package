@@ -61,7 +61,7 @@
                             <span class="icon-bar"></span>
                         </button>
                         <?php //anchor('gaportal/home', img(base_url('asset/img/gom.png')), 'class="logo"') ?>
-                        <a class="logo" href="<?php echo base_url('gaportal/home') ?>">
+                        <a class="logo" href="<?php echo base_url('gaportal/') ?>">
                             <?php echo img(base_url('asset/img/gom.png')) ?>
                         </a>
                     </div>

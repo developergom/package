@@ -4,15 +4,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 /* This Application Must Be Used With BootStrap 3 *  */
 $config['use_page_numbers'] = TRUE;
-$config['enable_query_strings'] = TRUE;
-$config['page_query_string'] = TRUE;
+//$config['enable_query_strings'] = TRUE;
+//$config['page_query_string'] = TRUE;
 //$config['reuse_query_string'] = TRUE;
+//$config['query_string_segment'] = 'page';
 
 //$config['base_url'] = base_url($this->setting->uri_string());
 //$config['per_page'] = $this->setting->perpage;
+$config['per_page'] = 5;
 //$config['uri_segment'] = $this->setting->segment;
 
-$config['query_string_segment'] = 'page';
 $config['full_tag_open'] = '<nav><ul class="pagination">';
 $config['full_tag_close'] = '</ul></nav>';
 $config['num_tag_open'] = '<li>';
