@@ -64,7 +64,6 @@ class GN_Controller extends CI_Controller {
         $this->_load_models();
         $this->_load_helpers();
         //$this->data['title'] = anchor($this->setting->page['mlnk'], '<i class="fa ' . $this->setting->page['mico'] . '"></i> ' . $this->setting->page['mnme']);
-        
     }
 
     /* --------------------------------------------------------------
@@ -157,16 +156,9 @@ class GN_Controller extends CI_Controller {
         foreach ($this->helpers as $helper)
             $this->load->helper($helper);
     }
-    
+
     public function index() {
-        //$this->data['breadcrumb'] = [anchor('/', '<i class="fa fa-home"></i> Home'), $this->setting->page['mnme']];
-    }
-    
-    public function form() {
-        //$this->data['breadcrumb'] = [anchor('/', '<i class="fa fa-home"></i> Home'), $this->setting->page['mnme'], 'Form'];
-        //$this->data['action'] = $this->setting->uri_string();
-        //$this->data['key'] = [];
-        //$this->view = 'layouts/' . $this->setting->template . '/form';
+        
     }
 
 }

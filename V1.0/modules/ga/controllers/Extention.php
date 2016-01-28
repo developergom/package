@@ -3,13 +3,13 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * Description of Sla_type
+ * Description of Extention
  *
  * @author nanank
  */
-class Sla_type extends GN_Controller {
+class Extention extends GN_Controller {
 
-    protected $models = ['sla_type'];
+    protected $models = ['extention'];
     protected $helpers = ['string'];
 
     public function __construct() {
@@ -19,31 +19,31 @@ class Sla_type extends GN_Controller {
 
     public function index() {
         $this->load->library(['pagination', 'table']);
-        $config['base_url'] = base_url('ga/sla_type/index/');
-        $config['total_rows'] = $this->sla_type->count_all();
+        $config['base_url'] = base_url('ga/extention/index/');
+        $config['total_rows'] = $this->extention->count_all();
         $this->pagination->initialize($config);
 
-        $this->sla_type->order_by('sla_type_id', 'ASC');
-        $this->sla_type->limit(5, !empty($this->uri->segment(4)) ? 5 * ($this->uri->segment(4) - 1) : 0);
-        foreach ($this->sla_type->get_all() as $index => $row) {
+        $this->extention->order_by('extention_id', 'ASC');
+        $this->extention->limit(5, !empty($this->uri->segment(4)) ? 5 * ($this->uri->segment(4) - 1) : 0);
+        foreach ($this->extention->get_all() as $index => $row) {
             if (isset($row->CI_rownum))
                 unset($row->CI_rownum);
             
-            $this->data['sla_type'][$index] = $row;
+            $this->data['extention'][$index] = $row;
         }
         
         $this->data['links'] = $this->pagination->create_links();
 
         debug($this->data);
         $this->load->view('header');
-        $this->load->view('sla_type', $this->data);
+        $this->load->view('extention', $this->data);
         $this->load->view('footer');
     }
 
     public function create() {
         //debug('here');
         $this->load->view('header');
-        $this->load->view('sla_type_create', $this->data);
+        $this->load->view('extention_create', $this->data);
         $this->load->view('footer');
     }
 
@@ -52,13 +52,13 @@ class Sla_type extends GN_Controller {
     }
 
     public function update() {
-        $sla_type_id = $this->uri->segment(4);
-        $this->data['sla_type'] = $this->sla_type->get($sla_type_id);
-        $this->data['sla_type_id'] = $this->data['sla_type']->sla_type_id;
+        $extention_id = $this->uri->segment(4);
+        $this->data['extention'] = $this->extention->get($extention_id);
+        $this->data['extention_id'] = $this->data['extention']->extention_id;
 
         //debug($this->data);
         $this->load->view('header');
-        $this->load->view('sla_type_update', $this->data);
+        $this->load->view('extention_update', $this->data);
         $this->load->view('footer');
     }
 

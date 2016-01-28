@@ -7,10 +7,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * @author nanank
  */
-class Item_type_model extends GN_Controller {
+class Item_type_model extends GN_Model {
     
     public $_db_group = 'GAFFAIR';
     public $primary_key = 'item_type_id';
+    public $protected_attributes = ['item_type_id'];
+    public $before_create = ['create_log'];
+    public $before_update = ['update_log'];
     
     public function __construct() {
         parent::__construct();

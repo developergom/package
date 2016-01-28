@@ -310,8 +310,7 @@ class GN_Model extends CI_Model {
      * Truncates the table
      */
     public function truncate() {
-        $result = $this->_database->truncate($this->_table);
-        return $result;
+        return $this->_database->truncate($this->_table);
     }
 
     /* --------------------------------------------------------------
@@ -637,7 +636,7 @@ class GN_Model extends CI_Model {
      * Guess the primary key for current table
      */
     private function _fetch_primary_key() {
-        if ($this->primary_key == NULl)
+        if ($this->primary_key == NULL)
             $this->primary_key = $this->_database->query("SHOW KEYS FROM `" . $this->_table . "` WHERE Key_name = 'PRIMARY'")->row()->Column_name;
     }
 

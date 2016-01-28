@@ -10,14 +10,15 @@
         <?php
         $css = [
             'bootstrap.min',
+            'select2.min',
             'bootstrap-validator.min',
             'font-awesome.min',
             'AdminLTE.min',
             'skins/_all-skins.min',
             //'morris',
-            'datepicker3',
-            'daterangepicker-bs3',
-            'bootstrap3-wysihtml5.min'
+            'iCheck/all',
+            //'bootstrap3-wysihtml5.min',
+            'initialize'
         ];
         foreach ($css as $v)
             echo link_tag('asset/css/' . $v . '.css');
