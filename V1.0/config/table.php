@@ -1,6 +1,6 @@
 <?php
 
-$config['table_open'] = '<table class="table table-striped table-hover">';
+$config['table_open'] = '<table class="table table-condensed table-hover">';
 $config['thead_open'] = '<thead>';
 $config['heading_row_start'] = '<tr>';
 $config['heading_row_end'] = '</tr>';

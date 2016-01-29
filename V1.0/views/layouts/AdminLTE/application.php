@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <base href="<?php echo base_url() ?>" />
-        <title><?php echo app_name() . ' | ' . strip_tags($title) ?></title>
+        <title><?php echo 'Package | ' . humanize($title) ?></title>
         <?php echo link_tag('asset/img/fav.gif', 'shortcut icon') ?>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -15,10 +15,11 @@
             'font-awesome.min',
             'AdminLTE.min',
             'skins/_all-skins.min',
-            //'morris',
-            'iCheck/all',
-            //'bootstrap3-wysihtml5.min',
-            'initialize'
+            'iCheck/all'
+                //'morris',
+                //'datepicker3',
+                //'daterangepicker-bs3',
+                //'bootstrap3-wysihtml5.min',
         ];
         foreach ($css as $v)
             echo link_tag('asset/css/' . $v . '.css');
@@ -30,6 +31,8 @@
             foreach ($style as $_style)
                 echo link_tag('asset/css/' . $_style . '.css');
         }
+
+        echo link_tag('asset/css/initialize.css');
         ?>
         <!--[if lt IE 9]>
             <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -40,8 +43,8 @@
         <div class="wrapper">
             <header class="main-header">
                 <a href="#" class="logo">
-                    <span class="logo-mini"><strong><?php echo substr(app_name(), 0, 3); ?></strong></span>
-                    <span class="logo-lg"><?php echo app_name() ?></span>
+                    <span class="logo-mini"><strong><?php echo substr('Package', 0, 3); ?></strong></span>
+                    <span class="logo-lg"><?php echo 'Package' ?></span>
                 </a>
                 <nav class="navbar navbar-static-top" role="navigation">
                     <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
@@ -73,14 +76,14 @@
                             </li>
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <img src="asset/img/avatar/<?php echo $this->session->userdata('uava'); ?>" class="user-image" alt="User Image"/>
-                                    <span class="hidden-xs"><?php echo $this->session->userdata('nick') ?></span>
+                                    <img src="asset/img/avatar/<?php //echo $this->session->userdata('uava');            ?>" class="user-image" alt="User Image"/>
+                                    <span class="hidden-xs"><?php //echo $this->session->userdata('nick')            ?></span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li class="user-header">
-                                        <img src="asset/img/avatar/<?php echo $this->session->userdata('uava'); ?>" class="img-circle" alt="User Image" />
+                                        <img src="asset/img/avatar/<?php //echo $this->session->userdata('uava');            ?>" class="img-circle" alt="User Image" />
                                         <p>
-                                            <?php echo '<strong>' . $this->session->userdata('username') . '</strong><br/>' . $this->session->userdata('name') ?>
+                                            <?php //echo '<strong>' . $this->session->userdata('username') . '</strong><br/>' . $this->session->userdata('name') ?>
                                         </p>
                                     </li>
                                     <li class="user-body">
@@ -89,10 +92,10 @@
                                     </li>
                                     <li class="user-footer">
                                         <div class="pull-left">
-                                            <?php echo anchor('profile/index/' . $this->session->userdata('user'), '<i class="fa fa-user"></i> Profile', 'class="btn btn-default btn-flat"') ?>
+                                            <?php //echo anchor('profile/index/' . $this->session->userdata('user'), '<i class="fa fa-user"></i> Profile', 'class="btn btn-default btn-flat"') ?>
                                         </div>
                                         <div class="pull-right">
-                                            <?php echo anchor('out/', '<i class="fa fa-sign-out"></i> Sign out', 'class="btn btn-default btn-flat"') ?>
+                                            <?php //echo anchor('out/', '<i class="fa fa-sign-out"></i> Sign out', 'class="btn btn-default btn-flat"') ?>
                                         </div>
                                     </li>
                                 </ul>
@@ -105,24 +108,24 @@
                 <section class="sidebar">
                     <div class="user-panel">
                         <div class="pull-left image">
-                            <img src="asset/img/avatar/<?php echo $this->session->userdata('uava'); ?>" class="img-circle" alt="User Image" />
+                            <img src="asset/img/avatar/<?php //echo $this->session->userdata('uava');            ?>" class="img-circle" alt="User Image" />
                         </div>
                         <div class="pull-left info">
-                            <p><?php echo $this->session->userdata('name') . ' <small>(' . $this->session->userdata('nick') . ')</small>' ?></p>
+                            <p><?php //echo $this->session->userdata('name') . ' <small>(' . $this->session->userdata('nick') . ')</small>'            ?></p>
                             <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                         </div>
                     </div>
                     <ul class="sidebar-menu">
                         <li class="header">THE NAVIGATION</li>
                         <li><?php echo anchor('/', '<i class="fa fa-home"></i> <span>Home</span>') ?></li>
-                        <?php echo $this->sso->menu ?>
+                        <?php //echo $this->sso->menu ?>
                     </ul>
                 </section>
             </aside>
             <div class="content-wrapper">
                 <section class="content-header">
                     <?php
-                    echo heading($title, 1);
+                    echo heading(anchor($base, humanize($title)), 1);
                     echo ol($breadcrumb, 'class="breadcrumb"');
                     ?>
                 </section>
@@ -158,20 +161,22 @@
         </div>
         <?php
         $js = [
-            'jQuery-2.1.4.min',
+            'jQuery-2.2.0.min',
             'jquery-ui.min',
             'bootstrap.min',
             'bootstrap-validator.min',
+            //'bootstrap-datepicker',
             //'raphael-2.1.0.min',
             //'morris.min',
             //'jquery.sparkline.min',
             //'jquery.knob',
             'icheck.min',
             'select2.min',
-            'bootstrap-datepicker',
             //'bootstrap3-wysihtml5.all.min',
-            //'jquery.slimscroll.min',
-            //'fastclick.min',
+            //'jquery.inputmask.extensions',
+            //'jquery.inputmask.date.extensions',
+            'jquery.slimscroll.min',
+            'fastclick.min',
             //'demo',
             'app.min'
         ];

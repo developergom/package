@@ -7,13 +7,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * @author nanank
  */
-class Sign extends GN_Controller {
-
-    protected $models = ['Sign'];
-    protected $helpers = [];
+class Sign extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
+        $this->load->model('Sign_model', 'Sign');
         $this->load->driver('Service_login_auth');
         $this->view = FALSE;
     }

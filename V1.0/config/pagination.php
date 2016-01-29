@@ -14,7 +14,7 @@ $config['use_page_numbers'] = TRUE;
 $config['per_page'] = 5;
 //$config['uri_segment'] = $this->setting->segment;
 
-$config['full_tag_open'] = '<nav><ul class="pagination">';
+$config['full_tag_open'] = '<nav><ul class="pagination pagination-sm">';
 $config['full_tag_close'] = '</ul></nav>';
 $config['num_tag_open'] = '<li>';
 $config['num_tag_close'] = '</li>';

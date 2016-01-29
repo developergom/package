@@ -10,11 +10,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Item_type extends GN_Controller {
 
     protected $models = ['item_type'];
-    protected $helpers = ['string'];
+    protected $helpers = [];
 
     public function __construct() {
         parent::__construct();
-        $this->view = FALSE;
+        $this->data['id'] = $this->item_type->primary_key;
+        $this->data['form'] = [
+            [
+                'name' => 'item_type_name',
+                'label' => 'Name',
+                'type' => 'input',
+                'rules' => 'required'
+            ],
+            [
+                'name' => 'item_type_desc',
+                'label' => 'Description',
+                'type' => 'textarea',
+                'rules' => 'required'
+            ],
+            [
+                'name' => 'item_type_status',
+                'label' => 'Is Acitve?',
+                'type' => 'checkbox',
+                'rules' => NULL
+            ]
+        ];
+        
+        $this->data['style'] = ['datepicker3'];
+        $this->data['script'] = ['jquery.inputmask.extensions', 'jquery.inputmask.date.extensions', 'bootstrap-datepicker'];
     }
 
     public function index() {
@@ -34,23 +57,13 @@ class Item_type extends GN_Controller {
             unset($row->update_by);
             unset($row->update_when);
 
-            $this->data['item_type'][$index] = $row;
+            $this->data['datagrid'][$index] = $row;
         }
 
+        $this->data['datagrid_header'] = ['Name', 'Description', 'Status'];
         $this->data['links'] = $this->pagination->create_links();
-
-        //debug($this->data);
-        $this->load->view('header');
-        $this->load->view('item_type', $this->data);
-        $this->load->view('footer');
     }
 
-    public function create() {
-        //debug('here');
-        $this->load->view('header');
-        $this->load->view('item_type_create', $this->data);
-        $this->load->view('footer');
-    }
 
     protected function insert() {
         $this->item_type->insert($this->input->post());
@@ -58,13 +71,9 @@ class Item_type extends GN_Controller {
     }
 
     public function update() {
+        $this->view = 'layouts/AdminLTE/form';
         $item_type_id = $this->uri->segment(4);
-        $this->data['item_type'] = $this->item_type->get($item_type_id);
-
-        //debug($this->data);
-        $this->load->view('header');
-        $this->load->view('item_type_update', $this->data);
-        $this->load->view('footer');
+        $this->data['record'] = $this->item_type->get($item_type_id);
     }
 
     protected function edit() {

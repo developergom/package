@@ -10,6 +10,11 @@ $(document).ready(function () {
         $('input[type="checkbox"]').iCheck({
             checkboxClass: 'icheckbox_flat-blue'
         });
+
+        $('[data-mask]').inputmask();
+        $('.datepicker').datepicker({
+            format: 'yyyy/mm/dd'
+        });
     }, 10);
 
     $('.form-horizontal').bootstrapValidator({
@@ -21,7 +26,7 @@ $(document).ready(function () {
     });
 
     $('#confirm-delete').on('show.bs.modal', function (e) {
-            $(this).find('.delete').attr('href', $(e.relatedTarget).data('href'));
+        $(this).find('.delete').attr('href', $(e.relatedTarget).data('href'));
     });
 //    $('#confirm-delete').on('show.bs.modal', function (e) {
 //        if ($(e.relatedTarget).data('href') === 'submit') {
@@ -68,11 +73,7 @@ $(document).ready(function () {
         });
     });
 
-    $('[data-mask]').inputmask();
 
-    $('.datepicker').datepicker({
-        format: 'yyyy/mm/dd'
-    });
 
     setInterval(function () {
         $('.alert').fadeOut();

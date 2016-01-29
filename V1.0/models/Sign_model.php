@@ -53,9 +53,4 @@ class Sign_model extends GN_Model {
         }
     }
 
-    protected function log($data) {
-        $data['update_when'] = date('Y-m-d H:i:s');
-        return $data;
-    }
-
 }

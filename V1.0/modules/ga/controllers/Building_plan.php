@@ -10,17 +10,45 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Building_plan extends GN_Controller {
 
     protected $models = ['building_plan'];
-    protected $helpers = ['string'];
+    protected $helpers = [];
+    
     private $_building_plan_unit;
     private $_building_plan_level;
 
     public function __construct() {
         parent::__construct();
-        $this->view = FALSE;
 
+        $this->data['id'] = $this->building_plan->primary_key;
         $this->_building_plan_unit = ['I' => 'Unit I', 'II' => 'Unit II', 'III' => 'Unit III'];
         for ($i = 1; $i < 10; $i++)
             $this->_building_plan_level[$i] = 'Level ' . $i;
+        
+        $this->data['form'] = [
+            [
+                'name' => 'building_plan_unit',
+                'label' => 'Unit',
+                'type' => 'dropdown',
+                'rules' => 'required'
+            ],
+            [
+                'name' => 'building_plan_level',
+                'label' => 'Level (floor)',
+                'type' => 'dropdown',
+                'rules' => 'required'
+            ],
+            [
+                'name' => 'building_plan_description',
+                'label' => 'Description',
+                'type' => 'textarea',
+                'rules' => 'required'
+            ],
+            [
+                'name' => 'building_plan_status',
+                'label' => 'Is Acitve?',
+                'type' => 'checkbox',
+                'rules' => NULL
+            ]
+        ];
     }
 
     public function index() {
@@ -40,24 +68,17 @@ class Building_plan extends GN_Controller {
             unset($row->update_by);
             unset($row->update_when);
 
-            $this->data['building_plan'][$index] = $row;
+            $this->data['datagrid'][$index] = $row;
         }
 
+        $this->data['datagrid_header'] = ['Description', 'Unit', 'Level', 'Status'];
         $this->data['links'] = $this->pagination->create_links();
-
-        //debug($this->data);
-        $this->load->view('header');
-        $this->load->view('building_plan', $this->data);
-        $this->load->view('footer');
     }
 
     public function create() {
+        $this->view = 'layouts/AdminLTE/form';
         $this->data['building_plan_unit'] = $this->_building_plan_unit;
         $this->data['building_plan_level'] = $this->_building_plan_level;
-
-        $this->load->view('header');
-        $this->load->view('building_plan_create', $this->data);
-        $this->load->view('footer');
     }
 
     protected function insert() {
@@ -66,15 +87,11 @@ class Building_plan extends GN_Controller {
     }
 
     public function update() {
+        $this->view = 'layouts/AdminLTE/form';
         $building_plan_id = $this->uri->segment(4);
-        $this->data['building_plan'] = $this->building_plan->get($building_plan_id);
+        $this->data['record'] = $this->building_plan->get($building_plan_id);
         $this->data['building_plan_unit'] = $this->_building_plan_unit;
         $this->data['building_plan_level'] = $this->_building_plan_level;
-
-        //debug($this->data);
-        $this->load->view('header');
-        $this->load->view('building_plan_update', $this->data);
-        $this->load->view('footer');
     }
 
     protected function edit() {
