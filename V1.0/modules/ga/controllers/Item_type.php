@@ -18,23 +18,24 @@ class Item_type extends GN_Controller {
                 'name' => 'item_type_name',
                 'label' => 'Name',
                 'type' => 'input',
+                'items' => NULL,
                 'rules' => 'required'
             ],
             [
                 'name' => 'item_type_desc',
                 'label' => 'Description',
                 'type' => 'textarea',
+                'items' => NULL,
                 'rules' => 'required'
             ],
             [
                 'name' => 'item_type_status',
                 'label' => 'Is Acitve?',
                 'type' => 'checkbox',
+                'items' => NULL,
                 'rules' => NULL
             ]
         ];
-        
-        $this->data['datagrid_header'] = ['Name', 'Description', 'Status'];
     }
 
 

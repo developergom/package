@@ -17,6 +17,7 @@ class GN_Controller extends CI_Controller {
     protected $model_string = '%_model';
     protected $helpers = [];
     protected $alias = [];
+    //protected $extention_view;
     private $_base;
     private $_primary_key;
 
@@ -58,7 +59,7 @@ class GN_Controller extends CI_Controller {
             $data['yield'] = $this->load->view($view, $this->data, TRUE);
             if (!empty($this->asides)) {
                 foreach ($this->asides as $name => $file)
-                    $data['yield_' . $name] = $this->load->view($file, $this->data, TRUE);
+                    $data['asides'] = $this->load->view($file, $this->data, TRUE);
             }
             $data = array_merge($this->data, $data);
             $layout = FALSE;
@@ -103,22 +104,6 @@ class GN_Controller extends CI_Controller {
         $this->{$this->router->fetch_class()}->order_by($this->_primary_key, 'ASC');
         $this->{$this->router->fetch_class()}->limit(5, !empty($this->uri->segment(4)) ? 5 * ($this->uri->segment(4) - 1) : 0);
 
-//        if (!empty($this->alias)) {
-//            debug($this->alias);
-//            foreach ($this->{$this->router->fetch_class()}->get_all() as $index => $row) {
-//                
-//                if (isset($row->CI_rownum))
-//                    unset($row->CI_rownum);
-//
-//                unset($row->create_by);
-//                unset($row->create_when);
-//                unset($row->update_by);
-//                unset($row->update_when);
-//
-//                //unset($row->{implode(',', array_keys($this->alias))});
-//                $this->data['datagrid'][$index] = $row;
-//            }
-//        }
         foreach ($this->{$this->router->fetch_class()}->get_all() as $index => $row) {
             if (isset($row->CI_rownum))
                 unset($row->CI_rownum);
@@ -132,6 +117,9 @@ class GN_Controller extends CI_Controller {
         }
 
         $this->data['links'] = $this->pagination->create_links();
+        foreach ($this->data['form'] as $head) {
+            $this->data['datagrid_header'][$head['name']] = $head['label'];
+        }
     }
 
     protected function create() {

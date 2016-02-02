@@ -76,12 +76,12 @@
                             </li>
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <img src="asset/img/avatar/<?php //echo $this->session->userdata('uava');            ?>" class="user-image" alt="User Image"/>
-                                    <span class="hidden-xs"><?php //echo $this->session->userdata('nick')            ?></span>
+                                    <img src="asset/img/avatar/<?php //echo $this->session->userdata('uava');                   ?>" class="user-image" alt="User Image"/>
+                                    <span class="hidden-xs"><?php //echo $this->session->userdata('nick')                   ?></span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li class="user-header">
-                                        <img src="asset/img/avatar/<?php //echo $this->session->userdata('uava');            ?>" class="img-circle" alt="User Image" />
+                                        <img src="asset/img/avatar/<?php //echo $this->session->userdata('uava');                   ?>" class="img-circle" alt="User Image" />
                                         <p>
                                             <?php //echo '<strong>' . $this->session->userdata('username') . '</strong><br/>' . $this->session->userdata('name') ?>
                                         </p>
@@ -108,10 +108,10 @@
                 <section class="sidebar">
                     <div class="user-panel">
                         <div class="pull-left image">
-                            <img src="asset/img/avatar/<?php //echo $this->session->userdata('uava');            ?>" class="img-circle" alt="User Image" />
+                            <img src="asset/img/avatar/<?php //echo $this->session->userdata('uava');                   ?>" class="img-circle" alt="User Image" />
                         </div>
                         <div class="pull-left info">
-                            <p><?php //echo $this->session->userdata('name') . ' <small>(' . $this->session->userdata('nick') . ')</small>'            ?></p>
+                            <p><?php //echo $this->session->userdata('name') . ' <small>(' . $this->session->userdata('nick') . ')</small>'                   ?></p>
                             <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                         </div>
                     </div>
@@ -130,17 +130,19 @@
                     ?>
                 </section>
                 <section class="content">
-                    <?php echo $yield ?>
+                    <?php
+                    echo $yield;
+                    echo isset($asides) ? $asides : nbs();
+                    ?>
                 </section>
             </div>
             <footer class="main-footer">
                 <div class="row">
                     <div class="col-sm-6">
-<!--                        <strong>Copyright &copy; <?php echo date('Y') ?></strong> All rights reserved.-->
-                        <em>Page rendered in <strong>{elapsed_time}</strong> seconds. </em>
+                        <?php echo ENVIRONMENT == 'development' ? '<em>Page rendered in <strong>{elapsed_time}</strong> seconds. </em>' : sprintf('Copyright &copy; %s</strong> All rights reserved.', date('Y')) ?>
                     </div>
                     <div class="col-sm-6">
-                        <em class="pull-right"><?php echo (ENVIRONMENT === 'development') ? 'CodeIgniter Version <strong>' . CI_VERSION . '</strong>' : '' ?></em>
+                        <em class="pull-right"><?php echo (ENVIRONMENT === 'development') ? 'CodeIgniter Version <strong>' . CI_VERSION . '</strong>' : nbs() ?></em>
                     </div>
                 </div>
             </footer>
