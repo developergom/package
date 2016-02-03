@@ -9,65 +9,103 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class Sla extends GN_Controller {
 
-    protected $models = ['sla'];
-    protected $helpers = ['string'];
+    protected $models = ['sla', 'sla_type', 'item'];
 
     public function __construct() {
         parent::__construct();
-        $this->view = FALSE;
-    }
-
-    public function index() {
-        $this->load->library(['pagination', 'table']);
-        $config['base_url'] = base_url('ga/sla/index/');
-        $config['total_rows'] = $this->sla->count_all();
-        $this->pagination->initialize($config);
-
-        $this->sla->order_by('sla_id', 'ASC');
-        $this->sla->limit(5, !empty($this->uri->segment(4)) ? 5 * ($this->uri->segment(4) - 1) : 0);
-        foreach ($this->sla->get_all() as $index => $row) {
-            if (isset($row->CI_rownum))
-                unset($row->CI_rownum);
-            
-            $this->data['sla'][$index] = $row;
-        }
-        
-        $this->data['links'] = $this->pagination->create_links();
-
-        debug($this->data);
-        $this->load->view('header');
-        $this->load->view('sla', $this->data);
-        $this->load->view('footer');
-    }
-
-    public function create() {
-        //debug('here');
-        $this->load->view('header');
-        $this->load->view('sla_create', $this->data);
-        $this->load->view('footer');
-    }
-
-    protected function insert() {
-        debug($this->input->post());
-    }
-
-    public function update() {
-        $sla_id = $this->uri->segment(4);
-        $this->data['sla'] = $this->sla->get($sla_id);
-        $this->data['sla_id'] = $this->data['sla']->sla_id;
-
-        //debug($this->data);
-        $this->load->view('header');
-        $this->load->view('sla_update', $this->data);
-        $this->load->view('footer');
-    }
-
-    protected function edit() {
-        debug($this->input->post());
-    }
-    
-    protected function delete() {
-        debug('here');
+        $this->data['form'] = [
+            [
+                'name' => 'sla_type_id',
+                'label' => 'Sla Type',
+                'type' => 'dropdown',
+                'items' => $this->sla_type->dropdown('sla_type_name'),
+                'rules' => 'required'
+            ],
+            [
+                'name' => 'item_id',
+                'label' => 'Item',
+                'type' => 'dropdown',
+                'items' => $this->item->dropdown('item_name'),
+                'rules' => 'required'
+            ],
+            [
+                'name' => 'sla_day',
+                'label' => 'Day',
+                'type' => 'input',
+                'items' => NULL,
+                'rules' => 'required'
+            ],
+            [
+                'name' => 'sla_spmb',
+                'label' => 'SPMB',
+                'type' => 'input',
+                'items' => NULL,
+                'rules' => 'required'
+            ],
+            [
+                'name' => 'sla_offering',
+                'label' => 'Offering',
+                'type' => 'input',
+                'items' => NULL,
+                'rules' => 'required'
+            ],
+            [
+                'name' => 'sla_approve_1',
+                'label' => 'First Approval',
+                'type' => 'input',
+                'items' => NULL,
+                'rules' => 'required'
+            ],
+            [
+                'name' => 'sla_approve_2',
+                'label' => 'Second Approval',
+                'type' => 'input',
+                'items' => NULL,
+                'rules' => 'required'
+            ],
+            [
+                'name' => 'sla_bs',
+                'label' => 'BS',
+                'type' => 'input',
+                'items' => NULL,
+                'rules' => 'required'
+            ],
+            [
+                'name' => 'sla_po',
+                'label' => 'PO',
+                'type' => 'input',
+                'items' => NULL,
+                'rules' => 'required'
+            ],
+            [
+                'name' => 'sla_production',
+                'label' => 'Production',
+                'type' => 'input',
+                'items' => NULL,
+                'rules' => 'required'
+            ],
+            [
+                'name' => 'sla_received',
+                'label' => 'REceived',
+                'type' => 'input',
+                'items' => NULL,
+                'rules' => 'required'
+            ],
+            [
+                'name' => 'sla_total_day',
+                'label' => 'Total Day',
+                'type' => 'input',
+                'items' => NULL,
+                'rules' => 'required'
+            ],
+            [
+                'name' => 'sla_status',
+                'label' => 'Is Active?',
+                'type' => 'checkbox',
+                'items' => NULL,
+                'rules' => NULL
+            ]
+        ];
     }
 
 }

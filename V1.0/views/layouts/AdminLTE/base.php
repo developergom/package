@@ -20,10 +20,8 @@
                         <thead>
                             <tr>
                                 <?php
-                                if (!empty($datagrid_header)) {
-                                    foreach ($datagrid_header as $head)
-                                        echo sprintf('<th aria-name="">%s</th>', $head);
-                                }
+                                foreach ($datagrid_header as $head)
+                                    echo sprintf('<th aria-name="">%s</th>', $head);
                                 ?>
                             </tr>
                         </thead>

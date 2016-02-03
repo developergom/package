@@ -57,7 +57,7 @@ class Vehicle_rate extends GN_Controller {
                 'rules' => 'required|numeric'
             ],
             [
-                'name' => 'vehicle_type_status',
+                'name' => 'vehicle_rate_status',
                 'label' => 'Is Active?',
                 'type' => 'checkbox',
                 'items' => NULL,

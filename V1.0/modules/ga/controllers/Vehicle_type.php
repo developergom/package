@@ -18,29 +18,32 @@ class Vehicle_type extends GN_Controller {
                 'name' => 'vehicle_type_brand',
                 'label' => 'Brand',
                 'type' => 'input',
+                'items' => NULL,
                 'rules' => 'required'
             ],
             [
                 'name' => 'vehicle_type_name',
                 'label' => 'Name',
                 'type' => 'input',
+                'items' => NULL,
                 'rules' => 'required'
             ],
             [
                 'name' => 'vehicle_type_year',
                 'label' => 'Year',
                 'type' => 'input',
+                'items' => NULL,
                 'rules' => 'required|numeric'
             ],
             [
                 'name' => 'vehicle_type_status',
                 'label' => 'Is Active?',
                 'type' => 'checkbox',
+                'items' => NULL,
                 'rules' => NULL
             ]
         ];
 
-        $this->data['datagrid_header'] = ['Brand', 'Name', 'Year', 'Status'];
     }
 
 }

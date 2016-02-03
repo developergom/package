@@ -17,9 +17,8 @@ class Building_plan extends GN_Controller {
         parent::__construct();
 
         $this->_building_plan_unit = ['I' => 'Unit I', 'II' => 'Unit II', 'III' => 'Unit III'];
-        for ($i = 1; $i < 10; $i++) :
+        for ($i = 1; $i < 10; $i++)
             $this->_building_plan_level[$i] = 'Level ' . $i;
-        endfor;
 
         $this->data['form'] = [
             [
@@ -51,7 +50,6 @@ class Building_plan extends GN_Controller {
                 'rules' => NULL
             ]
         ];
-        
     }
 
 }

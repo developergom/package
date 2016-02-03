@@ -17,7 +17,6 @@ class GN_Controller extends CI_Controller {
     protected $model_string = '%_model';
     protected $helpers = [];
     protected $alias = [];
-    //protected $extention_view;
     private $_base;
     private $_primary_key;
 
@@ -31,12 +30,12 @@ class GN_Controller extends CI_Controller {
         $this->_primary_key = $this->{$this->router->fetch_class()}->primary_key;
 
         $this->data['id'] = $this->_primary_key;
-        $this->data['title'] = $this->router->fetch_class();
+        $this->data['title'] = strlen($this->router->fetch_class()) > 3 ? humanize($this->router->fetch_class()) : strtoupper($this->router->fetch_class());
         $this->data['base'] = $this->_base;
         $this->data['breadcrumb'] = [
             '<i class="fa fa-home"></i> Home',
             strlen($this->router->fetch_module()) > 3 ? humanize($this->router->fetch_module()) : strtoupper($this->router->fetch_module()),
-            humanize($this->router->fetch_class())
+            strlen($this->router->fetch_class()) > 3 ? humanize($this->router->fetch_class()) : strtoupper($this->router->fetch_class())
         ];
     }
 
@@ -104,22 +103,43 @@ class GN_Controller extends CI_Controller {
         $this->{$this->router->fetch_class()}->order_by($this->_primary_key, 'ASC');
         $this->{$this->router->fetch_class()}->limit(5, !empty($this->uri->segment(4)) ? 5 * ($this->uri->segment(4) - 1) : 0);
 
+        $items = $this->_get_items();
         foreach ($this->{$this->router->fetch_class()}->get_all() as $index => $row) {
-            if (isset($row->CI_rownum))
-                unset($row->CI_rownum);
+            $row = object_to_array($row);
+            foreach ($row as $k => $v) {
+                if (array_key_exists($k, $items)) {
+                    $row[$k] = $items[$k][$v];
+                }
+            }
 
-            unset($row->create_by);
-            unset($row->create_when);
-            unset($row->update_by);
-            unset($row->update_when);
-
-            $this->data['datagrid'][$index] = $row;
+            $row = array_intersect_key($row, $this->_selected_field());
+            $this->data['datagrid'][$index] = array_to_object($row);
         }
 
         $this->data['links'] = $this->pagination->create_links();
-        foreach ($this->data['form'] as $head) {
+        foreach ($this->data['form'] as $head)
             $this->data['datagrid_header'][$head['name']] = $head['label'];
+    }
+
+    private function _selected_field() {
+        $array[$this->_primary_key] = 'Primary Key';
+        if (empty($this->data['form']))
+            return $array;
+
+        foreach ($this->data['form'] as $field) {
+            $array[$field['name']] = $field['label'];
         }
+
+        return $array;
+    }
+
+    private function _get_items() {
+        foreach ($this->data['form'] as $field) {
+            if (!empty($field['items']))
+                $array[$field['name']] = $field['items'];
+        }
+
+        return $array;
     }
 
     protected function create() {

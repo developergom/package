@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <base href="<?php echo base_url() ?>" />
-        <title><?php echo 'Package | ' . humanize($title) ?></title>
+        <title><?php echo 'Package | ' . $title ?></title>
         <?php echo link_tag('asset/img/fav.gif', 'shortcut icon') ?>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -125,7 +125,7 @@
             <div class="content-wrapper">
                 <section class="content-header">
                     <?php
-                    echo heading(anchor($base, humanize($title)), 1);
+                    echo heading(anchor($base, $title), 1);
                     echo ol($breadcrumb, 'class="breadcrumb"');
                     ?>
                 </section>
