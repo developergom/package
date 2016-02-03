@@ -38,5 +38,4 @@ class Item_type extends GN_Controller {
         ];
     }
 
-
 }

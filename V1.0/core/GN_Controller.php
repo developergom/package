@@ -107,7 +107,7 @@ class GN_Controller extends CI_Controller {
         foreach ($this->{$this->router->fetch_class()}->get_all() as $index => $row) {
             $row = object_to_array($row);
             foreach ($row as $k => $v) {
-                if (array_key_exists($k, $items)) {
+                if (!empty($items) && array_key_exists($k, $items)) {
                     $row[$k] = $items[$k][$v];
                 }
             }
@@ -134,6 +134,7 @@ class GN_Controller extends CI_Controller {
     }
 
     private function _get_items() {
+        $array = [];
         foreach ($this->data['form'] as $field) {
             if (!empty($field['items']))
                 $array[$field['name']] = $field['items'];
