@@ -57,7 +57,6 @@ class Apps extends GN_Controller {
         
         $this->data['style'] = [];
         $this->data['script'] = ['list-icon-modal'];
-        $this->data['datagrid_header'] = ['Apps Name', 'Description', 'Order', 'Icon', 'URL', 'Status'];
     }
 
 }

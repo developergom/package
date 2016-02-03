@@ -7,9 +7,10 @@
                     <?php echo form_open('#', ['method' => 'GET']) ?>
                     <div class="input-group input-group-sm">
                         <?php echo form_input('search', '', 'class="form-control pull-right" placeholder="Search..."') ?>
-                        <span class="input-group-btn">
+                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                        <!-- <span class="input-group-btn">
                             <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                        </span>
+                        </span> -->
                     </div>
                     <?php echo form_close() ?>
                 </div>
