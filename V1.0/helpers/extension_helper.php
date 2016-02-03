@@ -100,6 +100,17 @@ if (!function_exists('form_date')) {
     }
 
 }
+// ------------------------------------------------------------------------
+if (!function_exists('form_icon')) {
+
+    function form_icon($data = '', $value = '', $extra = '') {
+        is_array($data) OR $data = array('name' => $data);
+        $data['type'] = 'input';
+        $extra .= 'data-icon="list-icon-modal"';
+        return form_input($data, $value, $extra);
+    }
+
+}
 
 if (!function_exists('clearfix')) {
 

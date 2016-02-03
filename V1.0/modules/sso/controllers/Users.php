@@ -8,22 +8,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author nanank
  */
 class Users extends GN_Controller {
-
-    public $models = ['User'];
-    public $helpers = [];
+    protected $models = ['users'];
 
     public function __construct() {
         parent::__construct();
+        $this->data['id'] = $this->item_type->primary_key;
+        $this->data['form'] = [
+            [
+                'name' => 'item_type_name',
+                'label' => 'Name',
+                'type' => 'input',
+                'rules' => 'required'
+            ],
+            [
+                'name' => 'item_type_desc',
+                'label' => 'Description',
+                'type' => 'textarea',
+                'rules' => 'required'
+            ],
+            [
+                'name' => 'item_type_status',
+                'label' => 'Is Acitve?',
+                'type' => 'checkbox',
+                'rules' => NULL
+            ]
+        ];
     }
 
-    public function index() {
-        $this->data['datagrid'] = $this->Usr->get_all();
-        //$this->data['dropdown_related'] = $this->Rl->dropdown('rnme');
-    }
-
-    public function form() {
-        
-    }
-
-
+   
 }
