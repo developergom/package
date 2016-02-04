@@ -14,14 +14,15 @@ class Menu extends GN_Controller {
 
     public function __construct() {
         parent::__construct();
+        $this->data['recursive'] = ['menu_id','menu_parent','menu_name'];
         $this->data['form'] = [
-            [
+            /*[
                 'name' => 'app_id',
                 'label' => 'Apps',
                 'type' => 'dropdown',
                 'items' => $this->apps->dropdown('app_name'),
                 'rules' => 'required'
-            ],
+            ],*/
             [
                 'name' => 'module_id',
                 'label' => 'Module',
