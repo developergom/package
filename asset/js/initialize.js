@@ -1,8 +1,9 @@
 $.widget.bridge('uibutton', $.ui.button);
 "use strict";
 $(document).ready(function () {
-    var base_url = window.location.protocol + '//' + window.location.host + '/package/';
+    //var base_url = window.location.protocol + '//' + window.location.host + '/package/';
     //var base_url = window.location.protocol + '//' + window.location.host + '/';
+
 
     setTimeout(function () {
         $('select').select2();
@@ -73,7 +74,12 @@ $(document).ready(function () {
         });
     });
 
+    $('#editor').Editor();
+    $("button:submit").click(function () {
+        $('#editor').text($('#editor').Editor("getText"));
+    });
 
+    $(":file").filestyle({input: false});
 
     setInterval(function () {
         $('.alert').fadeOut();

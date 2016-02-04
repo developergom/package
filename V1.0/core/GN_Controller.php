@@ -96,41 +96,42 @@ class GN_Controller extends CI_Controller {
 
     protected function index() {
         $this->load->library(['pagination', 'table']);
+        $page = !empty($this->uri->segment(4)) ? 5 * ($this->uri->segment(4) - 1) : 0;
         $config['base_url'] = base_url($this->_base . '/index/');
         $config['total_rows'] = $this->{$this->router->fetch_class()}->count_all();
-        $this->pagination->initialize($config);
+        $this->_set_datagrid_header(isset($this->data['recursive']) ? $this->data['recursive'][1] : NULL);
+        $unshift = [$this->_primary_key => 'Primary Key'] + $this->data['datagrid_header'];
 
-        $this->{$this->router->fetch_class()}->order_by($this->_primary_key, 'ASC');
-        $this->{$this->router->fetch_class()}->limit(5, !empty($this->uri->segment(4)) ? 5 * ($this->uri->segment(4) - 1) : 0);
-
-        $items = $this->_get_items();
-        foreach ($this->{$this->router->fetch_class()}->get_all() as $index => $row) {
-            $row = object_to_array($row);
-            foreach ($row as $k => $v) {
-                if (!empty($items) && array_key_exists($k, $items)) {
-                    $row[$k] = $items[$k][$v];
-                }
+        if (!empty($this->data['recursive'])) {
+            $this->load->helper('recursive');
+            $recursive = data_recursive($this->{$this->router->fetch_class()}->as_array()->get_all(), $this->data['recursive'][0], $this->data['recursive'][1]);
+            $data = datagrid_recursive($recursive, $this->data['recursive'][2]);
+            foreach ($data as $index => $row) {
+                $this->data['datagrid'][$index] = array_intersect_key($row, $unshift);
             }
 
-            $row = array_intersect_key($row, $this->_selected_field());
-            $this->data['datagrid'][$index] = array_to_object($row);
+            //debug($data, FALSE);
+            $this->data['datagrid'] = array_slice($this->data['datagrid'], $page, 5);
+            $this->data['datagrid'] = array_to_object($this->data['datagrid']);
+            //debug($this->data['datagrid']);
+        } else {
+            $this->{$this->router->fetch_class()}->order_by($this->_primary_key, 'ASC');
+            $this->{$this->router->fetch_class()}->limit(5, $page);
+            $items = $this->_get_items();
+            foreach ($this->{$this->router->fetch_class()}->get_all() as $index => $row) {
+                $row = object_to_array($row);
+                foreach ($row as $k => $v) {
+                    if (!empty($items) && array_key_exists($k, $items))
+                        $row[$k] = empty($v) ? $v : $items[$k][$v];
+                }
+
+                $row = array_intersect_key($row, $unshift);
+                $this->data['datagrid'][$index] = array_to_object($row);
+            }
         }
 
+        $this->pagination->initialize($config);
         $this->data['links'] = $this->pagination->create_links();
-        foreach ($this->data['form'] as $head)
-            $this->data['datagrid_header'][$head['name']] = $head['label'];
-    }
-
-    private function _selected_field() {
-        $array[$this->_primary_key] = 'Primary Key';
-        if (empty($this->data['form']))
-            return $array;
-
-        foreach ($this->data['form'] as $field) {
-            $array[$field['name']] = $field['label'];
-        }
-
-        return $array;
     }
 
     private function _get_items() {
@@ -141,6 +142,16 @@ class GN_Controller extends CI_Controller {
         }
 
         return $array;
+    }
+
+    private function _set_datagrid_header() {
+        $parent = func_get_args();
+        foreach ($this->data['form'] as $head) {
+            if ($head['name'] == reset($parent))
+                continue;
+
+            $this->data['datagrid_header'][$head['name']] = $head['label'];
+        }
     }
 
     protected function create() {

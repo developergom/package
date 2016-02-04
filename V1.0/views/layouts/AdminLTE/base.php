@@ -7,8 +7,8 @@
                     <?php echo form_open('#', ['method' => 'GET']) ?>
                     <div class="input-group input-group-sm">
                         <?php echo form_input('search', '', 'class="form-control pull-right" placeholder="Search..."') ?>
-                        <span class="input-group-btn">
-                            <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                        <span class="input-group-addon">
+                            <i class="fa fa-search"></i>
                         </span>
                     </div>
                     <?php echo form_close() ?>
@@ -20,8 +20,8 @@
                         <thead>
                             <tr>
                                 <?php
-                                foreach ($datagrid_header as $head)
-                                    echo sprintf('<th aria-name="">%s</th>', $head);
+                                foreach ($datagrid_header as $k => $head)
+                                    echo sprintf('<th aria-name="%s">%s</th>', $k, $head);
                                 ?>
                             </tr>
                         </thead>

@@ -10,6 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Post_to_category_model extends GN_Model {
 
     public $_db_group = 'GAPORTAL';
+    public $_table = 'post_to_category';
 
     public function __construct() {
         parent::__construct();

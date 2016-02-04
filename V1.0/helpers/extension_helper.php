@@ -100,6 +100,17 @@ if (!function_exists('form_date')) {
     }
 
 }
+// ------------------------------------------------------------------------
+if (!function_exists('form_wysiwyg')) {
+
+    function form_wysiwyg($data = '', $value = '', $extra = '') {
+        $extra .= 'id="editor"';
+        return form_textarea($data, $value, $extra);
+    }
+
+}
+
+
 
 if (!function_exists('clearfix')) {
 
@@ -115,17 +126,12 @@ if (!function_exists('array_to_object')) {
         if (!is_array($array))
             return $array;
 
-        $object = new stdClass();
-        if (is_array($array) && count($array) > 0) {
-            foreach ($array as $name => $value) {
-                $name = strtolower(trim($name));
-                if (!empty($name))
-                    $object->$name = (!$recursive) ? $value : array_to_object($value);
-            }
-            return $object;
-        } else {
-            return FALSE;
+        $obj = new stdClass;
+        foreach ($array as $k => $v) {
+            if (strlen($k))
+                $obj->{$k} = is_array($v) ? array_to_object($v) : $v;
         }
+        return $obj;
     }
 
 }
@@ -136,11 +142,7 @@ if (!function_exists('object_to_array')) {
         if (is_object($d))
             $d = get_object_vars($d);
 
-        if (is_array($d)) {
-            return array_map(__FUNCTION__, $d);
-        } else {
-            return $d;
-        }
+        return is_array($d) ? array_map(__FUNCTION__, $d) : $d;
     }
 
 }
