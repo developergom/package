@@ -54,6 +54,10 @@ class Post extends GN_Controller {
 //            ],
         ];
     }
+    
+    protected function index() {
+        
+    }
 
     protected function upload() {
         if ($_FILES['file']['error'] != 4) {
