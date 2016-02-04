@@ -10,7 +10,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Module_model extends GN_Model {
     
     public $_db_group = 'SSO';
-    public $_table = 'modules';
     public $primary_key = 'module_id';
     public $protected_attributes = ['module_id'];
     public $before_create = ['create_log'];

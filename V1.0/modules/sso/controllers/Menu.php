@@ -9,19 +9,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class Menu extends GN_Controller {
 
-    protected $models = ['menu', 'module','apps'];
+    protected $models = ['menu', 'module'];
     protected $asides = ['modal-list-icon'];
 
     public function __construct() {
         parent::__construct();
+        $this->data['recursive'] = ['menu_id','menu_parent','menu_name'];
         $this->data['form'] = [
-            [
+            /*[
                 'name' => 'app_id',
                 'label' => 'Apps',
                 'type' => 'dropdown',
                 'items' => $this->apps->dropdown('app_name'),
                 'rules' => 'required'
-            ],
+            ],*/
             [
                 'name' => 'module_id',
                 'label' => 'Module',
@@ -68,7 +69,7 @@ class Menu extends GN_Controller {
                 'label' => 'Parent',
                 'type' => 'dropdown',
                 'items' => $this->menu->dropdown('menu_name'),
-                'rules' => 'required'
+                'rules' => NULL
             ],
             [
                 'name' => 'menu_status',

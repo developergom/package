@@ -141,7 +141,7 @@
 
             $('#uploadImageBarTab').click(function () {
                 $('#imageList').html('');
-                $.get(base_url + 'gaportal/post/browse', function (images) {
+                $.get(base_url + 'gaportal/media/browse', function (images) {
                     $('#imageList').html(images);
                 });
             });
@@ -152,7 +152,7 @@
 
             browseImage = function (page) {
                 $('#imageList').html('');
-                $.get(base_url + 'gaportal/post/browse/' + page, function (images) {
+                $.get(base_url + 'gaportal/media/browse/?page=' + page, function (images) {
                     $('#imageList').html(images);
                 });
             }
@@ -193,7 +193,7 @@
             }
 
 
-            var chooseFromLocal = '<form method="post" action="' + base_url + 'gaportal/post/upload" enctype="multipart/form-data" id="imageUploadForm" name="photo"><input type="file" style="display:none" size="30" name="file" id="imageBrowse"></form>' +
+            var chooseFromLocal = '<form method="post" action="' + base_url + 'gaportal/media/upload" enctype="multipart/form-data" id="imageUploadForm" name="photo"><input type="file" style="display:none" size="30" name="file" id="imageBrowse"></form>' +
                     '<div class="progress"><div style="width: 0%;" aria-valuemax="100" aria-valuemin="0" aria-valuenow="60" role="progressbar" id="imageProgressBar" class="progress-bar"></div></div>';
 
             uploadImageBar.append(chooseFromLocal);

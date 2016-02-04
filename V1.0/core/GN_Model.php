@@ -8,43 +8,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author nanank
  */
 class GN_Model extends CI_Model {
-    /* --------------------------------------------------------------
-     * VARIABLES
-     * ------------------------------------------------------------ */
 
     protected $_db_group;
-
-    /**
-     * This model's default database table. Automatically
-     * guessed by pluralising the model name.
-     */
     protected $_table;
-
-    /**
-     * The database connection object. Will be set to the default
-     * connection. This allows individual models to use different DBs
-     * without overwriting CI's global $this->db connection.
-     */
     public $_database;
-
-    /**
-     * This model's default primary key or unique identifier.
-     * Used by the get(), update() and delete() functions.
-     */
     protected $primary_key = 'id';
-
-    /**
-     * Support for soft deletes and this model's 'deleted' key
-     */
     protected $soft_delete = FALSE;
     protected $soft_delete_key = 'deleted';
     protected $_temporary_with_deleted = FALSE;
     protected $_temporary_only_deleted = FALSE;
-
-    /**
-     * The various callbacks available to the model. Each are
-     * simple lists of method names (methods will be run on $this).
-     */
     protected $before_create = [];
     protected $after_create = [];
     protected $before_update = [];
@@ -54,47 +26,15 @@ class GN_Model extends CI_Model {
     protected $before_delete = [];
     protected $after_delete = [];
     protected $callback_parameters = [];
-
-    /**
-     * Protected, non-modifiable attributes
-     */
     protected $protected_attributes = [];
-
-    /**
-     * Relationship arrays. Use flat strings for defaults or string
-     * => array to customise the class name and primary key
-     */
     protected $belongs_to = [];
     protected $has_many = [];
     protected $_with = [];
-
-    /**
-     * An array of validation rules. This needs to be the same format
-     * as validation rules passed to the Form_validation library.
-     */
     protected $validate = [];
-
-    /**
-     * Optionally skip the validation. Used in conjunction with
-     * skip_validation() to skip data validation for any future calls.
-     */
     protected $skip_validation = FALSE;
-
-    /**
-     * By default we return our results as objects. If we need to override
-     * this, we can, or, we could use the `as_array()` and `as_object()` scopes.
-     */
     protected $return_type = 'object';
     protected $_temporary_return_type = NULL;
 
-    /* --------------------------------------------------------------
-     * GENERIC METHODS
-     * ------------------------------------------------------------ */
-
-    /**
-     * Initialise the model, tie into the CodeIgniter superobject and
-     * try our best to guess the table name.
-     */
     public function __construct() {
         parent::__construct();
         $this->load->helper('inflector');
@@ -105,21 +45,10 @@ class GN_Model extends CI_Model {
         $this->_temporary_return_type = $this->return_type;
     }
 
-    /* --------------------------------------------------------------
-     * CRUD INTERFACE
-     * ------------------------------------------------------------ */
-
-    /**
-     * Fetch a single record based on the primary key. Returns an object.
-     */
     public function get($primary_value) {
         return $this->get_by($this->primary_key, $primary_value);
     }
 
-    /**
-     * Fetch a single record based on an arbitrary WHERE call. Can be
-     * any valid value to $this->_database->where().
-     */
     public function get_by() {
         $where = func_get_args();
         if ($this->soft_delete && $this->_temporary_with_deleted !== TRUE)
@@ -134,27 +63,17 @@ class GN_Model extends CI_Model {
         return $row;
     }
 
-    /**
-     * Fetch an array of records based on an array of primary values.
-     */
     public function get_many($values) {
         $this->_database->where_in($this->primary_key, $values);
         return $this->get_all();
     }
 
-    /**
-     * Fetch an array of records based on an arbitrary WHERE call.
-     */
     public function get_many_by() {
         $where = func_get_args();
         $this->_set_where($where);
         return $this->get_all();
     }
 
-    /**
-     * Fetch all the records in the table. Can be used as a generic call
-     * to $this->_database->get() with scoped methods.
-     */
     public function get_all() {
         $this->trigger('before_get');
         if ($this->soft_delete && $this->_temporary_with_deleted !== TRUE)
@@ -169,10 +88,6 @@ class GN_Model extends CI_Model {
         return $result;
     }
 
-    /**
-     * Insert a new row into the table. $data should be an associative array
-     * of data to be inserted. Returns newly created ID.
-     */
     public function insert($data, $skip_validation = FALSE) {
         if ($skip_validation === FALSE)
             $data = $this->validate($data);
@@ -188,9 +103,6 @@ class GN_Model extends CI_Model {
         }
     }
 
-    /**
-     * Insert multiple rows into the table. Returns an array of multiple IDs.
-     */
     public function insert_many($data, $skip_validation = FALSE) {
         $ids = [];
         foreach ($data as $key => $row)
@@ -199,9 +111,6 @@ class GN_Model extends CI_Model {
         return $ids;
     }
 
-    /**
-     * Updated a record based on the primary value.
-     */
     public function update($primary_value, $data, $skip_validation = FALSE) {
         $data = $this->trigger('before_update', $data);
         if ($skip_validation === FALSE)
@@ -216,9 +125,6 @@ class GN_Model extends CI_Model {
         }
     }
 
-    /**
-     * Update many records, based on an array of primary values.
-     */
     public function update_many($primary_values, $data, $skip_validation = FALSE) {
         $data = $this->trigger('before_update', $data);
         if ($skip_validation === FALSE)
@@ -233,9 +139,6 @@ class GN_Model extends CI_Model {
         }
     }
 
-    /**
-     * Updated a record based on an arbitrary WHERE clause.
-     */
     public function update_by() {
         $args = func_get_args();
         $data = array_pop($args);
@@ -250,9 +153,6 @@ class GN_Model extends CI_Model {
         }
     }
 
-    /**
-     * Update all records
-     */
     public function update_all($data) {
         $data = $this->trigger('before_update', $data);
         $result = $this->_database->set($data)->update($this->_table);
@@ -260,9 +160,6 @@ class GN_Model extends CI_Model {
         return $result;
     }
 
-    /**
-     * Delete a row from the table by the primary value
-     */
     public function delete($id) {
         $this->trigger('before_delete', $id);
         $this->_database->where($this->primary_key, $id);
@@ -275,9 +172,6 @@ class GN_Model extends CI_Model {
         return $result;
     }
 
-    /**
-     * Delete a row from the database table by an arbitrary WHERE clause
-     */
     public function delete_by() {
         $where = func_get_args();
         $where = $this->trigger('before_delete', $where);
@@ -291,9 +185,6 @@ class GN_Model extends CI_Model {
         return $result;
     }
 
-    /**
-     * Delete many rows from the database table by multiple primary values
-     */
     public function delete_many($primary_values) {
         $primary_values = $this->trigger('before_delete', $primary_values);
         $this->_database->where_in($this->primary_key, $primary_values);
@@ -306,16 +197,9 @@ class GN_Model extends CI_Model {
         return $result;
     }
 
-    /**
-     * Truncates the table
-     */
     public function truncate() {
         return $this->_database->truncate($this->_table);
     }
-
-    /* --------------------------------------------------------------
-     * RELATIONSHIPS
-     * ------------------------------------------------------------ */
 
     public function with($relationship) {
         $this->_with[] = $relationship;
@@ -367,14 +251,7 @@ class GN_Model extends CI_Model {
         return $row;
     }
 
-    /* --------------------------------------------------------------
-     * UTILITY METHODS
-     * ------------------------------------------------------------ */
-
-    /**
-     * Retrieve and generate a form_dropdown friendly array
-     */
-    function dropdown() {
+    public function dropdown() {
         $args = func_get_args();
         if (count($args) == 2) {
             list($key, $value) = $args;
@@ -394,9 +271,6 @@ class GN_Model extends CI_Model {
         return $this->trigger('after_dropdown', $options);
     }
 
-    /**
-     * Fetch a count of rows based on an arbitrary WHERE call.
-     */
     public function count_by() {
         if ($this->soft_delete && $this->_temporary_with_deleted !== TRUE)
             $this->_database->where($this->soft_delete_key, (bool) $this->_temporary_only_deleted);
@@ -406,9 +280,6 @@ class GN_Model extends CI_Model {
         return $this->_database->count_all_results($this->_table);
     }
 
-    /**
-     * Fetch a total count of rows, disregarding any previous conditions
-     */
     public function count_all() {
         if ($this->soft_delete && $this->_temporary_with_deleted !== TRUE)
             $this->_database->where($this->soft_delete_key, (bool) $this->_temporary_only_deleted);
@@ -416,24 +287,15 @@ class GN_Model extends CI_Model {
         return $this->_database->count_all($this->_table);
     }
 
-    /**
-     * Tell the class to skip the insert validation
-     */
     public function skip_validation() {
         $this->skip_validation = TRUE;
         return $this;
     }
 
-    /**
-     * Get the skip validation status
-     */
     public function get_skip_validation() {
         return $this->skip_validation;
     }
 
-    /**
-     * Return the next auto increment of the table. Only tested on MySQL.
-     */
     public function get_next_id() {
         return (int) $this->_database->select('AUTO_INCREMENT')
                         ->from('information_schema.TABLES')
@@ -441,56 +303,30 @@ class GN_Model extends CI_Model {
                         ->where('TABLE_SCHEMA', $this->_database->database)->get()->row()->AUTO_INCREMENT;
     }
 
-    /**
-     * Getter for the table name
-     */
     public function table() {
         return $this->_table;
     }
 
-    /* --------------------------------------------------------------
-     * GLOBAL SCOPES
-     * ------------------------------------------------------------ */
-
-    /**
-     * Return the next call as an array rather than an object
-     */
     public function as_array() {
         $this->_temporary_return_type = 'array';
         return $this;
     }
 
-    /**
-     * Return the next call as an object rather than an array
-     */
     public function as_object() {
         $this->_temporary_return_type = 'object';
         return $this;
     }
 
-    /**
-     * Don't care about soft deleted rows on the next call
-     */
     public function with_deleted() {
         $this->_temporary_with_deleted = TRUE;
         return $this;
     }
 
-    /**
-     * Only get deleted rows on the next call
-     */
     public function only_deleted() {
         $this->_temporary_only_deleted = TRUE;
         return $this;
     }
 
-    /* --------------------------------------------------------------
-     * OBSERVERS
-     * ------------------------------------------------------------ */
-
-    /**
-     * SQL Log Record create_log and update_log
-     */
     public function create_log($row) {
         if (is_object($row)) {
             $row->create_by = 'session';
@@ -517,10 +353,6 @@ class GN_Model extends CI_Model {
         return $row;
     }
 
-    /**
-     * Serialises data for you automatically, allowing you to pass
-     * through objects and let it handle the serialisation in the background
-     */
     public function serialize($row) {
         foreach ($this->callback_parameters as $column)
             $row[$column] = serialize($row[$column]);
@@ -539,9 +371,6 @@ class GN_Model extends CI_Model {
         return $row;
     }
 
-    /**
-     * Protect attributes by removing them from $row array
-     */
     public function protect_attributes($row) {
         foreach ($this->protected_attributes as $attr) {
             if (is_object($row)) {
@@ -553,13 +382,6 @@ class GN_Model extends CI_Model {
         return $row;
     }
 
-    /* --------------------------------------------------------------
-     * QUERY BUILDER DIRECT ACCESS METHODS
-     * ------------------------------------------------------------ */
-
-    /**
-     * A wrapper to $this->_database->order_by()
-     */
     public function order_by($criteria, $order = 'ASC') {
         if (is_array($criteria)) {
             foreach ($criteria as $key => $value)
@@ -570,23 +392,11 @@ class GN_Model extends CI_Model {
         return $this;
     }
 
-    /**
-     * A wrapper to $this->_database->limit()
-     */
     public function limit($limit, $offset = 0) {
         $this->_database->limit($limit, $offset);
         return $this;
     }
 
-    /* --------------------------------------------------------------
-     * INTERNAL METHODS
-     * ------------------------------------------------------------ */
-
-    /**
-     * Trigger an event and call its observers. Pass through the event name
-     * (which looks for an instance variable $this->event_name), an array of
-     * parameters to pass through and an optional 'last in interation' boolean
-     */
     public function trigger($event, $data = FALSE, $last = TRUE) {
         if (isset($this->$event) && is_array($this->$event)) {
             foreach ($this->$event as $method) {
@@ -601,9 +411,6 @@ class GN_Model extends CI_Model {
         return $data;
     }
 
-    /**
-     * Run validation on the passed data
-     */
     public function validate($data) {
         if ($this->skip_validation)
             return $data;
@@ -624,25 +431,16 @@ class GN_Model extends CI_Model {
         }
     }
 
-    /**
-     * Guess the table name by pluralising the model name
-     */
     private function _fetch_table() {
         if ($this->_table == NULL)
             $this->_table = plural(preg_replace('/(_m|_model)?$/', '', strtolower(get_class($this))));
     }
 
-    /**
-     * Guess the primary key for current table
-     */
     private function _fetch_primary_key() {
         if ($this->primary_key == NULL)
             $this->primary_key = $this->_database->query("SHOW KEYS FROM `" . $this->_table . "` WHERE Key_name = 'PRIMARY'")->row()->Column_name;
     }
 
-    /**
-     * Set WHERE parameters, cleverly
-     */
     protected function _set_where($params) {
         if (count($params) == 1 && is_array($params[0])) {
             foreach ($params[0] as $field => $filter) {
@@ -675,9 +473,6 @@ class GN_Model extends CI_Model {
         }
     }
 
-    /**
-     * Return the method name for the current return type
-     */
     protected function _return_type($multi = FALSE) {
         $method = ($multi) ? 'result' : 'row';
         return $this->_temporary_return_type == 'array' ? $method . '_array' : $method;

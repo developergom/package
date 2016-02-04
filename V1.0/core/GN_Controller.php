@@ -19,6 +19,7 @@ class GN_Controller extends CI_Controller {
     protected $alias = [];
     private $_base;
     private $_primary_key;
+    private $_perpage = 5;
 
     public function __construct() {
         parent::__construct();
@@ -96,31 +97,29 @@ class GN_Controller extends CI_Controller {
 
     protected function index() {
         $this->load->library(['pagination', 'table']);
-        $page = !empty($this->uri->segment(4)) ? 5 * ($this->uri->segment(4) - 1) : 0;
+        $page = !empty($this->uri->segment(4)) ? $this->_perpage * ($this->uri->segment(4) - 1) : 0;
         $config['base_url'] = base_url($this->_base . '/index/');
         $config['total_rows'] = $this->{$this->router->fetch_class()}->count_all();
         $this->_set_datagrid_header(isset($this->data['recursive']) ? $this->data['recursive'][1] : NULL);
         $unshift = [$this->_primary_key => 'Primary Key'] + $this->data['datagrid_header'];
         $items = $this->_get_items();
-
+        
         if (!empty($this->data['recursive'])) {
             $this->load->helper('recursive');
             $recursive = data_recursive($this->{$this->router->fetch_class()}->as_array()->get_all(), $this->data['recursive'][0], $this->data['recursive'][1]);
-            $data = datagrid_recursive($recursive, $this->data['recursive'][2]);
-            foreach ($data as $index => $row) {
+            foreach (datagrid_recursive($recursive, $this->data['recursive'][2]) as $index => $row) {
                 foreach ($row as $k => $v) {
                     if (!empty($items) && array_key_exists($k, $items))
                         $row[$k] = empty($v) ? $v : $items[$k][$v];
                 }
-
                 $this->data['datagrid'][$index] = array_intersect_key($row, $unshift);
             }
 
-            $this->data['datagrid'] = array_slice($this->data['datagrid'], $page, 5);
+            $this->data['datagrid'] = array_slice($this->data['datagrid'], $page, $this->_perpage);
             $this->data['datagrid'] = array_to_object($this->data['datagrid']);
         } else {
             $this->{$this->router->fetch_class()}->order_by($this->_primary_key, 'ASC');
-            $this->{$this->router->fetch_class()}->limit(5, $page);
+            $this->{$this->router->fetch_class()}->limit($this->_perpage, $page);
             foreach ($this->{$this->router->fetch_class()}->get_all() as $index => $row) {
                 $row = object_to_array($row);
                 foreach ($row as $k => $v) {
@@ -186,6 +185,10 @@ class GN_Controller extends CI_Controller {
         $primary_key = $this->uri->segment(4);
         $this->{$this->router->fetch_class()}->delete($primary_key);
         redirect($this->_base, 'refresh');
+    }
+    
+    protected function delete_recursive() {
+        
     }
 
 }
