@@ -9,7 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class Menu extends GN_Controller {
 
-    protected $models = ['menu', 'module','apps'];
+    protected $models = ['menu', 'module'];
     protected $asides = ['modal-list-icon'];
 
     public function __construct() {
@@ -69,7 +69,7 @@ class Menu extends GN_Controller {
                 'label' => 'Parent',
                 'type' => 'dropdown',
                 'items' => $this->menu->dropdown('menu_name'),
-                'rules' => 'required'
+                'rules' => NULL
             ],
             [
                 'name' => 'menu_status',
