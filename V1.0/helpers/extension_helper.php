@@ -101,6 +101,7 @@ if (!function_exists('form_date')) {
 
 }
 // ------------------------------------------------------------------------
+<<<<<<< HEAD
 if (!function_exists('form_wysiwyg')) {
 
     function form_wysiwyg($data = '', $value = '', $extra = '') {
@@ -111,6 +112,18 @@ if (!function_exists('form_wysiwyg')) {
 }
 
 
+=======
+if (!function_exists('form_icon')) {
+
+    function form_icon($data = '', $value = '', $extra = '') {
+        is_array($data) OR $data = array('name' => $data);
+        $data['type'] = 'input';
+        $extra .= 'data-icon="list-icon-modal"';
+        return form_input($data, $value, $extra);
+    }
+
+}
+>>>>>>> e82e34d7cb40af711657b441a6a213687635b1b0
 
 if (!function_exists('clearfix')) {
 

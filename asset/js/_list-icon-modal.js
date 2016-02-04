@@ -1,6 +1,6 @@
 $(document).ready(function() {
     
-    var input_selector = $('input[data-icon="list-icon-modal"]');
+    var input_selector = $('input[name="mico"]');
     var selector = 'div.col-md-3';
     $(this).find(selector).hover(function() {
         $(this).css('cursor', 'pointer');
