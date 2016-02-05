@@ -15,13 +15,12 @@ class Apps extends GN_Controller {
 
     public function __construct() {
         parent::__construct();
-        //$this->data['id'] = $this->role->primary_key;
         $this->data['form'] = [
             [
                 'name' => 'app_name',
                 'label' => 'Apps Name',
                 'type' => 'input',
-                'rules' => 'required|max[100]'
+                'rules' => 'required|max_length[100]'
             ],
             [
                 'name' => 'app_desc',
@@ -45,7 +44,7 @@ class Apps extends GN_Controller {
                 'name' => 'app_url',
                 'label' => 'Apps URL',
                 'type' => 'input',
-                'rules' => 'required|max[255]'
+                'rules' => 'required|max_length[255]'
             ],
             [
                 'name' => 'app_status',

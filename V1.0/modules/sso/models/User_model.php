@@ -17,6 +17,33 @@ class User_model extends GN_Model {
     protected $soft_delete = TRUE;
     //protected $_temporary_with_deleted = TRUE;
     //protected $_temporary_only_deleted = TRUE;
+    public $validate = [
+        [
+            'field' => 'user_name',
+            'label' => 'Username',
+            'rules' => 'required|max_length[50]|is_unique[users.user_name]'
+        ],
+        [
+            'field' => 'user_firstname',
+            'label' => 'First Name',
+            'rules' => 'required|max_length[50]'
+        ],
+        [
+            'field' => 'user_lastname',
+            'label' => 'Last Name',
+            'rules' => 'max_length[50]'
+        ],
+        [
+            'field' => 'user_email',
+            'label' => 'Email',
+            'rules' => 'required|max_length[100]'
+        ],
+        [
+            'field' => 'user_phone',
+            'label' => 'Phone',
+            'rules' => 'max_length[15]'
+        ]
+    ];
 
     
     public function __construct() {
