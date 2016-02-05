@@ -3,42 +3,19 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * Description of User_model
+ * Description of Module_model
  *
- * @author nanank
+ * @author soniibrol
  */
-class Users_model extends GN_Model {
-
-    //public $_table = 'users';
+class User_model extends GN_Model {
+    
+    public $_db_group = 'SSO';
     public $primary_key = 'user_id';
-    /*public $has_many = [
-        'Url' => [
-            'model' => 'Url',
-            'primary_key' => 'uid'
-        ]
-    ];*/
-    public $validate = [
-        [
-            'field' => 'user_name',
-            'label' => 'Username',
-            'rules' => 'required|is_unique[users.user_name]'
-        ],
-        [
-            'field' => 'user_fullname',
-            'label' => 'Fullname',
-            'rules' => 'required|max_length[50]'
-        ],
-        [
-            'field' => 'user_email',
-            'label' => 'Email',
-            'rules' => 'required|valid_email|max_length[50]'
-        ]
-    ];
-    protected $soft_delete = TRUE;
-    protected $soft_delete_key = 'user_status';
-
+    public $protected_attributes = ['user_id'];
+    public $before_create = ['create_log'];
+    public $before_update = ['update_log'];
+    
     public function __construct() {
         parent::__construct();
     }
-
 }

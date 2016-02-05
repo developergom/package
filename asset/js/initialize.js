@@ -13,9 +13,9 @@ $(document).ready(function () {
         });
 
         $('[data-mask]').inputmask();
-        $('.datepicker').datepicker({
+        /*$('.datepicker').datepicker({
             format: 'yyyy/mm/dd'
-        });
+        });*/
     }, 10);
 
     $('.form-horizontal').bootstrapValidator({
