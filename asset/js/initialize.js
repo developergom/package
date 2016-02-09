@@ -74,10 +74,6 @@ $(document).ready(function () {
         });
     });
 
-    $('#editor').Editor();
-    $("button:submit").click(function () {
-        $('#editor').text($('#editor').Editor("getText"));
-    });
 
     $(":file").filestyle({input: false});
 
@@ -85,5 +81,9 @@ $(document).ready(function () {
         $('.alert').fadeOut();
     }, 3000);
 
+    $('#editor').Editor();
+    $("button:submit").click(function () {
+        $('#editor').text($('#editor').Editor("getText"));
+    });
 
 });
