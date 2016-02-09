@@ -154,7 +154,7 @@ class GN_Controller extends CI_Controller {
 
             $this->data['datagrid_header'][$head['name']] = $head['label'];
         }
-    }
+}
 
     protected function create() {
         $this->view = 'layouts/AdminLTE/form';
@@ -162,8 +162,13 @@ class GN_Controller extends CI_Controller {
     }
 
     protected function insert() {
-        $this->{$this->router->fetch_class()}->insert($this->input->post());
-        redirect($this->_base, 'refresh');
+        if($this->validation($this->data['form'])===FALSE) {
+            $this->view = 'layouts/AdminLTE/form';
+            $this->data['action'] = $this->_base . '/insert/'; 
+        } else {
+            $this->{$this->router->fetch_class()}->insert($this->input->post());
+            redirect($this->_base, 'refresh');
+        }
     }
 
     protected function update() {
@@ -176,8 +181,15 @@ class GN_Controller extends CI_Controller {
     protected function edit() {
         $record = $this->{$this->router->fetch_class()}->get($this->input->post($this->_primary_key));
         if (!empty($record)) {
-            $this->{$this->router->fetch_class()}->update($record->{$this->_primary_key}, $this->input->post());
-            redirect($this->_base, 'refresh');
+            if($this->validation($this->data['form'])===FALSE) {
+                $this->view = 'layouts/AdminLTE/form';
+                $this->data['action'] = $this->_base . '/edit/';
+                $primary_key = $this->uri->segment(4);
+                $this->data['record'] = $this->{$this->router->fetch_class()}->get($primary_key);
+            } else {
+                $this->{$this->router->fetch_class()}->update($record->{$this->_primary_key}, $this->input->post());
+                redirect($this->_base, 'refresh');
+            }
         }
     }
 
@@ -191,4 +203,24 @@ class GN_Controller extends CI_Controller {
         
     }
 
+    protected function validation($data) {
+        if (!empty($data)) {
+            $rules = [];
+
+            foreach($data as $key => $value) {
+                $rules[$key]['field'] = $value['name'];
+                $rules[$key]['label'] = $value['label'];
+                $rules[$key]['rules'] = $value['rules'];
+            }
+
+            //debug($rules);
+
+            $this->load->library('form_validation');
+            $this->form_validation->set_rules($rules);
+            return $this->form_validation->run() === TRUE ? $data : FALSE;
+            //debug($this->form_validation->run() === TRUE);
+        } else {
+            return $data;
+        }
+    }
 }

@@ -35,7 +35,7 @@ class Menu extends GN_Controller {
                 'label' => 'Menu Name',
                 'type' => 'input',
                 'items' => NULL,
-                'rules' => 'required|max[50]'
+                'rules' => 'required|max_length[50]'
             ],
             [
                 'name' => 'menu_desc',
@@ -49,13 +49,13 @@ class Menu extends GN_Controller {
                 'label' => 'Link',
                 'type' => 'input',
                 'items' => NULL,
-                'rules' => 'required|max[255]'
+                'rules' => 'required|max_length[255]'
             ],
             [
                 'name' => 'menu_icon',
                 'label' => 'Icon',
                 'type' => 'icon',
-                'rules' => 'max[255]'
+                'rules' => 'max_length[255]'
             ],
             [
                 'name' => 'menu_order',
@@ -69,7 +69,7 @@ class Menu extends GN_Controller {
                 'label' => 'Parent',
                 'type' => 'dropdown',
                 'items' => $this->menu->dropdown('menu_name'),
-                'rules' => NULL
+                'rules' => 'required'
             ],
             [
                 'name' => 'menu_status',

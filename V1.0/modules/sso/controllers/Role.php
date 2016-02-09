@@ -14,13 +14,12 @@ class Role extends GN_Controller {
 
     public function __construct() {
         parent::__construct();
-        //$this->data['id'] = $this->role->primary_key;
         $this->data['form'] = [
             [
                 'name' => 'role_name',
                 'label' => 'Role Name',
                 'type' => 'input',
-                'rules' => 'required|max[100]'
+                'rules' => 'required|max_length[100]'
             ],
             [
                 'name' => 'role_desc',
@@ -35,10 +34,6 @@ class Role extends GN_Controller {
                 'rules' => NULL
             ]
         ];
-        
-        $this->data['style'] = ['datepicker3'];
-        $this->data['script'] = ['jquery.inputmask.extensions', 'jquery.inputmask.date.extensions', 'bootstrap-datepicker'];
-        $this->data['datagrid_header'] = ['Role Name', 'Description', 'Status'];
     }
 
 }

@@ -14,6 +14,13 @@ class Role_model extends GN_Model {
     public $protected_attributes = ['role_id'];
     public $before_create = ['create_log'];
     public $before_update = ['update_log'];
+    public $validate = [
+    	[
+            'field' => 'role_name',
+            'label' => 'Role Name',
+            'rules' => 'required|max_length[100]'
+        ]
+    ];
     
     public function __construct() {
         parent::__construct();
