@@ -26,7 +26,7 @@ class Module extends GN_Controller {
                 'label' => 'Modules',
                 'type' => 'input',
                 'items' => NULL,
-                'rules' => 'required'
+                'rules' => 'required|max_length[50]'
             ],
             [
                 'name' => 'module_desc',
@@ -44,6 +44,13 @@ class Module extends GN_Controller {
             ]
         ];
 
+    }
+
+    public function api_all() {
+        $this->view = FALSE;
+        $tmp = $this->module->get_all();
+
+        echo json_encode($tmp);
     }
 
 }
