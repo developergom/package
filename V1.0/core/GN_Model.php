@@ -271,6 +271,25 @@ class GN_Model extends CI_Model {
         return $this->trigger('after_dropdown', $options);
     }
 
+    public function multiselect() {
+        $args = func_get_args();
+        if (count($args) == 2) {
+            list($key, $value) = $args;
+        } else {
+            $key = $this->primary_key;
+            $value = $args[0];
+        }
+        $this->trigger('before_multiselect', [$key, $value]);
+        if ($this->soft_delete && $this->_temporary_with_deleted !== TRUE)
+            $this->_database->where($this->soft_delete_key, FALSE);
+
+        $result = $this->_database->select([$key, $value])->get($this->_table)->result();
+        foreach ($result as $row)
+            $options[$row->{$key}] = $row->{$value};
+
+        return $this->trigger('after_multiselect', $options);
+    }
+
     public function count_by() {
         if ($this->soft_delete && $this->_temporary_with_deleted !== TRUE)
             $this->_database->where($this->soft_delete_key, (bool) $this->_temporary_only_deleted);

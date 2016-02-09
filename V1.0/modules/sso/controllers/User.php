@@ -8,11 +8,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author soniibrol
  */
 class User extends GN_Controller {
-    protected $models = ['user'];
+    protected $models = ['user','role'];
     protected $helpers = [];
 
     public function __construct() {
         parent::__construct();
+        //debug($this->role->dropdown('role_name'));
         $this->data['form'] = [
             [
                 'name' => 'user_name',
@@ -49,6 +50,13 @@ class User extends GN_Controller {
                 'label' => 'Birth Date',
                 'type' => 'date',
                 'rules' => ''
+            ],
+            [
+                'name' => 'role_id',
+                'label' => 'Role(s)',
+                'type' => 'multiselect',
+                'items' => $this->role->multiselect('role_name'),
+                'rules' => NULL
             ],
             [
                 'name' => 'user_status',

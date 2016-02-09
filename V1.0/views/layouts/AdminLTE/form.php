@@ -55,6 +55,16 @@
                                 <?php //echo form_label(form_error('$row['name']'), NULL, array('class' => 'col-xs-4 col-sm-4 col-md-3 col-lg-3'))  ?>
                             </div>
                             <?php
+                        } else if($row['type'] == 'multiselect') {
+                             ?>
+                            <div class="form-group has-feedback">
+                                <?php echo form_label($row['label'], NULL, ['class' => 'col-xs-4 col-sm-4 col-md-2 col-lg-2 control-label']) ?>
+                                <div class="col-xs-4 col-sm-4 col-md-7 col-lg-7">
+                                    <?php echo $type($row['name'], isset($row['items']) ? $row['items'] : [], isset($record->{$row['name']}) ? $record->{$row['name']} : set_select($row['name']), 'class="form-control" placeholder="' . humanize($row['name']) . '"' . $is_required . $is_numeric . $is_email) ?>
+                                </div>
+                                <?php //echo form_label(form_error('$row['name']'), NULL, array('class' => 'col-xs-4 col-sm-4 col-md-3 col-lg-3'))  ?>
+                            </div>
+                            <?php
                         } else {
                             ?>
                             <div class="form-group has-feedback">
