@@ -154,7 +154,7 @@ class GN_Controller extends CI_Controller {
 
             $this->data['datagrid_header'][$head['name']] = $head['label'];
         }
-}
+    }
 
     protected function create() {
         $this->view = 'layouts/AdminLTE/form';
