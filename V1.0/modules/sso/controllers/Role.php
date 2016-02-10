@@ -9,8 +9,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class Role extends GN_Controller {
 
-    protected $models = ['role'];
+    protected $models = ['role','menu','action'];
     protected $helpers = [];
+    protected $return_type = 'array';
 
     public function __construct() {
         parent::__construct();
@@ -34,6 +35,18 @@ class Role extends GN_Controller {
                 'rules' => NULL
             ]
         ];
+    }
+
+    public function create() {
+        $this->load->helper('recursive');
+        $this->menu->as_array();
+
+        $recursive = data_recursive($this->menu->get_all(),'menu_id','menu_parent');
+        $this->data['menu'] = datagrid_recursive($recursive,'menu_name');
+        $this->action->as_array();
+        $this->data['action'] = $this->action->get_all();
+        
+        $this->view = 'sso/role/create';   
     }
 
 }
