@@ -15,6 +15,12 @@ class Menu_model extends GN_Model {
     public $protected_attributes = ['menu_id'];
     public $before_create = ['create_log'];
     public $before_update = ['update_log'];
+    public $belongs_to = ['modules' =>
+        [
+            'model' => 'module_model',
+            'primary_key' => 'module_id'
+        ]
+    ];
     public $validate = [
     	[
             'field' => 'module_id',
@@ -45,11 +51,6 @@ class Menu_model extends GN_Model {
             'field' => 'menu_order',
             'label' => 'Order',
             'rules' => 'required|numeric'
-        ],
-        [
-            'field' => 'menu_parent',
-            'label' => 'Parent',
-            'rules' => 'required'
         ]
 	];
     

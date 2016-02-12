@@ -38,7 +38,7 @@ class Apps extends GN_Controller {
                 'name' => 'app_icon',
                 'label' => 'Icon',
                 'type' => 'icon',
-                'rules' => NULL
+                'rules' => 'max_length[255]'
             ],
             [
                 'name' => 'app_url',

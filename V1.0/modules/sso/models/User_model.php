@@ -14,9 +14,12 @@ class User_model extends GN_Model {
     public $protected_attributes = ['user_id'];
     public $before_create = ['create_log','set_password'];
     public $before_update = ['update_log'];
-    protected $soft_delete = TRUE;
-    //protected $_temporary_with_deleted = TRUE;
-    //protected $_temporary_only_deleted = TRUE;
+    public $has_many = ['user_role' =>
+        [
+            'model' => 'user_role_model',
+            'primary_key' => 'user_id'
+        ]
+    ];
     public $validate = [
         [
             'field' => 'user_name',

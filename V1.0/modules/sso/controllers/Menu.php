@@ -9,11 +9,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class Menu extends GN_Controller {
 
-    protected $models = ['menu', 'module'];
+    protected $models = ['menu', 'module', 'apps'];
     protected $asides = ['modal-list-icon'];
+    protected $base = '';
+    protected $_perpage = 10;
 
     public function __construct() {
         parent::__construct();
+        $this->_perpage = 10;
+        $this->base = $this->router->fetch_module() . '/' . $this->router->fetch_class();
         $this->data['recursive'] = ['menu_id','menu_parent','menu_name'];
         $this->data['form'] = [
             /*[
@@ -69,7 +73,7 @@ class Menu extends GN_Controller {
                 'label' => 'Parent',
                 'type' => 'dropdown',
                 'items' => $this->menu->dropdown('menu_name'),
-                'rules' => 'required'
+                'rules' => ''
             ],
             [
                 'name' => 'menu_status',
@@ -80,8 +84,72 @@ class Menu extends GN_Controller {
             ]
         ];
 
-        $this->data['script'] = ['list-icon-modal'];
+        $this->data['script'] = ['list-icon-modal','sso/menu'];
 
+    }
+
+    public function create() {
+        $this->data['apps_data'] = $this->apps->dropdown('app_name');
+
+        $this->view = 'sso/menu/create';   
+    }
+
+    protected function insert() {
+        $data_insert = [
+            'module_id' => $this->input->post('module_id'),
+            'menu_name' => $this->input->post('menu_name'),
+            'menu_desc' => $this->input->post('menu_desc'),
+            'menu_link' => $this->input->post('menu_link'),
+            'menu_icon' => $this->input->post('menu_icon'),
+            'menu_order' => $this->input->post('menu_order'),
+            'menu_parent' => $this->input->post('menu_parent'),
+            'menu_status' => $this->input->post('menu_status')
+        ];
+
+        if($this->validation($this->data['form'])===FALSE) {
+            $this->data['apps_data'] = $this->apps->dropdown('app_name');
+
+            $this->view = 'sso/menu/create';   
+        } else {
+            $this->{$this->router->fetch_class()}->insert($data_insert);
+            redirect($this->base, 'refresh');
+        }
+    }
+
+    public function update() {
+        $this->view = 'sso/menu/update';
+        $this->data['action'] = $this->base . '/edit/';
+        $primary_key = $this->uri->segment(4);
+        $this->data['record'] = $this->{$this->router->fetch_class()}->get($primary_key);
+        $this->data['apps_data'] = $this->apps->dropdown('app_name');
+        $this->data['selected_apps'] = $this->module->get($this->data['record']->module_id);
+    }
+
+    protected function edit() {
+        $data_insert = [
+            'module_id' => $this->input->post('module_id'),
+            'menu_name' => $this->input->post('menu_name'),
+            'menu_desc' => $this->input->post('menu_desc'),
+            'menu_link' => $this->input->post('menu_link'),
+            'menu_icon' => $this->input->post('menu_icon'),
+            'menu_order' => $this->input->post('menu_order'),
+            'menu_parent' => $this->input->post('menu_parent'),
+            'menu_status' => $this->input->post('menu_status')
+        ];
+        $record = $this->{$this->router->fetch_class()}->get($this->input->post('menu_id'));
+        if (!empty($record)) {
+            if($this->validation($this->data['form'])===FALSE) {
+                $this->view = 'sso/menu/update';
+                $this->data['action'] = $this->base . '/edit/';
+                $primary_key = $this->input->post('menu_id');
+                $this->data['record'] = $this->{$this->router->fetch_class()}->get($primary_key);
+                $this->data['apps_data'] = $this->apps->dropdown('app_name');
+                $this->data['selected_apps'] = $this->module->get($this->data['record']->module_id);
+            } else {
+                $this->{$this->router->fetch_class()}->update($record->menu_id, $data_insert);
+                redirect($this->base, 'refresh');
+            }
+        }
     }
 
 }
