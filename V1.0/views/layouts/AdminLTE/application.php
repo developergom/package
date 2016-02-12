@@ -21,8 +21,6 @@
                 //'daterangepicker-bs3',
                 //'bootstrap3-wysihtml5.min',
         ];
-        foreach ($css as $v)
-            echo link_tag('asset/css/' . $v . '.css');
 
         if (!empty($style)) {
             if (!is_array($style))
@@ -31,6 +29,9 @@
             foreach ($style as $_style)
                 echo link_tag('asset/css/' . $_style . '.css');
         }
+
+        foreach ($css as $v)
+            echo link_tag('asset/css/' . $v . '.css');
 
         echo link_tag('asset/css/initialize.css');
         ?>
@@ -76,12 +77,12 @@
                             </li>
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <img src="asset/img/avatar/<?php //echo $this->session->userdata('uava');                      ?>" class="user-image" alt="User Image"/>
-                                    <span class="hidden-xs"><?php //echo $this->session->userdata('nick')                      ?></span>
+                                    <img src="asset/img/avatar/<?php //echo $this->session->userdata('uava');                           ?>" class="user-image" alt="User Image"/>
+                                    <span class="hidden-xs"><?php //echo $this->session->userdata('nick')                           ?></span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li class="user-header">
-                                        <img src="asset/img/avatar/<?php //echo $this->session->userdata('uava');                      ?>" class="img-circle" alt="User Image" />
+                                        <img src="asset/img/avatar/<?php //echo $this->session->userdata('uava');                           ?>" class="img-circle" alt="User Image" />
                                         <p>
                                             <?php //echo '<strong>' . $this->session->userdata('username') . '</strong><br/>' . $this->session->userdata('name') ?>
                                         </p>
@@ -108,10 +109,10 @@
                 <section class="sidebar">
                     <div class="user-panel">
                         <div class="pull-left image">
-                            <img src="asset/img/avatar/<?php //echo $this->session->userdata('uava');                      ?>" class="img-circle" alt="User Image" />
+                            <img src="asset/img/avatar/<?php //echo $this->session->userdata('uava');                           ?>" class="img-circle" alt="User Image" />
                         </div>
                         <div class="pull-left info">
-                            <p><?php //echo $this->session->userdata('name') . ' <small>(' . $this->session->userdata('nick') . ')</small>'                      ?></p>
+                            <p><?php //echo $this->session->userdata('name') . ' <small>(' . $this->session->userdata('nick') . ')</small>'                           ?></p>
                             <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                         </div>
                     </div>
@@ -164,6 +165,106 @@
         <script type="text/javascript">
             var base_url = window.location.protocol + '//' + window.location.host + '/package/';
             //var base_url = window.location.protocol + '//' + window.location.host + '/';
+
+            var AdminLTEOptions = {
+                //Add slimscroll to navbar menus
+                //This requires you to load the slimscroll plugin
+                //in every page before app.js
+                navbarMenuSlimscroll: true,
+                navbarMenuSlimscrollWidth: "3px", //The width of the scroll bar
+                navbarMenuHeight: "200px", //The height of the inner menu
+                //General animation speed for JS animated elements such as box collapse/expand and
+                //sidebar treeview slide up/down. This options accepts an integer as milliseconds,
+                //'fast', 'normal', or 'slow'
+                animationSpeed: 500,
+                //Sidebar push menu toggle button selector
+                sidebarToggleSelector: "[data-toggle='offcanvas']",
+                //Activate sidebar push menu
+                sidebarPushMenu: true,
+                //Activate sidebar slimscroll if the fixed layout is set (requires SlimScroll Plugin)
+                sidebarSlimScroll: true,
+                //Enable sidebar expand on hover effect for sidebar mini
+                //This option is forced to true if both the fixed layout and sidebar mini
+                //are used together
+                sidebarExpandOnHover: true,
+                //BoxRefresh Plugin
+                enableBoxRefresh: true,
+                //Bootstrap.js tooltip
+                enableBSToppltip: true,
+                BSTooltipSelector: "[data-toggle='tooltip']",
+                //Enable Fast Click. Fastclick.js creates a more
+                //native touch experience with touch devices. If you
+                //choose to enable the plugin, make sure you load the script
+                //before AdminLTE's app.js
+                enableFastclick: true,
+                //Control Sidebar Options
+                enableControlSidebar: true,
+                controlSidebarOptions: {
+                    //Which button should trigger the open/close event
+                    toggleBtnSelector: "[data-toggle='control-sidebar']",
+                    //The sidebar selector
+                    selector: ".control-sidebar",
+                    //Enable slide over content
+                    slide: true
+                },
+                //Box Widget Plugin. Enable this plugin
+                //to allow boxes to be collapsed and/or removed
+                enableBoxWidget: true,
+                //Box Widget plugin options
+                boxWidgetOptions: {
+                    boxWidgetIcons: {
+                        //Collapse icon
+                        collapse: 'fa-minus',
+                        //Open icon
+                        open: 'fa-plus',
+                        //Remove icon
+                        remove: 'fa-times'
+                    },
+                    boxWidgetSelectors: {
+                        //Remove button selector
+                        remove: '[data-widget="remove"]',
+                        //Collapse button selector
+                        collapse: '[data-widget="collapse"]'
+                    }
+                },
+                //Direct Chat plugin options
+                directChat: {
+                    //Enable direct chat by default
+                    enable: true,
+                    //The button to open and close the chat contacts pane
+                    contactToggleSelector: '[data-widget="chat-pane-toggle"]'
+                },
+                //Define the set of colors to use globally around the website
+                colors: {
+                    lightBlue: "#3c8dbc",
+                    red: "#f56954",
+                    green: "#00a65a",
+                    aqua: "#00c0ef",
+                    yellow: "#f39c12",
+                    blue: "#0073b7",
+                    navy: "#001F3F",
+                    teal: "#39CCCC",
+                    olive: "#3D9970",
+                    lime: "#01FF70",
+                    orange: "#FF851B",
+                    fuchsia: "#F012BE",
+                    purple: "#8E24AA",
+                    maroon: "#D81B60",
+                    black: "#222222",
+                    gray: "#d2d6de"
+                },
+                //The standard screen sizes that bootstrap uses.
+                //If you change these in the variables.less file, change
+                //them here too.
+                screenSizes: {
+                    xs: 480,
+                    sm: 768,
+                    md: 992,
+                    lg: 1200
+                }
+            }
+
+
         </script>
         <?php
         $js = [
@@ -179,14 +280,14 @@
             //'jquery.knob',
             'icheck.min',
             'select2.min',
-            //'bootstrap3-wysihtml5.all.min',
             //'jquery.inputmask.extensions',
             //'jquery.inputmask.date.extensions',
             'jquery.slimscroll.min',
-            'fastclick.min',
+            //'fastclick.min',
             //'demo',
             'app.min'
         ];
+
         foreach ($js as $v)
             echo script_tag($v);
 
@@ -197,6 +298,7 @@
             foreach ($script as $_script)
                 echo script_tag($_script);
         }
+
 
         echo script_tag('initialize');
         ?>

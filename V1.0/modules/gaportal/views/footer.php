@@ -39,7 +39,7 @@
             'scripts', 
         ];
         
-        echo script_tag('jQuery-2.1.4.min');
+        echo script_tag('jQuery-2.2.0.min');
         echo script_tag('bootstrap.min');
         foreach ($js as $v)
             echo script_tag('gaportal/' . $v);

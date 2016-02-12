@@ -74,7 +74,7 @@
                             <li><a href="#pricing">Pricing</a></li>
                             <li><a href="#our-team">Team</a></li>
                             <li><a href="#contact">Contact</a></li>
-                            <li><?php echo anchor('gaportal/post', 'Blog') ?></li>
+                            <li><?php echo anchor('gaportal/article', 'Blog') ?></li>
                         </ul>
                     </div><!-- /.navbar-collapse -->
                 </div><!-- /.container -->

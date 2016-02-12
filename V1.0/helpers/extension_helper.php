@@ -31,27 +31,34 @@ if (!function_exists('time_elapsed')) {
 
     function time_elapsed($time = NULL) {
         $time = strtotime($time);
-        $time = time() - $time; // to get the time since that moment
+        $etime = time() - $time;
 
-        $tokens = [
-            31536000 => 'years',
-            2592000 => 'months',
-            604800 => 'weeks',
-            86400 => 'days',
-            3600 => 'hours',
-            60 => 'minutes',
-            1 => 'seconds'
+        if ($etime < 1)
+            return '0 seconds';
+
+        $a = [365 * 24 * 60 * 60 => 'year',
+            30 * 24 * 60 * 60 => 'month',
+            24 * 60 * 60 => 'day',
+            60 * 60 => 'hour',
+            60 => 'minute',
+            1 => 'second'
+        ];
+        
+        $a_plural = ['year' => 'years',
+            'month' => 'months',
+            'day' => 'days',
+            'hour' => 'hours',
+            'minute' => 'minutes',
+            'second' => 'seconds'
         ];
 
-        foreach ($tokens as $unit => $text) {
-            if ($time < $unit)
-                continue;
-
-            $numberOfUnits = floor($time / $unit);
-            return $numberOfUnits . nbs() . $text . ' ago';
+        foreach ($a as $secs => $str) {
+            $d = $etime / $secs;
+            if ($d >= 1) {
+                $r = round($d);
+                return $r . ' ' . ($r > 1 ? $a_plural[$str] : $str) . ' ago';
+            }
         }
-
-        return;
     }
 
 }
@@ -105,8 +112,23 @@ if (!function_exists('form_date')) {
 if (!function_exists('form_wysiwyg')) {
 
     function form_wysiwyg($data = '', $value = '', $extra = '') {
-        $extra .= 'id="editor"';
-        return form_textarea($data, $value, $extra);
+        $defaults = [
+            'name' => is_array($data) ? NULL : $data,
+            'cols' => '40',
+            'rows' => '30'
+        ];
+
+        if (!is_array($data) OR ! isset($data['value'])) {
+            $val = $value;
+        } else {
+            $val = $data['value'];
+            unset($data['value']);
+        }
+
+        $extra .= 'id="summernote"';
+        return '<textarea ' . _parse_form_attributes($data, $defaults) . _attributes_to_string($extra) . '>'
+                . html_escape($val)
+                . "</textarea>\n";
     }
 
 }

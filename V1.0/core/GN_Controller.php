@@ -17,7 +17,7 @@ class GN_Controller extends CI_Controller {
     protected $model_string = '%_model';
     protected $helpers = [];
     protected $alias = [];
-    private $_base;
+    protected $base;
     private $_primary_key;
     private $_perpage = 5;
 
@@ -27,12 +27,13 @@ class GN_Controller extends CI_Controller {
         $this->_load_models();
         $this->_load_helpers();
 
-        $this->_base = $this->router->fetch_module() . '/' . $this->router->fetch_class();
+        $this->base = $this->router->fetch_module() . '/' . $this->router->fetch_class();
         $this->_primary_key = $this->{$this->router->fetch_class()}->primary_key;
 
+        $this->data['show_pk'] = FALSE;
         $this->data['id'] = $this->_primary_key;
         $this->data['title'] = strlen($this->router->fetch_class()) > 3 ? humanize($this->router->fetch_class()) : strtoupper($this->router->fetch_class());
-        $this->data['base'] = $this->_base;
+        $this->data['base'] = $this->base;
         $this->data['breadcrumb'] = [
             '<i class="fa fa-home"></i> Home',
             strlen($this->router->fetch_module()) > 3 ? humanize($this->router->fetch_module()) : strtoupper($this->router->fetch_module()),
@@ -98,12 +99,12 @@ class GN_Controller extends CI_Controller {
     protected function index() {
         $this->load->library(['pagination', 'table']);
         $page = !empty($this->uri->segment(4)) ? $this->_perpage * ($this->uri->segment(4) - 1) : 0;
-        $config['base_url'] = base_url($this->_base . '/index/');
+        $config['base_url'] = base_url($this->base . '/index/');
         $config['total_rows'] = $this->{$this->router->fetch_class()}->count_all();
         $this->_set_datagrid_header(isset($this->data['recursive']) ? $this->data['recursive'][1] : NULL);
         $unshift = [$this->_primary_key => 'Primary Key'] + $this->data['datagrid_header'];
         $items = $this->_get_items();
-        
+
         if (!empty($this->data['recursive'])) {
             $this->load->helper('recursive');
             $recursive = data_recursive($this->{$this->router->fetch_class()}->as_array()->get_all(), $this->data['recursive'][0], $this->data['recursive'][1]);
@@ -146,7 +147,7 @@ class GN_Controller extends CI_Controller {
         return $array;
     }
 
-    private function _set_datagrid_header() {
+    protected function _set_datagrid_header() {
         $parent = func_get_args();
         foreach ($this->data['form'] as $head) {
             if ($head['name'] == reset($parent))
@@ -154,26 +155,29 @@ class GN_Controller extends CI_Controller {
 
             $this->data['datagrid_header'][$head['name']] = $head['label'];
         }
-}
+
+        if ($this->data['show_pk'] === FALSE)
+            unset($this->data['datagrid_header'][$this->_primary_key]);
+    }
 
     protected function create() {
         $this->view = 'layouts/AdminLTE/form';
-        $this->data['action'] = $this->_base . '/insert/';
+        $this->data['action'] = $this->base . '/insert/';
     }
 
     protected function insert() {
-        if($this->validation($this->data['form'])===FALSE) {
+        if ($this->validation($this->data['form']) === FALSE) {
             $this->view = 'layouts/AdminLTE/form';
-            $this->data['action'] = $this->_base . '/insert/'; 
+            $this->data['action'] = $this->base . '/insert/';
         } else {
             $this->{$this->router->fetch_class()}->insert($this->input->post());
-            redirect($this->_base, 'refresh');
+            redirect($this->base, 'refresh');
         }
     }
 
     protected function update() {
         $this->view = 'layouts/AdminLTE/form';
-        $this->data['action'] = $this->_base . '/edit/';
+        $this->data['action'] = $this->base . '/edit/';
         $primary_key = $this->uri->segment(4);
         $this->data['record'] = $this->{$this->router->fetch_class()}->get($primary_key);
     }
@@ -181,14 +185,14 @@ class GN_Controller extends CI_Controller {
     protected function edit() {
         $record = $this->{$this->router->fetch_class()}->get($this->input->post($this->_primary_key));
         if (!empty($record)) {
-            if($this->validation($this->data['form'])===FALSE) {
+            if ($this->validation($this->data['form']) === FALSE) {
                 $this->view = 'layouts/AdminLTE/form';
-                $this->data['action'] = $this->_base . '/edit/';
+                $this->data['action'] = $this->base . '/edit/';
                 $primary_key = $this->uri->segment(4);
                 $this->data['record'] = $this->{$this->router->fetch_class()}->get($primary_key);
             } else {
                 $this->{$this->router->fetch_class()}->update($record->{$this->_primary_key}, $this->input->post());
-                redirect($this->_base, 'refresh');
+                redirect($this->base, 'refresh');
             }
         }
     }
@@ -196,9 +200,9 @@ class GN_Controller extends CI_Controller {
     protected function delete() {
         $primary_key = $this->uri->segment(4);
         $this->{$this->router->fetch_class()}->delete($primary_key);
-        redirect($this->_base, 'refresh');
+        redirect($this->base, 'refresh');
     }
-    
+
     protected function delete_recursive() {
         
     }
@@ -207,20 +211,18 @@ class GN_Controller extends CI_Controller {
         if (!empty($data)) {
             $rules = [];
 
-            foreach($data as $key => $value) {
+            foreach ($data as $key => $value) {
                 $rules[$key]['field'] = $value['name'];
                 $rules[$key]['label'] = $value['label'];
                 $rules[$key]['rules'] = $value['rules'];
             }
 
-            //debug($rules);
-
             $this->load->library('form_validation');
             $this->form_validation->set_rules($rules);
             return $this->form_validation->run() === TRUE ? $data : FALSE;
-            //debug($this->form_validation->run() === TRUE);
         } else {
             return $data;
         }
     }
+
 }
