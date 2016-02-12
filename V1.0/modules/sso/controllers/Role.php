@@ -35,18 +35,26 @@ class Role extends GN_Controller {
                 'rules' => NULL
             ]
         ];
+
+        $this->data['script'] = ['sso/role'];
     }
 
     public function create() {
         $this->load->helper('recursive');
         $this->menu->as_array();
 
-        $recursive = data_recursive($this->menu->get_all(),'menu_id','menu_parent');
+        //debug($this->menu->with('modules')->with('apps')->get_all());
+
+        $recursive = data_recursive($this->menu->with('modules')->with('apps')->get_all(),'menu_id','menu_parent');
         $this->data['menu'] = datagrid_recursive($recursive,'menu_name');
         $this->action->as_array();
         $this->data['action'] = $this->action->get_all();
         
         $this->view = 'sso/role/create';   
+    }
+
+    public function insert() {
+        debug($this->input->post());
     }
 
 }

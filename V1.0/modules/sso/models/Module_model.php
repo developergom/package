@@ -11,13 +11,24 @@ class Module_model extends GN_Model {
     
     public $_db_group = 'SSO';
     public $primary_key = 'module_id';
-    public $protected_attributes = ['module_id'];
+    public $protected_attributes = [];
     public $before_create = ['create_log'];
     public $before_update = ['update_log'];
+    public $belongs_to = ['apps' =>
+        [
+            'model' => 'apps_model',
+            'primary_key' => 'app_id'
+        ]
+    ];
     public $validation = [
+            [
+                'field' => 'module_id',
+                'label' => 'Module ID',
+                'rules' => 'required|max_length[255]|is_unique[modules.module_id]'
+            ],
     		[
-                'field' => 'app_id',
-                'label' => 'Apps',
+                'field' => 'module_action',
+                'label' => 'Action',
                 'rules' => 'required'
             ],
             [

@@ -71,9 +71,11 @@
                 ?>
                 <div class="row">
                     <div class="col-md-10 col-md-offset-1">
-                        <table class="table">
+                        <table class="table table-hover">
                             <thead>
                                 <tr>
+                                    <!-- <th rowspan="2">Apps</th> -->
+                                    <th rowspan="2">Module</th>
                                     <th rowspan="2">Menu Name</th>
                                     <th colspan="<?php echo count($action); ?>"><center>Access Key</center></th>
                                 </tr>
@@ -88,9 +90,11 @@
                                 <?php
                                 foreach($menu as $m => $v) {
                                     echo '<tr>';
-                                    echo '<td>'.$v['menu_name'].'</td>';
-                                    foreach($action as $a => $v)
-                                        echo '<th><center><input type="checkbox"></center></th>';
+                                    //echo '<td>'.$v['modules']->apps->app_name.'</td>';
+                                    echo '<td>'.$v['modules']->module_name.'</td>';
+                                    echo '<td>'.$v['menu_name'].' <a class="btn-check-all" data-menu_id="'.$v['menu_id'].'" data-checked="false" href="javascript:void(0)" title="Click to check all"><span class="label label-success">check all</span></a></td>';
+                                    foreach($action as $act => $actval)
+                                        echo '<td><center><input type="checkbox" name="action_'.$v['menu_id'].'_'.$actval['action_id'].'" class="action-check-'.$v['menu_id'].'" data-menu_id="'.$v['menu_id'].'" id="action_'.$v['menu_id'].'_'.$actval['action_id'].'"></center></td>';
                                     echo '</tr>';
                                 }
                                 ?>
@@ -103,7 +107,7 @@
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         <button type="submit" class="btn btn-primary"><span class="fa fa-save"></span> Save It</button>
-                        <?php echo anchor('sso/menu', '<span class="fa fa-undo"></span> Back', 'class="btn btn-default"') ?>
+                        <?php echo anchor('sso/role', '<span class="fa fa-undo"></span> Back', 'class="btn btn-default"') ?>
                     </div>
                 </div>
             </div>

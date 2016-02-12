@@ -12,9 +12,11 @@ class Menu extends GN_Controller {
     protected $models = ['menu', 'module', 'apps'];
     protected $asides = ['modal-list-icon'];
     protected $base = '';
+    protected $_perpage = 10;
 
     public function __construct() {
         parent::__construct();
+        $this->_perpage = 10;
         $this->base = $this->router->fetch_module() . '/' . $this->router->fetch_class();
         $this->data['recursive'] = ['menu_id','menu_parent','menu_name'];
         $this->data['form'] = [
@@ -71,7 +73,7 @@ class Menu extends GN_Controller {
                 'label' => 'Parent',
                 'type' => 'dropdown',
                 'items' => $this->menu->dropdown('menu_name'),
-                'rules' => 'required'
+                'rules' => ''
             ],
             [
                 'name' => 'menu_status',
