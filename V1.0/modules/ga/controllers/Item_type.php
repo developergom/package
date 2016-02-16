@@ -15,6 +15,13 @@ class Item_type extends GN_Controller {
         parent::__construct();
         $this->data['form'] = [
             [
+                'name' => 'item_type_id',
+                'label' => 'PK',
+                'type' => 'input',
+                'items' => NULL,
+                'rules' => NULL
+            ],
+            [
                 'name' => 'item_type_name',
                 'label' => 'Name',
                 'type' => 'input',

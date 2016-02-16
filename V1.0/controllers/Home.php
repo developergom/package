@@ -11,14 +11,10 @@ class Home extends GN_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->helper(['extension', 'string']);
-        $this->view = FALSE;
     }
     
     public function index() {
-        $this->load->view('header');
-        $this->load->view('home');
-        $this->load->view('footer');
+        $this->view = FALSE;
     }
 
 }

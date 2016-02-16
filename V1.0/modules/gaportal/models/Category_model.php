@@ -20,7 +20,7 @@ class Category_model extends GN_Model {
     }
 
     protected function slug($category) {
-        $category['category_slug'] = url_title($category['category_name']);
+        $category['category_slug'] = url_title($category['category_name'], '_', TRUE);
         return $category;
     }
 

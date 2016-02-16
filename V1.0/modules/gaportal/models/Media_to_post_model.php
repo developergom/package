@@ -3,20 +3,17 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * Description of Tag
+ * Description of Media_to_post_model
  *
  * @author nanank
  */
-class Tag extends GN_Controller {
+class Media_to_post_model extends GN_Model {
 
-    protected $models = ['tag'];
+    public $_db_group = 'GAPORTAL';
+    public $_table = 'media_to_post';
 
     public function __construct() {
         parent::__construct();
-
-        $this->data['form'] = [
-            
-        ];
     }
 
 }
