@@ -116,16 +116,6 @@ class User extends GN_Controller {
         return $array;
     }
 
-    private function _set_datagrid_header() {
-        $parent = func_get_args();
-        foreach ($this->data['form'] as $head) {
-            if ($head['name'] == reset($parent))
-                continue;
-
-            $this->data['datagrid_header'][$head['name']] = $head['label'];
-        }
-    }
-
     protected function insert() {
         if($this->validation($this->data['form'])===FALSE) {
             $this->view = 'layouts/AdminLTE/form';

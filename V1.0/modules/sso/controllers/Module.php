@@ -105,24 +105,11 @@ class Module extends GN_Controller {
         return $array;
     }
 
-    private function _set_datagrid_header() {
-        $parent = func_get_args();
-        foreach ($this->data['form'] as $head) {
-            if ($head['name'] == reset($parent))
-                continue;
-
-            $this->data['datagrid_header'][$head['name']] = $head['label'];
-        }
-    }
-
     protected function insert() {
         if($this->validation($this->data['form'])===FALSE) {
             $this->view = 'layouts/AdminLTE/form';
             $this->data['action'] = $this->_base . '/insert/'; 
         } else {
-            /*$data_action = serialize($this->input->post('module_action'));
-            debug($this->input->post());*/
-
             $data_module = [
                 'module_url' => $this->input->post('module_url'),
                 'app_id' => $this->input->post('app_id'),
@@ -153,7 +140,6 @@ class Module extends GN_Controller {
     }
 
     public function edit() {
-        //debug($this->input->post());
         $custom_rules = [
             [
                 'name' => 'module_url',
