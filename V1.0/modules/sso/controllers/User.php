@@ -22,7 +22,7 @@ class User extends GN_Controller {
                 'name' => 'user_name',
                 'label' => 'Username',
                 'type' => 'input',
-                'rules' => 'required|max_length[50]|is_unique[users.user_name]'
+                'rules' => 'required|max_length[50]|is_unique[users.user_name]|alpha_dash'
             ],
             [
                 'name' => 'user_firstname',
@@ -207,7 +207,7 @@ class User extends GN_Controller {
                     'name' => 'user_name',
                     'label' => 'Username',
                     'type' => 'input',
-                    'rules' => 'required|max_length[50]|is_unique[users.user_name]'
+                    'rules' => 'required|max_length[50]|is_unique[users.user_name]|alpha_dash'
                 ]
             );
         }

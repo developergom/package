@@ -201,7 +201,6 @@ class Module extends GN_Controller {
                     'module_desc' => $this->input->post('module_desc'),
                     'module_status' => $this->input->post('module_status')
                 ];
-                //debug($data_module);
 
                 $this->module->update($record->{$this->module->primary_key}, $data_module, TRUE);
 
