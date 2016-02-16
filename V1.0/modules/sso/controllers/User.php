@@ -10,13 +10,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class User extends GN_Controller {
     protected $models = ['user','role','user_role'];
     protected $helpers = [];
-    protected $base = '';
-    protected $primary_key = 'user_id';
+    protected $_base = '';
+    protected $_primary_key = 'user_id';
     protected $_perpage = 5;
 
     public function __construct() {
         parent::__construct();
-        $this->base = $this->router->fetch_module() . '/' . $this->router->fetch_class();
+        $this->_base = $this->router->fetch_module() . '/' . $this->router->fetch_class();
         $this->data['form'] = [
             [
                 'name' => 'user_name',
@@ -76,13 +76,13 @@ class User extends GN_Controller {
     public function index() {
         $this->load->library(['pagination', 'table']);
         $page = !empty($this->uri->segment(4)) ? $this->_perpage * ($this->uri->segment(4) - 1) : 0;
-        $config['base_url'] = base_url($this->base . '/index/');
+        $config['base_url'] = base_url($this->_base . '/index/');
         $config['total_rows'] = $this->{$this->router->fetch_class()}->count_all();
         $this->_set_datagrid_header(isset($this->data['recursive']) ? $this->data['recursive'][1] : NULL);
-        $unshift = [$this->primary_key => 'Primary Key'] + $this->data['datagrid_header'] + ['role' => 'Role'];
+        $unshift = [$this->_primary_key => 'Primary Key'] + $this->data['datagrid_header'] + ['role' => 'Role'];
         $items = $this->_get_items();
         
-        $this->user->order_by($this->primary_key, 'ASC');
+        $this->user->order_by($this->_primary_key, 'ASC');
         $this->user->limit($this->_perpage, $page);
         foreach ($this->user->with('user_role')->get_all() as $index => $row) {
             $row = object_to_array($row);
@@ -129,7 +129,7 @@ class User extends GN_Controller {
     protected function insert() {
         if($this->validation($this->data['form'])===FALSE) {
             $this->view = 'layouts/AdminLTE/form';
-            $this->data['action'] = $this->base . '/insert/'; 
+            $this->data['action'] = $this->_base . '/insert/'; 
         } else {
             $data_user = [
                 'user_name' => $this->input->post('user_name'),
@@ -155,13 +155,13 @@ class User extends GN_Controller {
                 $this->user_role->insert_many($data_user_role);
             }
 
-            redirect($this->base, 'refresh');
+            redirect($this->_base, 'refresh');
         }
     }
 
     public function update() {
         $this->view = 'sso/user/update';
-        $this->data['action'] = $this->base . '/edit/';
+        $this->data['action'] = $this->_base . '/edit/';
         $primary_key = $this->uri->segment(4);
         $this->data['record'] = $this->user->with('user_role')->get($primary_key);
         foreach($this->data['record']->user_role as $key => $value)
@@ -264,6 +264,6 @@ class User extends GN_Controller {
 
         $this->user_role->delete_by('user_id',$primary_key);
 
-        redirect($this->base, 'refresh');
+        redirect($this->_base, 'refresh');
     }
 }
