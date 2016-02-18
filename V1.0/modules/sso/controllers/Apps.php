@@ -15,6 +15,7 @@ class Apps extends GN_Controller {
 
     public function __construct() {
         parent::__construct();
+        $this->load->library('sso_new');
         $this->data['form'] = [
             [
                 'name' => 'app_name',
@@ -56,6 +57,9 @@ class Apps extends GN_Controller {
         
         $this->data['style'] = [];
         $this->data['script'] = ['list-icon-modal'];
+
+        $this->load->library('sso_new');
+        
     }
 
 }

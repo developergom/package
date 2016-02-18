@@ -92,8 +92,12 @@
                                     echo '<td>'.$v['menu_name'].' <a class="btn-check-all" data-menu_id="'.$v['module_id'].'" data-checked="false" href="javascript:void(0)" title="Click to check all"><span class="label label-success">check all</span></a></td>';
                                     foreach($actions as $act => $actval) {
                                         if(in_array($actval['action_id'],$v['_action'])) {
-                                            $checked = in_array($actval['action_id'],$v['_access_key']) ? 'checked' : '';
-                                            echo '<td><center><input type="checkbox" name="action_'.$v['module_id'].'_'.$actval['action_id'].'" class="action-check-'.$v['module_id'].'" data-menu_id="'.$v['module_id'].'" id="action_'.$v['module_id'].'_'.$actval['action_id'].'" '.$checked.'></center></td>';
+                                            if(isset($v['_access_key'])) {
+                                                $checked = in_array($actval['action_id'],$v['_access_key']) ? 'checked' : '';
+                                                echo '<td><center><input type="checkbox" name="action_'.$v['module_id'].'_'.$actval['action_id'].'" class="action-check-'.$v['module_id'].'" data-menu_id="'.$v['module_id'].'" id="action_'.$v['module_id'].'_'.$actval['action_id'].'" '.$checked.'></center></td>';                                                
+                                            }else{
+                                                echo '<td><center><input type="checkbox" name="action_'.$v['module_id'].'_'.$actval['action_id'].'" class="action-check-'.$v['module_id'].'" data-menu_id="'.$v['module_id'].'" id="action_'.$v['module_id'].'_'.$actval['action_id'].'"></center></td>';
+                                            }
                                         }else{
                                             echo '<td>&nbsp;</td>';
                                         }

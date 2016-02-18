@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <base href="<?php echo base_url() ?>" />
-        <title><?php echo 'Package | ' . $title ?></title>
+        <title><?php echo APP_NAME . ' | ' . $title ?></title>
         <?php echo link_tag('asset/img/fav.gif', 'shortcut icon') ?>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -44,8 +44,8 @@
         <div class="wrapper">
             <header class="main-header">
                 <a href="#" class="logo">
-                    <span class="logo-mini"><strong><?php echo substr('Package', 0, 3); ?></strong></span>
-                    <span class="logo-lg"><?php echo 'Package' ?></span>
+                    <span class="logo-mini"><strong><?php echo substr(APP_NAME, 0, 3); ?></strong></span>
+                    <span class="logo-lg"><?php echo APP_NAME; ?></span>
                 </a>
                 <nav class="navbar navbar-static-top" role="navigation">
                     <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
@@ -118,8 +118,8 @@
                     </div>
                     <ul class="sidebar-menu">
                         <li class="header">THE NAVIGATION</li>
-                        <li><?php echo anchor('/', '<i class="fa fa-home"></i> <span>Home</span>') ?></li>
-                        <?php //echo $this->sso->menu ?>
+                        <!-- <li><?php echo anchor('/', '<i class="fa fa-home"></i> <span>Home</span>') ?></li> -->
+                        <?php echo $this->sso_new->menu ?>
                     </ul>
                 </section>
             </aside>

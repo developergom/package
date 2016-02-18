@@ -17,70 +17,108 @@ defined('BASEPATH') OR exit('No direct script access allowed.');
  	private $data = [];
  	public $menu = [];
  	public $access = [];
+ 	private $action_key = [];
 
  	public function __construct() {
  		$this->ci =& get_instance();
  		$this->ci->load->helper('recursive');
 
- 		$this->id = 1;
- 		$this->data = $this->get_data();
- 		$this->menu = $this->set_menu();
- 		$this->access = $this->set_access();
+ 		$this->id = 2;
+ 		$this->fetch_action_key();
+ 		$this->get_access();
+ 		$this->menu = $this->generate_menu();
+
+ 		$this->checking_access();
+
+ 		//debug($this->ci->router->fetch_class());
+
  		if(!isset($this->id))
  			return;
  	}
 
- 	private function get_data() {
- 		$this->ci->db->join('modules md', 'md.module_id = m.module_id');
- 		$this->ci->db->join('role_access r', 'r.menu_id = m.menu_id');
-        $this->ci->db->join('user_role u', 'u.role_id = r.role_id');
-        $query = $this->ci->db->get_where('menus m', ['u.user_id' => $this->id, 'm.menu_status' => 'ACTIVE', 'md.module_status' => 'ACTIVE']);
-        $result = $query->result_array();
-        if(!empty($result)){
-        	$data = [];
-        	$tmp = [];
-			foreach($result as $val){
-				$menu_parent = ($val['menu_parent'] == 1) ? 0 : $val['menu_parent'];
-				$tmp[$val['menu_id']][] = unserialize($val['access_key']);
-				$data[$val['menu_id']] = [
-					'menu_id' => $val['menu_id'],
-					'menu_parent' => $menu_parent,
-					'module_id' => $val['module_id'],
-					'module_name' => $val['module_name'],
-					'menu_name' => $val['menu_name'],
-					'menu_icon' => $val['menu_icon'],
-					'menu_link' => $val['menu_link']
-				];
-			}
-
-			$array_key = [];
-			foreach($tmp as $k => $v){
-				$array_key[$k] = [];
-				foreach($v as $vv){
-					if(is_array($vv) == FALSE)
-						continue;
-
-					$array_key[$k] = array_merge($array_key[$k], $vv);
-				}
-				$array_key[$k] = array_unique($array_key[$k]);
-				sort($array_key[$k]);
-			}        	
-
-			foreach($data as $kk => $vvv)
-				$data[$kk]['key'] = $array_key[$kk];
-        }
-
-        return (isset($data)) ? $data : [];
+ 	private function fetch_action_key() {
+ 		$action_key = $this->ci->db->get('actions')->result_array();
+ 		foreach($action_key as $key => $value)
+ 			$this->action_key[$value['action_id']] = $value['action_alias'];
  	}
 
- 	private function set_menu() {
-        $tmp = [];
-        foreach ($this->data as $v)
-            $tmp[] = $v;
+ 	private function get_access() {
+ 		$tmp = [];
+ 		$userrole = $this->ci->db->get_where('user_role ur',['ur.user_id' => $this->id])->result_array();
+ 		foreach($userrole as $key => $value) {
+ 			$rolemodule = $this->ci->db->get_where('role_module rm',['rm.role_id' => $value['role_id']])->result_array();
+ 			foreach($rolemodule as $k => $v) {
+ 				if(isset($this->access[$v['module_id']]))
+ 					$this->access[$v['module_id']] = array_merge($this->access[$v['module_id']],unserialize($v['access_key']));
+ 				else
+ 					$this->access[$v['module_id']] = unserialize($v['access_key']);
 
-        $menu = data_recursive($tmp, 'menu_id', 'menu_parent');
-        echo '<pre>';
-        print_r($menu);die;
-        return $this->menu_tree($menu);
+ 				$this->access[$v['module_id']] = array_unique($this->access[$v['module_id']]);
+ 			}
+ 		}
+ 	}
+
+ 	private function checking_access() {
+ 		$url = $this->ci->router->fetch_class();
+ 		$modules = $this->ci->db->get_where('modules md', ['md.module_url' => $url ])->row_array();
+ 		if(sizeof($modules) > 0) {
+ 			$selected = $this->access[$modules['module_id']];
+ 			if(empty($selected))
+ 				redirect(404);
+ 		}else{
+ 			redirect(404);
+ 		}
+ 	}
+
+ 	private function generate_menu() {
+ 		foreach($this->access as $key => $value) {
+ 			if(!empty($value)) {
+ 				$this->ci->db->join('modules md','md.module_id = m.module_id','INNER');
+ 				$this->ci->db->join('apps a','a.app_id = md.app_id','INNER');
+ 				$menus = $this->ci->db->get_where('menus m', ['m.module_id' => $key])->row_array();
+ 				$this->data[] = $menus;
+ 			}
+ 		}
+ 		$rec = data_recursive($this->data,'menu_id','menu_parent');
+ 		$str = $this->menu_tree($rec);
+ 		return $str;
+ 	}
+
+ 	protected function menu_tree($data = []) {
+        $str = NULL;
+        if (!empty($data)) {
+            foreach ($data as $v) {
+                $lv1 = $v['data'];
+                if (!empty($v['sub'])) {
+                    $attr1 = (!empty($v['sub'])) ? '<i class="fa fa-angle-left pull-right"></i>' : NULL;
+                    $c1 = (!empty($v['sub'])) ? 'class="treeview"' : NULL;
+                    $str .= '<li ' . $c1 . '>' . anchor($lv1['module_url'], '<i class="fa ' . $lv1['menu_icon'] . '"></i> <span>' . $lv1['menu_name'] . '</span>' . $attr1);
+                    $str .= '<ul class="treeview-menu">';
+                    foreach ($v['sub'] as $vv) {
+                        $lv2 = $vv['data'];
+                        if (!empty($vv['sub'])) {
+                            $attr2 = (!empty($vv['sub'])) ? '<i class="fa fa-angle-left pull-right"></i>' : NULL;
+                            $str .= '<li>' . anchor($lv2['module_url'], '<i class="fa ' . $lv2['menu_icon'] . '"></i>' . $lv2['menu_name'] . $attr2);
+                            $str .= '<ul class="treeview-menu">';
+                            foreach ($vv['sub'] as $vvv) {
+                                $lv3 = $vvv['data'];
+                                $str .= '<li>' . anchor($lv3['app_url'] . $lv3['module_url'], '<i class="fa ' . $lv3['menu_icon'] . '"></i>' . nbs() . $lv3['menu_name']) . '</li>';
+                            }
+                            $str .= '</ul>';
+                        } else {
+                            $str .= '<li>' . anchor($lv2['module_url'], '<i class="fa ' . $lv2['menu_icon'] . '"></i> <span>' . $lv2['menu_name'] . '</span>');
+                        }
+                        $str .= '</li>';
+                    }
+                    $str .= '</ul>';
+                } else {
+                    $str .= '<li>' . anchor($lv1['module_url'], '<i class="fa ' . $lv1['menu_icon'] . '"></i> <span>' . $lv1['menu_name'] . '</span>');
+                }
+                $str .= '</li>';
+            }
+        }
+
+        return $str;
     }
+
  }

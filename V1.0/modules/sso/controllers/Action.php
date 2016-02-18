@@ -14,6 +14,7 @@ class Action extends GN_Controller {
 
     public function __construct() {
         parent::__construct();
+        $this->load->library('sso_new');
         $this->data['form'] = [
             [
                 'name' => 'action_name',
