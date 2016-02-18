@@ -15,9 +15,10 @@ defined('BASEPATH') OR exit('No direct script access allowed.');
  	var $ci;
  	var $id;
  	private $data = [];
+ 	private $action_key = [];
  	public $menu = [];
  	public $access = [];
- 	private $action_key = [];
+ 	public $curr_access = [];
 
  	public function __construct() {
  		$this->ci =& get_instance();
@@ -30,10 +31,16 @@ defined('BASEPATH') OR exit('No direct script access allowed.');
 
  		$this->checking_access();
 
- 		//debug($this->ci->router->fetch_class());
-
  		if(!isset($this->id))
  			return;
+ 	}
+
+ 	private function get_current_access($module_id) {
+ 		if(!empty($module_id)) {
+ 			reset($this->curr_access);
+ 			foreach($this->access[$module_id] as $key => $value)
+ 				array_push($this->curr_access, $this->action_key[$value]);
+ 		}
  	}
 
  	private function fetch_action_key() {
@@ -63,8 +70,11 @@ defined('BASEPATH') OR exit('No direct script access allowed.');
  		$modules = $this->ci->db->get_where('modules md', ['md.module_url' => $url ])->row_array();
  		if(sizeof($modules) > 0) {
  			$selected = $this->access[$modules['module_id']];
- 			if(empty($selected))
+ 			if(empty($selected)){
  				redirect(404);
+ 			}else{
+ 				$this->get_current_access($modules['module_id']);
+ 			}
  		}else{
  			redirect(404);
  		}
@@ -75,7 +85,7 @@ defined('BASEPATH') OR exit('No direct script access allowed.');
  			if(!empty($value)) {
  				$this->ci->db->join('modules md','md.module_id = m.module_id','INNER');
  				$this->ci->db->join('apps a','a.app_id = md.app_id','INNER');
- 				$menus = $this->ci->db->get_where('menus m', ['m.module_id' => $key])->row_array();
+ 				$menus = $this->ci->db->order_by('m.menu_order','asc')->get_where('menus m', ['m.module_id' => $key])->row_array();
  				$this->data[] = $menus;
  			}
  		}
@@ -102,7 +112,8 @@ defined('BASEPATH') OR exit('No direct script access allowed.');
                             $str .= '<ul class="treeview-menu">';
                             foreach ($vv['sub'] as $vvv) {
                                 $lv3 = $vvv['data'];
-                                $str .= '<li>' . anchor($lv3['app_url'] . $lv3['module_url'], '<i class="fa ' . $lv3['menu_icon'] . '"></i>' . nbs() . $lv3['menu_name']) . '</li>';
+                                $active = ($lv3['module_url']==$this->ci->router->fetch_class()) ? 'active' : '';
+                                $str .= '<li class="' . $active . '">' . anchor($lv3['app_url'] . $lv3['module_url'], '<i class="fa ' . $lv3['menu_icon'] . '"></i>' . nbs() . $lv3['menu_name']) . '</li>';
                             }
                             $str .= '</ul>';
                         } else {
