@@ -16,7 +16,6 @@ class User extends GN_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->library('sso_new');
         $this->_base = $this->router->fetch_module() . '/' . $this->router->fetch_class();
         $this->data['form'] = [
             [
@@ -75,6 +74,7 @@ class User extends GN_Controller {
     }
 
     public function index() {
+        $this->sso_new->check_access('r');
         $this->load->library(['pagination', 'table']);
         $page = !empty($this->uri->segment(4)) ? $this->_perpage * ($this->uri->segment(4) - 1) : 0;
         $config['base_url'] = base_url($this->_base . '/index/');
@@ -118,6 +118,7 @@ class User extends GN_Controller {
     }
 
     protected function insert() {
+        $this->sso_new->check_access('c');
         if($this->validation($this->data['form'])===FALSE) {
             $this->view = 'layouts/AdminLTE/form';
             $this->data['action'] = $this->_base . '/insert/'; 
@@ -151,6 +152,7 @@ class User extends GN_Controller {
     }
 
     public function update() {
+        $this->sso_new->check_access('u');
         $this->view = 'sso/user/update';
         $this->data['action'] = $this->_base . '/edit/';
         $primary_key = $this->uri->segment(4);
@@ -161,6 +163,7 @@ class User extends GN_Controller {
     }
 
     protected function edit() {
+        $this->sso_new->check_access('u');
         $custom_rules = [
             [
                 'name' => 'user_firstname',
@@ -250,6 +253,7 @@ class User extends GN_Controller {
     }
    
     public function delete() {
+        $this->sso_new->check_access('d');
         $primary_key = $this->uri->segment(4);
         $this->user->delete($primary_key);
 

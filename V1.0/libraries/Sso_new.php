@@ -80,6 +80,12 @@ defined('BASEPATH') OR exit('No direct script access allowed.');
  		}
  	}
 
+    public function check_access($code_access) {
+        /*debug($this->curr_access);*/
+        if(!in_array($code_access,$this->curr_access))
+            redirect(404);
+    }
+
  	private function generate_menu() {
  		foreach($this->access as $key => $value) {
  			if(!empty($value)) {
@@ -89,6 +95,7 @@ defined('BASEPATH') OR exit('No direct script access allowed.');
  				$this->data[] = $menus;
  			}
  		}
+        $this->sorting_menu();
  		$rec = data_recursive($this->data,'menu_id','menu_parent');
  		$str = $this->menu_tree($rec);
  		return $str;
@@ -130,6 +137,14 @@ defined('BASEPATH') OR exit('No direct script access allowed.');
         }
 
         return $str;
+    }
+
+    private function sorting_menu() {
+        $order = array();
+        foreach($this->data as $key => $value)
+            $order[] = $value['menu_order'];
+
+        array_multisort($order, SORT_ASC, $this->data);
     }
 
  }

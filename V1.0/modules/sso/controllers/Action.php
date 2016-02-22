@@ -14,7 +14,6 @@ class Action extends GN_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->library('sso_new');
         $this->data['form'] = [
             [
                 'name' => 'action_name',
@@ -47,6 +46,7 @@ class Action extends GN_Controller {
     }
 
     protected function edit() {
+        $this->sso_new->check_access('u');
         $custom_rules = [
             [
                 'name' => 'action_name',

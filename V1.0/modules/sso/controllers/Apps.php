@@ -57,9 +57,6 @@ class Apps extends GN_Controller {
         
         $this->data['style'] = [];
         $this->data['script'] = ['list-icon-modal'];
-
-        $this->load->library('sso_new');
-        
     }
 
 }

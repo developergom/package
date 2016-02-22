@@ -16,7 +16,6 @@ class Module extends GN_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->library('sso_new');
         $this->_base = $this->router->fetch_module() . '/' . $this->router->fetch_class();
         $this->_primary_key = 'module_id';
         $this->data['form'] = [
@@ -59,6 +58,7 @@ class Module extends GN_Controller {
     }
 
     public function index() {
+        $this->sso_new->check_access('r');
         $this->load->library(['pagination', 'table']);
         $page = !empty($this->uri->segment(4)) ? $this->_perpage * ($this->uri->segment(4) - 1) : 0;
         $config['base_url'] = base_url($this->_base . '/index/');
@@ -107,6 +107,7 @@ class Module extends GN_Controller {
     }
 
     protected function insert() {
+        $this->sso_new->check_access('c');
         if($this->validation($this->data['form'])===FALSE) {
             $this->view = 'layouts/AdminLTE/form';
             $this->data['action'] = $this->_base . '/insert/'; 
@@ -126,6 +127,7 @@ class Module extends GN_Controller {
     }
 
     public function update() {
+        $this->sso_new->check_access('u');
         $this->view = 'layouts/AdminLTE/form';
         $this->data['action'] = $this->_base . '/edit/';
         $primary_key = $this->uri->segment(4);
@@ -141,6 +143,7 @@ class Module extends GN_Controller {
     }
 
     public function edit() {
+        $this->sso_new->check_access('u');
         $custom_rules = [
             [
                 'name' => 'module_url',

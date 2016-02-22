@@ -17,7 +17,6 @@ class Role extends GN_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->library('sso_new');
         $this->_base = $this->router->fetch_module() . '/' . $this->router->fetch_class();
         $this->data['form'] = [
             [
@@ -44,6 +43,7 @@ class Role extends GN_Controller {
     }
 
     public function create() {
+        $this->sso_new->check_access('c');
         $this->load->helper('recursive');
 
         $recursive = data_recursive(object_to_array($this->menu->get_all()),'menu_id','menu_parent');
@@ -62,6 +62,7 @@ class Role extends GN_Controller {
     }
 
     protected function insert() {
+        $this->sso_new->check_access('c');
         if($this->validation($this->data['form'])===FALSE) {
             $this->view = 'layouts/AdminLTE/form';
             $this->data['action'] = $this->_base . '/insert/'; 
@@ -81,6 +82,7 @@ class Role extends GN_Controller {
     }
 
     public function update() {
+        $this->sso_new->check_access('u');
         $this->load->helper('recursive');
 
         $recursive = data_recursive(object_to_array($this->menu->get_all()),'menu_id','menu_parent');
@@ -108,6 +110,7 @@ class Role extends GN_Controller {
     }
 
     protected function edit() {
+        $this->sso_new->check_access('u');
         $record = $this->{$this->router->fetch_class()}->get($this->input->post($this->_primary_key));
         if (!empty($record)) {
             if($this->validation($this->data['form'])===FALSE) {

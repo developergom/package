@@ -17,7 +17,6 @@ class Menu extends GN_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->library('sso_new');
         $this->_perpage = 10;
         $this->_base = $this->router->fetch_module() . '/' . $this->router->fetch_class();
         $this->menu_parent_dropdown = $this->generate_option_recursive();
@@ -90,12 +89,14 @@ class Menu extends GN_Controller {
     }
 
     public function create() {
+        $this->sso_new->check_access('c');
         $this->data['apps_data'] = $this->apps->dropdown('app_name');
 
         $this->view = 'sso/menu/create';   
     }
 
     protected function insert() {
+        $this->sso_new->check_access('c');
         $data_insert = [
             'module_id' => $this->input->post('module_id'),
             'menu_name' => $this->input->post('menu_name'),
@@ -117,6 +118,7 @@ class Menu extends GN_Controller {
     }
 
     public function update() {
+        $this->sso_new->check_access('u');
         $this->view = 'sso/menu/update';
         $this->data['action'] = $this->_base . '/edit/';
         $primary_key = $this->uri->segment(4);
@@ -126,6 +128,7 @@ class Menu extends GN_Controller {
     }
 
     protected function edit() {
+        $this->sso_new->check_access('u');
         $custom_rules = [
             [
                 'name' => 'menu_name',

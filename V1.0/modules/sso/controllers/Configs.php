@@ -15,7 +15,6 @@ class Configs extends GN_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->library('sso_new');
         $this->_base = $this->router->fetch_module() . '/' . $this->router->fetch_class();
         $this->data['form'] = [
             [
@@ -40,6 +39,7 @@ class Configs extends GN_Controller {
     }
 
     public function edit() {
+        $this->sso_new->check_access('u');
         $custom_rules = [
             [
                 'name' => 'config_value',
