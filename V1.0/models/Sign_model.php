@@ -35,12 +35,17 @@ class Sign_model extends GN_Model {
 
     private function _do_sign_in($user, $pass) {
         $decode = $this->encrypt->decode($user->user_password);
+        //debug($this->encrypt->encode('password'));
         if ($pass == $decode) {
             $this->session->set_userdata('user', $user->user_id);
+            $this->session->set_userdata('username', $user->user_name);
+            $this->session->set_userdata('firstname', $user->user_firstname);
+            $this->session->set_userdata('lastname', $user->user_lastname);
+            $this->session->set_userdata('avatar', $user->user_avatar);
             return 'success';
         } else {
             $user = $this->get($user->user_id);
-            $this->before_update = ['log'];
+            //$this->before_update = ['log'];
             if ($user->user_count_wrong_password < $this->count_wrong_password) {
                 $this->update($user->user_id, ['user_count_wrong_password' => $this->count_wrong_password + 1]);
                 return 'warning';

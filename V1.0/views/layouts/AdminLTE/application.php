@@ -77,14 +77,14 @@
                             </li>
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <img src="asset/img/avatar/<?php //echo $this->session->userdata('uava');                           ?>" class="user-image" alt="User Image"/>
-                                    <span class="hidden-xs"><?php //echo $this->session->userdata('nick')                           ?></span>
+                                    <img src="asset/img/avatar/<?php echo $this->session->userdata('avatar'); ?>" class="user-image" alt="User Image"/>
+                                    <span class="hidden-xs"><?php echo $this->session->userdata('fullname'); ?></span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li class="user-header">
-                                        <img src="asset/img/avatar/<?php //echo $this->session->userdata('uava');                           ?>" class="img-circle" alt="User Image" />
+                                        <img src="asset/img/avatar/<?php echo $this->session->userdata('avatar'); ?>" class="img-circle" alt="User Image" />
                                         <p>
-                                            <?php //echo '<strong>' . $this->session->userdata('username') . '</strong><br/>' . $this->session->userdata('name') ?>
+                                            <?php echo '<strong>' . $this->session->userdata('username') . '</strong><br/>' . $this->session->userdata('firstname') . ' ' . $this->session->userdata('lastname'); ?>
                                         </p>
                                     </li>
                                     <li class="user-body">
@@ -93,10 +93,10 @@
                                     </li>
                                     <li class="user-footer">
                                         <div class="pull-left">
-                                            <?php //echo anchor('profile/index/' . $this->session->userdata('user'), '<i class="fa fa-user"></i> Profile', 'class="btn btn-default btn-flat"') ?>
+                                            <?php echo anchor('profile/index/' . $this->session->userdata('user'), '<i class="fa fa-user"></i> Profile', 'class="btn btn-default btn-flat"') ?>
                                         </div>
                                         <div class="pull-right">
-                                            <?php //echo anchor('out/', '<i class="fa fa-sign-out"></i> Sign out', 'class="btn btn-default btn-flat"') ?>
+                                            <?php echo anchor('sign', '<i class="fa fa-sign-out"></i> Sign out', 'class="btn btn-default btn-flat"') ?>
                                         </div>
                                     </li>
                                 </ul>
@@ -109,10 +109,10 @@
                 <section class="sidebar">
                     <div class="user-panel">
                         <div class="pull-left image">
-                            <img src="asset/img/avatar/<?php //echo $this->session->userdata('uava');                           ?>" class="img-circle" alt="User Image" />
+                            <img src="asset/img/avatar/<?php echo $this->session->userdata('avatar'); ?>" class="img-circle" alt="User Image" />
                         </div>
                         <div class="pull-left info">
-                            <p><?php //echo $this->session->userdata('name') . ' <small>(' . $this->session->userdata('nick') . ')</small>'                           ?></p>
+                            <p><?php echo $this->session->userdata('firstname') . ' ' . $this->session->userdata('lastname'); ?></p>
                             <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                         </div>
                     </div>

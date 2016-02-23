@@ -23,7 +23,11 @@ class Notfound extends CI_Controller {
         $this->_attr['content_header'] = '404 Error Page';
         $this->_attr['breadcrumb'] = [anchor('/', '<i class="fa fa-home"></i> Error 404')];
         $this->template->load($this->setting->template . '/default', 'templates/' . $this->setting->template . '/notfound', $this->_attr);*/
-        echo 'Page Not Found';
+        if($this->session->userdata('user')!==null) {
+            echo 'Page Not Found. ' . anchor('home', 'Back to Homepage');
+        }else{
+            redirect('sign','refresh');
+        }
     }
 
 }

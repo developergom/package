@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed.');
  		$this->ci =& get_instance();
  		$this->ci->load->helper('recursive');
 
- 		$this->id = 2;
+ 		$this->id = $this->ci->session->userdata('user');
  		$this->fetch_action_key();
  		$this->get_access();
  		$this->menu = $this->generate_menu();

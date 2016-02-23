@@ -12,7 +12,7 @@ class User_model extends GN_Model {
     public $_db_group = 'SSO';
     public $primary_key = 'user_id';
     public $protected_attributes = ['user_id'];
-    public $before_create = ['create_log','set_password'];
+    public $before_create = ['create_log','set_password','set_avatar'];
     public $before_update = ['update_log'];
     public $has_many = ['user_role' =>
         [
@@ -53,9 +53,13 @@ class User_model extends GN_Model {
         parent::__construct();
     }
 
-    public function set_password($user) {
-        $this->load->library('encryption');
-        $user['user_password'] = $this->encryption->encrypt('password');
+    private function set_password($user) {
+        $this->load->library('encrypt');
+        $user['user_password'] = $this->encrypt->encode('password');
         return $user;
+    }
+
+    private function set_avatar() {
+        $user['user_avatar'] = 'default.jpg';
     }
 }
