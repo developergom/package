@@ -46,6 +46,7 @@ class Action extends GN_Controller {
     }
 
     protected function edit() {
+        $this->sso_new->check_access('u');
         $custom_rules = [
             [
                 'name' => 'action_name',

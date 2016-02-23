@@ -1,9 +1,10 @@
 <div class="row">
 	<div class="col-md-12">
 		<div class="box box-info">
-			<?php echo form_open('sso/role/insert/', 'class="form-horizontal"') ?>
+			<?php echo form_open($action, 'class="form-horizontal"') ?>
+            <input type="hidden" name="role_id" value="<?php echo $record->role_id; ?>">
 			<div class="box-header">
-				<?php echo heading('<i class="fa fa-pencil"></i> Create New Role', 3, 'class="box-title"') ?>
+				<?php echo heading('<i class="fa fa-pencil"></i> Edit Role', 3, 'class="box-title"') ?>
 			</div>
 			<div class="box-body">
 				<div class="row">
@@ -74,14 +75,12 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <!-- <th rowspan="2">Apps</th> -->
-                                    <!-- <th rowspan="2">Module</th> -->
                                     <th rowspan="2">Menu Name</th>
-                                    <th colspan="<?php echo count($action); ?>"><center>Access Key</center></th>
+                                    <th colspan="<?php echo count($actions); ?>"><center>Access Key</center></th>
                                 </tr>
                                 <tr>
                                     <?php
-                                    foreach($action as $a => $v)
+                                    foreach($actions as $a => $v)
                                         echo '<th><center>'.$v['action_name'].'</center></th>';
                                     ?>
                                 </tr>
@@ -90,13 +89,15 @@
                                 <?php
                                 foreach($menu as $m => $v) {
                                     echo '<tr>';
-                                    //echo '<td>'.$v['modules']->apps->app_name.'</td>';
-                                    /*echo '<td>'.$v['modules']->module_name.'</td>';*/
                                     echo '<td>'.$v['menu_name'].' <a class="btn-check-all" data-menu_id="'.$v['module_id'].'" data-checked="false" href="javascript:void(0)" title="Click to check all"><span class="label label-success">check all</span></a></td>';
-                                    foreach($action as $act => $actval) {
-                                        //debug($v);
+                                    foreach($actions as $act => $actval) {
                                         if(in_array($actval['action_id'],$v['_action'])) {
-                                            echo '<td><center><input type="checkbox" name="action_'.$v['module_id'].'_'.$actval['action_id'].'" class="action-check-'.$v['module_id'].'" data-menu_id="'.$v['module_id'].'" id="action_'.$v['module_id'].'_'.$actval['action_id'].'"></center></td>';
+                                            if(isset($v['_access_key'])) {
+                                                $checked = in_array($actval['action_id'],$v['_access_key']) ? 'checked' : '';
+                                                echo '<td><center><input type="checkbox" name="action_'.$v['module_id'].'_'.$actval['action_id'].'" class="action-check-'.$v['module_id'].'" data-menu_id="'.$v['module_id'].'" id="action_'.$v['module_id'].'_'.$actval['action_id'].'" '.$checked.'></center></td>';                                                
+                                            }else{
+                                                echo '<td><center><input type="checkbox" name="action_'.$v['module_id'].'_'.$actval['action_id'].'" class="action-check-'.$v['module_id'].'" data-menu_id="'.$v['module_id'].'" id="action_'.$v['module_id'].'_'.$actval['action_id'].'"></center></td>';
+                                            }
                                         }else{
                                             echo '<td>&nbsp;</td>';
                                         }

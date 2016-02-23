@@ -17,7 +17,11 @@ class Sign extends CI_Controller {
     }
 
     public function index() {
-        $this->load->view('sign');
+        if($this->session->userdata('user')!==null) {
+            $this->out();
+        }else{
+            $this->load->view('sign');
+        }
     }
 
     public function in() {
@@ -38,7 +42,8 @@ class Sign extends CI_Controller {
     }
 
     protected function out() {
-        debug('out');
+        $this->session->sess_destroy();
+        redirect('sign');
     }
 
 }

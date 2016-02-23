@@ -38,11 +38,6 @@ class Menu_model extends GN_Model {
             'rules' => 'required'
         ],
         [
-            'field' => 'menu_link',
-            'label' => 'Link',
-            'rules' => 'required|max_length[255]'
-        ],
-        [
             'field' => 'menu_icon',
             'label' => 'Icon',
             'rules' => 'max_length[255]'

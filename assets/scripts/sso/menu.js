@@ -17,7 +17,7 @@ $(document).ready(function(){
 		$("select[name='module_id']").empty();
 		$("select[name='module_id']").append('<option value="">Please select...</option>');
 		$.each(result, function(k, v){
-			$("select[name='module_id']").append('<option value="' + v.module_id + '">' + v.module_name + '</option>');
+			$("select[name='module_id']").append('<option value="' + v.module_id + '">' + v.module_url + '</option>');
 		});
 
 	});

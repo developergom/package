@@ -26,6 +26,7 @@ class GN_Controller extends CI_Controller {
 
         $this->_load_models();
         $this->_load_helpers();
+        $this->load->library('sso_new');
 
         $this->base = $this->router->fetch_module() . '/' . $this->router->fetch_class();
         if (isset($this->{$this->router->fetch_class()}->primary_key))
@@ -98,6 +99,7 @@ class GN_Controller extends CI_Controller {
     }
 
     protected function index() {
+        $this->sso_new->check_access('r');
         $this->load->library(['pagination', 'table']);
         $page = !empty($this->uri->segment(4)) ? $this->perpage * ($this->uri->segment(4) - 1) : 0;
         $config['base_url'] = base_url($this->base . '/index/');
@@ -162,11 +164,13 @@ class GN_Controller extends CI_Controller {
     }
 
     protected function create() {
+        $this->sso_new->check_access('c');
         $this->view = 'layouts/AdminLTE/form';
         $this->data['action'] = $this->base . '/insert/';
     }
 
     protected function insert() {
+        $this->sso_new->check_access('c');
         if ($this->validation($this->data['form']) === FALSE) {
             $this->view = 'layouts/AdminLTE/form';
             $this->data['action'] = $this->base . '/insert/';
@@ -177,6 +181,7 @@ class GN_Controller extends CI_Controller {
     }
 
     protected function update() {
+        $this->sso_new->check_access('u');
         $this->view = 'layouts/AdminLTE/form';
         $this->data['action'] = $this->base . '/edit/';
         $primary_key = $this->uri->segment(4);
@@ -184,6 +189,7 @@ class GN_Controller extends CI_Controller {
     }
 
     protected function edit() {
+        $this->sso_new->check_access('u');
         $record = $this->{$this->router->fetch_class()}->get($this->input->post($this->_primary_key));
         if (!empty($record)) {
             if ($this->validation($this->data['form']) === FALSE) {
@@ -199,6 +205,7 @@ class GN_Controller extends CI_Controller {
     }
 
     protected function delete() {
+        $this->sso_new->check_access('d');
         $primary_key = $this->uri->segment(4);
         $this->{$this->router->fetch_class()}->delete($primary_key);
         redirect($this->base . '?message=delete&status=success', 'refresh');

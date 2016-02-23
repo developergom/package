@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <base href="<?php echo base_url() ?>" />
-        <title><?php echo 'Package | ' . $title ?></title>
+        <title><?php echo APP_NAME . ' | ' . $title ?></title>
         <?php echo link_tag('asset/img/fav.gif', 'shortcut icon') ?>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -45,8 +45,8 @@
         <div class="wrapper">
             <header class="main-header">
                 <a href="#" class="logo">
-                    <span class="logo-mini"><strong><?php echo substr('Package', 0, 3); ?></strong></span>
-                    <span class="logo-lg"><?php echo 'Package' ?></span>
+                    <span class="logo-mini"><strong><?php echo substr(APP_NAME, 0, 3); ?></strong></span>
+                    <span class="logo-lg"><?php echo APP_NAME; ?></span>
                 </a>
                 <nav class="navbar navbar-static-top" role="navigation">
                     <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
@@ -78,14 +78,23 @@
                             </li>
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+<<<<<<< HEAD
                                     <img src="asset/img/avatar/<?php //echo $this->session->userdata('uava');                                ?>" class="user-image" alt="User Image"/>
                                     <span class="hidden-xs"><?php //echo $this->session->userdata('nick')                                ?></span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li class="user-header">
                                         <img src="asset/img/avatar/<?php //echo $this->session->userdata('uava');                                ?>" class="img-circle" alt="User Image" />
+=======
+                                    <img src="asset/img/avatar/<?php echo $this->session->userdata('avatar'); ?>" class="user-image" alt="User Image"/>
+                                    <span class="hidden-xs"><?php echo $this->session->userdata('fullname'); ?></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="user-header">
+                                        <img src="asset/img/avatar/<?php echo $this->session->userdata('avatar'); ?>" class="img-circle" alt="User Image" />
+>>>>>>> 11ec982d77c0cac523598ac40fee3745651931d5
                                         <p>
-                                            <?php //echo '<strong>' . $this->session->userdata('username') . '</strong><br/>' . $this->session->userdata('name') ?>
+                                            <?php echo '<strong>' . $this->session->userdata('username') . '</strong><br/>' . $this->session->userdata('firstname') . ' ' . $this->session->userdata('lastname'); ?>
                                         </p>
                                     </li>
                                     <li class="user-body">
@@ -94,10 +103,10 @@
                                     </li>
                                     <li class="user-footer">
                                         <div class="pull-left">
-                                            <?php //echo anchor('profile/index/' . $this->session->userdata('user'), '<i class="fa fa-user"></i> Profile', 'class="btn btn-default btn-flat"') ?>
+                                            <?php echo anchor('profile/index/' . $this->session->userdata('user'), '<i class="fa fa-user"></i> Profile', 'class="btn btn-default btn-flat"') ?>
                                         </div>
                                         <div class="pull-right">
-                                            <?php //echo anchor('out/', '<i class="fa fa-sign-out"></i> Sign out', 'class="btn btn-default btn-flat"') ?>
+                                            <?php echo anchor('sign', '<i class="fa fa-sign-out"></i> Sign out', 'class="btn btn-default btn-flat"') ?>
                                         </div>
                                     </li>
                                 </ul>
@@ -110,17 +119,24 @@
                 <section class="sidebar">
                     <div class="user-panel">
                         <div class="pull-left image">
+<<<<<<< HEAD
                             <img src="asset/img/avatar/<?php //echo $this->session->userdata('uava');                                ?>" class="img-circle" alt="User Image" />
                         </div>
                         <div class="pull-left info">
                             <p><?php //echo $this->session->userdata('name') . ' <small>(' . $this->session->userdata('nick') . ')</small>'                                ?></p>
+=======
+                            <img src="asset/img/avatar/<?php echo $this->session->userdata('avatar'); ?>" class="img-circle" alt="User Image" />
+                        </div>
+                        <div class="pull-left info">
+                            <p><?php echo $this->session->userdata('firstname') . ' ' . $this->session->userdata('lastname'); ?></p>
+>>>>>>> 11ec982d77c0cac523598ac40fee3745651931d5
                             <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                         </div>
                     </div>
                     <ul class="sidebar-menu">
                         <li class="header">THE NAVIGATION</li>
-                        <li><?php echo anchor('/', '<i class="fa fa-home"></i> <span>Home</span>') ?></li>
-                        <?php //echo $this->sso->menu ?>
+                        <!-- <li><?php echo anchor('/', '<i class="fa fa-home"></i> <span>Home</span>') ?></li> -->
+                        <?php echo $this->sso_new->menu ?>
                     </ul>
                 </section>
             </aside>
