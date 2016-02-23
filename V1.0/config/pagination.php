@@ -11,7 +11,7 @@ $config['use_page_numbers'] = TRUE;
 
 //$config['base_url'] = base_url($this->setting->uri_string());
 //$config['per_page'] = $this->setting->perpage;
-$config['per_page'] = 5;
+$config['per_page'] = ROW_PERPAGE;
 //$config['uri_segment'] = $this->setting->segment;
 
 $config['full_tag_open'] = '<nav><ul class="pagination pagination-sm">';

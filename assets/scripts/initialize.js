@@ -2,7 +2,7 @@ $.widget.bridge('uibutton', $.ui.button);
 "use strict";
 $(document).ready(function () {
     setTimeout(function () {
-        $('select').select2({allowClear: true});
+        $('select').select2();
         $('.dataTables_filter').find('input').css('width', '200px');
         $('input[type="checkbox"]').iCheck({
             checkboxClass: 'icheckbox_flat-blue'

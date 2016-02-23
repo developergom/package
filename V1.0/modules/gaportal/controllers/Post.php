@@ -28,7 +28,6 @@ class Post extends GN_Controller {
 
     public function __construct() {
         parent::__construct();
-
         $this->data['style'] = ['summernote'];
         $this->data['script'] = ['summernote.min'];
         $this->data['categories'] = $this->category->multiselect('category_name');

@@ -26,13 +26,13 @@ class Configs extends GN_Controller {
             [
                 'name' => 'config_value',
                 'label' => 'Value',
-                'type' => 'input',
+                'type' => 'textarea',
                 'rules' => 'required|max_length[255]'
             ],
             [
                 'name' => 'config_desc',
                 'label' => 'Description',
-                'type' => 'input',
+                'type' => 'textarea',
                 'rules' => NULL
             ]
         ];
@@ -44,13 +44,13 @@ class Configs extends GN_Controller {
             [
                 'name' => 'config_value',
                 'label' => 'Value',
-                'type' => 'input',
+                'type' => 'textarea',
                 'rules' => 'required|max_length[255]'
             ],
             [
                 'name' => 'config_desc',
                 'label' => 'Description',
-                'type' => 'input',
+                'type' => 'textarea',
                 'rules' => NULL
             ]
         ];

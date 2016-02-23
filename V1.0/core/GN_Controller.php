@@ -28,6 +28,7 @@ class GN_Controller extends CI_Controller {
         $this->_load_helpers();
         $this->load->library('sso_new');
 
+        $this->perpage = ROW_PERPAGE;
         $this->base = $this->router->fetch_module() . '/' . $this->router->fetch_class();
         if (isset($this->{$this->router->fetch_class()}->primary_key))
             $this->_primary_key = $this->{$this->router->fetch_class()}->primary_key;
@@ -58,7 +59,7 @@ class GN_Controller extends CI_Controller {
 
     protected function _load_view() {
         if ($this->view !== FALSE) {
-            $view = (!empty($this->view)) ? $this->view : 'layouts/AdminLTE/base';
+            $view = (!empty($this->view)) ? $this->view : sprintf('layouts/%s/base', LAYOUT);
             $data['yield'] = $this->load->view($view, $this->data, TRUE);
             if (!empty($this->asides)) {
                 foreach ($this->asides as $name => $file)
@@ -70,7 +71,7 @@ class GN_Controller extends CI_Controller {
                 if (file_exists(APPPATH . 'views/layouts/' . $this->router->class . '.php')) {
                     $layout = 'layouts/' . $this->router->class;
                 } else {
-                    $layout = 'layouts/AdminLTE/application';
+                    $layout = sprintf('layouts/%s/application', LAYOUT);
                 }
             } else if ($this->layout !== FALSE) {
                 $layout = $this->layout;

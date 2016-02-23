@@ -77,22 +77,10 @@
                                 </ul>
                             </li>
                             <li class="dropdown user user-menu">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-<<<<<<< HEAD
-                                    <img src="asset/img/avatar/<?php //echo $this->session->userdata('uava');                                ?>" class="user-image" alt="User Image"/>
-                                    <span class="hidden-xs"><?php //echo $this->session->userdata('nick')                                ?></span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li class="user-header">
-                                        <img src="asset/img/avatar/<?php //echo $this->session->userdata('uava');                                ?>" class="img-circle" alt="User Image" />
-=======
-                                    <img src="asset/img/avatar/<?php echo $this->session->userdata('avatar'); ?>" class="user-image" alt="User Image"/>
-                                    <span class="hidden-xs"><?php echo $this->session->userdata('fullname'); ?></span>
-                                </a>
+
                                 <ul class="dropdown-menu">
                                     <li class="user-header">
                                         <img src="asset/img/avatar/<?php echo $this->session->userdata('avatar'); ?>" class="img-circle" alt="User Image" />
->>>>>>> 11ec982d77c0cac523598ac40fee3745651931d5
                                         <p>
                                             <?php echo '<strong>' . $this->session->userdata('username') . '</strong><br/>' . $this->session->userdata('firstname') . ' ' . $this->session->userdata('lastname'); ?>
                                         </p>
@@ -111,6 +99,31 @@
                                     </li>
                                 </ul>
                             </li>
+                            <li class="dropdown user user-menu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <img src="<?php echo IMAGE_PATH ?>avatar/default.png" class="user-image" alt="User Image">
+                                    <span class="hidden-xs"><?php echo $this->session->userdata('firstname') . nbs() . $this->session->userdata('lastname') ?></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <!-- User image -->
+                                    <li class="user-header">
+                                        <img src="<?php echo IMAGE_PATH ?>avatar/default.png" class="img-circle" alt="User Image">
+                                        <p>
+                                            <?php echo $this->session->userdata('firstname') . nbs() . $this->session->userdata('lastname') ?> - Web Developer
+                                            <small>Member since Nov. 2012</small>
+                                        </p>
+                                    </li>
+                                    <!-- Menu Footer-->
+                                    <li class="user-footer">
+                                        <div class="pull-left">
+                                            <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                        </div>
+                                        <div class="pull-right">
+                                            <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
                         </ul>
                     </div>
                 </nav>
@@ -119,17 +132,10 @@
                 <section class="sidebar">
                     <div class="user-panel">
                         <div class="pull-left image">
-<<<<<<< HEAD
-                            <img src="asset/img/avatar/<?php //echo $this->session->userdata('uava');                                ?>" class="img-circle" alt="User Image" />
-                        </div>
-                        <div class="pull-left info">
-                            <p><?php //echo $this->session->userdata('name') . ' <small>(' . $this->session->userdata('nick') . ')</small>'                                ?></p>
-=======
                             <img src="asset/img/avatar/<?php echo $this->session->userdata('avatar'); ?>" class="img-circle" alt="User Image" />
                         </div>
                         <div class="pull-left info">
                             <p><?php echo $this->session->userdata('firstname') . ' ' . $this->session->userdata('lastname'); ?></p>
->>>>>>> 11ec982d77c0cac523598ac40fee3745651931d5
                             <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                         </div>
                     </div>
@@ -203,7 +209,7 @@
                 //Enable sidebar expand on hover effect for sidebar mini
                 //This option is forced to true if both the fixed layout and sidebar mini
                 //are used together
-                sidebarExpandOnHover: true,
+                sidebarExpandOnHover: false,
                 //BoxRefresh Plugin
                 enableBoxRefresh: true,
                 //Bootstrap.js tooltip
