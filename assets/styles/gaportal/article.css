@@ -1,0 +1,284 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 15 Feb 16, 11:20:27
+    Author     : nanank
+*/
+
+
+#page-header{
+    background-color: #f5f5f5;
+    padding-top: 50px;
+    padding-bottom: 0px;
+    position: relative;
+    margin-bottom: 50px;
+    margin-top: 80px;
+}
+
+.single-blog{
+    margin-top: 35px;
+    margin-bottom: 35px;
+}
+
+.post-title{
+    margin-top: 20px;
+    margin-bottom: 5px;
+}
+
+.post-meta{
+    margin-bottom: 15px;
+}
+
+.post-meta span{
+    margin-right: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    opacity: 0.6;
+}
+
+.post-meta span:hover{
+    opacity: 1;
+}
+
+.post-carousel-left, 
+.post-carousel-right {	
+    background-color: #f0f0f0;
+    color:#000;
+    font-size: 32px;
+    height: 40px;
+    line-height: 40px;
+    margin-top: -20px;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    width: 32px;
+    z-index: 999;
+    -webkit-transition: 300ms;
+    -moz-transition: 300ms;
+    -o-transition: 300ms;
+    -ms-transition: 300ms;
+    transition: 300ms;
+}
+
+.post-carousel-left {
+    left:-32px;
+}
+
+.post-carousel-right {
+    right:-32px;
+}
+
+#post-carousel:hover .post-carousel-left {
+    left:0;
+}
+
+#post-carousel:hover .post-carousel-right {
+    right:0;
+}
+
+.post-link{
+    background-color: #f5f5f5;
+    text-align: center;
+    padding: 40px 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.post-quote{
+    background-color: #f5f5f5;
+    padding: 30px;
+    font-size: 16px;
+    font-weight: 500;
+    font-style: italic;
+}
+
+#blog .pagination{
+    margin-bottom: 80px;
+}
+
+#blog .pagination li a{
+    width: 35px;
+    height: 35px;
+    line-height: 31px;
+    text-align: center;
+    font-size: 16px;
+    color: #a3a3a3;
+    border: 1px solid #d1d1d1;
+    padding: 0;
+    margin-right: 5px;
+    border-radius: 0;
+}
+
+#blog .pagination li.active a,
+#blog .pagination li a:hover{
+    background-color: transparent;
+    border-color: #000;
+    color: #000;
+}
+
+.sidebar-widget{
+    margin-top: 35px;
+    margin-bottom: 50px;
+}
+
+.sidebar-widget .sidebar-title{
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.sidebar-widget ul{
+    list-style: square;
+    margin: 0;
+    padding-left: 18px;
+}
+
+.sidebar-widget ul li{
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.blog-search{
+    position: relative;
+}
+
+.blog-search input {
+    border: 1px solid #d6d6d6;
+    color: #8d8d8d;
+    height: 44px;
+    outline: medium none;
+    padding: 0 50px 0 17px;
+    width: 100%;
+}
+
+.blog-search span {
+    color: #252525;
+    font-size: 12px;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+}
+
+.blog-search .search-submit {
+    background: none;
+    border: none;
+}
+
+.blog-search:after {
+    background-color: #d6d6d6;
+    content: "";
+    display: block;
+    height: 27px;
+    position: absolute;
+    right: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    width: 1px;
+}
+
+.sidebar-widget .tagcloud a{
+    padding: 4px 10px;
+    border: 1px solid #ccc;
+    margin: 3px 1px;
+    display: inline-block;
+}
+
+.sidebar-widget .tagcloud a:hover{
+    border-color: #000;
+    color: #000;
+}
+
+ul.content-flickr {
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+}
+
+ul.content-flickr li {
+    display: block;
+    float: left;
+    padding: 5px 10px 5px 0;
+    width: 33.33%;
+}
+
+.content-flickr li a {
+    display: block;
+    position: relative;
+    width: 100%;
+}
+
+
+
+/* 15. FOOTER */
+
+#footer{
+    background-color: #262626;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+#footer a{
+    color: rgba(255, 255, 255, 0.4);
+}
+#footer a:hover{
+    color: #fff;
+}
+
+.footer-social-icons{
+    text-align: right;
+}
+
+.footer-social-icons a{
+    margin: 0 5px;
+    font-size: 16px;
+}
+
+.footer-social-icons span{
+    margin-right: 10px;
+}
+
+.scroll-up {
+    position: fixed;
+    display: none;
+    z-index: 999;
+    bottom: 1.8em;
+    right: 1.8em;
+}
+
+.scroll-up ul{
+    margin: 0;
+    padding: 0;
+}
+
+.scroll-up li{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.scroll-up a {
+    background-color: #fff;
+    display: block;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    color: #000;
+    font-size: 20px;
+    line-height: 38px;
+    box-shadow: 0px 0px 6px #ccc;
+}
+
+.scroll-up a:hover,
+.scroll-up a:active {
+    background-color: #f5f5f5;
+    color: #000;
+}
+

@@ -264,7 +264,6 @@ class GN_Model extends CI_Model {
             $this->_database->where($this->soft_delete_key, FALSE);
 
         $result = $this->_database->select([$key, $value])->get($this->_table)->result();
-        $options[NULL] = 'Please select...';
         foreach ($result as $row)
             $options[$row->{$key}] = $row->{$value};
 

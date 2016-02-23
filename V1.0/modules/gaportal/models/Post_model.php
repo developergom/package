@@ -34,13 +34,18 @@ class Post_model extends GN_Model {
         $post['post_slug'] = url_title($post['post_title'], '_', TRUE);
         return $post;
     }
-    
+
     protected function delete_attr($post_id) {
         $this->load->model('post_to_category_model');
         $this->load->model('post_to_tag_model');
-        
-        $this->post_to_category->delete_by('post_id', $post_id);
-        $this->post_to_tag->delete_by('post_id', $post_id);
+
+        $post_to_category = $this->post_to_category->get_by('post_id', $post_id);
+        if (!empty($post_to_category))
+            $this->post_to_category->delete_by('post_id', $post_to_category->post_id);
+
+        $post_to_tag = $this->post_to_tag->get_by('post_id', $post_id);
+        if (!empty($post_to_tag))
+            $this->post_to_tag->delete_by('post_id', $post_to_tag->post_id);
     }
 
 }

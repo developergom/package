@@ -18,8 +18,8 @@ class GN_Controller extends CI_Controller {
     protected $helpers = [];
     protected $alias = [];
     protected $base;
+    protected $perpage = 5;
     private $_primary_key;
-    private $_perpage = 5;
 
     public function __construct() {
         parent::__construct();
@@ -28,7 +28,8 @@ class GN_Controller extends CI_Controller {
         $this->_load_helpers();
 
         $this->base = $this->router->fetch_module() . '/' . $this->router->fetch_class();
-        $this->_primary_key = $this->{$this->router->fetch_class()}->primary_key;
+        if (isset($this->{$this->router->fetch_class()}->primary_key))
+            $this->_primary_key = $this->{$this->router->fetch_class()}->primary_key;
 
         $this->data['show_pk'] = FALSE;
         $this->data['id'] = $this->_primary_key;
@@ -98,7 +99,7 @@ class GN_Controller extends CI_Controller {
 
     protected function index() {
         $this->load->library(['pagination', 'table']);
-        $page = !empty($this->uri->segment(4)) ? $this->_perpage * ($this->uri->segment(4) - 1) : 0;
+        $page = !empty($this->uri->segment(4)) ? $this->perpage * ($this->uri->segment(4) - 1) : 0;
         $config['base_url'] = base_url($this->base . '/index/');
         $config['total_rows'] = $this->{$this->router->fetch_class()}->count_all();
         $this->_set_datagrid_header(isset($this->data['recursive']) ? $this->data['recursive'][1] : NULL);
@@ -116,11 +117,11 @@ class GN_Controller extends CI_Controller {
                 $this->data['datagrid'][$index] = array_intersect_key($row, $unshift);
             }
 
-            $this->data['datagrid'] = array_slice($this->data['datagrid'], $page, $this->_perpage);
+            $this->data['datagrid'] = array_slice($this->data['datagrid'], $page, $this->perpage);
             $this->data['datagrid'] = array_to_object($this->data['datagrid']);
         } else {
             $this->{$this->router->fetch_class()}->order_by($this->_primary_key, 'ASC');
-            $this->{$this->router->fetch_class()}->limit($this->_perpage, $page);
+            $this->{$this->router->fetch_class()}->limit($this->perpage, $page);
             foreach ($this->{$this->router->fetch_class()}->get_all() as $index => $row) {
                 $row = object_to_array($row);
                 foreach ($row as $k => $v) {
@@ -171,7 +172,7 @@ class GN_Controller extends CI_Controller {
             $this->data['action'] = $this->base . '/insert/';
         } else {
             $this->{$this->router->fetch_class()}->insert($this->input->post());
-            redirect($this->base, 'refresh');
+            redirect($this->base . '?message=insert&status=success', 'refresh');
         }
     }
 
@@ -192,7 +193,7 @@ class GN_Controller extends CI_Controller {
                 $this->data['record'] = $this->{$this->router->fetch_class()}->get($primary_key);
             } else {
                 $this->{$this->router->fetch_class()}->update($record->{$this->_primary_key}, $this->input->post());
-                redirect($this->base, 'refresh');
+                redirect($this->base . '?message=update&status=success', 'refresh');
             }
         }
     }
@@ -200,7 +201,7 @@ class GN_Controller extends CI_Controller {
     protected function delete() {
         $primary_key = $this->uri->segment(4);
         $this->{$this->router->fetch_class()}->delete($primary_key);
-        redirect($this->base, 'refresh');
+        redirect($this->base . '?message=delete&status=success', 'refresh');
     }
 
     protected function delete_recursive() {

@@ -4,29 +4,22 @@
         <meta charset="UTF-8">
         <title>GA Portal</title>
         <?php
+        echo meta('keyword', $meta);
+        echo link_tag('assets/styles/bootstrap.min.css');
+        echo link_tag('assets/styles/font-awesome.min.css');
         $css = [
             'owl.carousel',
             'magnific-popup',
-            'style',
             'responsive',
+            'style',
+            'article',
         ];
-
-        echo link_tag('asset/css/bootstrap.min.css');
-        echo link_tag('asset/css/font-awesome.min.css');
         foreach ($css as $v)
-            echo link_tag('asset/css/gaportal/' . $v . '.css');
-
-        if (!empty($style)) {
-            if (!is_array($style))
-                $style = [$style];
-
-            foreach ($style as $_style)
-                echo link_tag('asset/css/gaportal/' . $_style . '.css');
-        }
+            echo link_tag('assets/styles/gaportal/' . $v . '.css');
         ?>
 
         <!-- Favicon -->
-        <?php echo link_tag('asset/img/fav.gif', 'shortcut icon') ?>
+        <?php echo link_tag('assets/images/fav.gif', 'shortcut icon') ?>
         <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/icon/apple-touch-icon-144-precomposed.png">
         <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/icon/apple-touch-icon-114-precomposed.png">
         <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/icon/apple-touch-icon-72-precomposed.png">
@@ -41,15 +34,12 @@
     </head>
     <body>
 
-        <!-- PRELOADER -->
         <div id="st-preloader">
             <div id="pre-status">
                 <div class="preload-placeholder"></div>
             </div>
         </div>
-        <!-- /PRELOADER -->
-
-        <!-- HEADER -->
+        
         <header id="header">
             <nav class="navbar st-navbar navbar-fixed-top">
                 <div class="container">
@@ -60,24 +50,12 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <?php //anchor('gaportal/home', img(base_url('asset/img/gom.png')), 'class="logo"') ?>
-                        <a class="logo" href="<?php echo base_url('gaportal/') ?>">
-                            <?php echo img(base_url('asset/img/gom.png')) ?>
-                        </a>
+                        <?php echo anchor('portalga', img(base_url('assets/images/gom.png')), 'class="logo"') ?>
                     </div>
 
                     <div class="collapse navbar-collapse" id="st-navbar-collapse">
-                        <ul class="nav navbar-nav navbar-right">
-                            <li><a href="#header">Home</a></li>
-                            <li><a href="#services">Services</a></li>
-                            <li><a href="#our-works">Works</a></li>
-                            <li><a href="#pricing">Pricing</a></li>
-                            <li><a href="#our-team">Team</a></li>
-                            <li><a href="#contact">Contact</a></li>
-                            <li><?php echo anchor('gaportal/article', 'Blog') ?></li>
-                        </ul>
-                    </div><!-- /.navbar-collapse -->
-                </div><!-- /.container -->
+                        <?php echo ul($menu, 'class="nav navbar-nav navbar-right"') ?>
+                    </div>
+                </div>
             </nav>
         </header>
-        <!-- /HEADER -->

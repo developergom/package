@@ -11,15 +11,16 @@
         $css = [
             'bootstrap.min',
             'select2.min',
+//            'select2-bootstrap.min',
             'bootstrap-validator.min',
             'font-awesome.min',
             'AdminLTE.min',
             'skins/_all-skins.min',
-            'iCheck/all'
-                //'morris',
-                //'datepicker3',
-                //'daterangepicker-bs3',
-                //'bootstrap3-wysihtml5.min',
+            'iCheck/all',
+//            'morris',
+//            'datepicker3',
+//            'daterangepicker-bs3',
+//            'bootstrap3-wysihtml5.min',
         ];
 
         if (!empty($style)) {
@@ -27,20 +28,20 @@
                 $style = [$style];
 
             foreach ($style as $_style)
-                echo link_tag('asset/css/' . $_style . '.css');
+                echo link_tag('assets/styles/' . $_style . '.css');
         }
 
         foreach ($css as $v)
-            echo link_tag('asset/css/' . $v . '.css');
+            echo link_tag('assets/styles/' . $v . '.css');
 
-        echo link_tag('asset/css/initialize.css');
+        echo link_tag('assets/styles/initialize.css');
         ?>
         <!--[if lt IE 9]>
             <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
             <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
     </head>
-    <body class="hold-transition skin-blue sidebar-mini">
+    <body class="skin-blue sidebar-mini sidebar-collapse">
         <div class="wrapper">
             <header class="main-header">
                 <a href="#" class="logo">
@@ -77,12 +78,12 @@
                             </li>
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <img src="asset/img/avatar/<?php //echo $this->session->userdata('uava');                           ?>" class="user-image" alt="User Image"/>
-                                    <span class="hidden-xs"><?php //echo $this->session->userdata('nick')                           ?></span>
+                                    <img src="asset/img/avatar/<?php //echo $this->session->userdata('uava');                                ?>" class="user-image" alt="User Image"/>
+                                    <span class="hidden-xs"><?php //echo $this->session->userdata('nick')                                ?></span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li class="user-header">
-                                        <img src="asset/img/avatar/<?php //echo $this->session->userdata('uava');                           ?>" class="img-circle" alt="User Image" />
+                                        <img src="asset/img/avatar/<?php //echo $this->session->userdata('uava');                                ?>" class="img-circle" alt="User Image" />
                                         <p>
                                             <?php //echo '<strong>' . $this->session->userdata('username') . '</strong><br/>' . $this->session->userdata('name') ?>
                                         </p>
@@ -109,10 +110,10 @@
                 <section class="sidebar">
                     <div class="user-panel">
                         <div class="pull-left image">
-                            <img src="asset/img/avatar/<?php //echo $this->session->userdata('uava');                           ?>" class="img-circle" alt="User Image" />
+                            <img src="asset/img/avatar/<?php //echo $this->session->userdata('uava');                                ?>" class="img-circle" alt="User Image" />
                         </div>
                         <div class="pull-left info">
-                            <p><?php //echo $this->session->userdata('name') . ' <small>(' . $this->session->userdata('nick') . ')</small>'                           ?></p>
+                            <p><?php //echo $this->session->userdata('name') . ' <small>(' . $this->session->userdata('nick') . ')</small>'                                ?></p>
                             <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                         </div>
                     </div>
@@ -263,8 +264,6 @@
                     lg: 1200
                 }
             }
-
-
         </script>
         <?php
         $js = [
@@ -279,7 +278,7 @@
             //'jquery.sparkline.min',
             //'jquery.knob',
             'icheck.min',
-            'select2.min',
+            'select2.full.min',
             //'jquery.inputmask.extensions',
             //'jquery.inputmask.date.extensions',
             'jquery.slimscroll.min',
@@ -298,7 +297,6 @@
             foreach ($script as $_script)
                 echo script_tag($_script);
         }
-
 
         echo script_tag('initialize');
         ?>

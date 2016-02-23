@@ -13,6 +13,32 @@
                 </div>
             </div>
             <div class="box-body">
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1">
+                        <?php
+                        $message = $this->input->get('message');
+                        $status = $this->input->get('status');
+                        if (isset($message) && isset($status)) {
+                            $alert = $status == 'success' ? 'success' : 'warning';
+                            $icon = $status == 'success' ? 'fa-check' : 'fa-exclamation';
+                            switch ($message) {
+                                case 'insert';
+                                    break;
+                                case 'update';
+                                    break;
+                                case 'delete';
+                                    break;
+                            }
+                            ?>
+                            <div class="clearfix">&nbsp;</div>
+                            <div class="alert alert-<?php echo $alert ?> alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <h4><i class="icon fa <?php echo $icon ?>"></i> <?php echo humanize($alert) ?>!</h4>
+                                <p><?php echo humanize($message) ?></p>
+                            </div>
+                        <?php } ?>
+                    </div>
+                </div>
                 <div class="table-responsive">
                     <table class="table table-condensed table-hover">
                         <thead>

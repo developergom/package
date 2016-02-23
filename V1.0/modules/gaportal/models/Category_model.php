@@ -14,6 +14,12 @@ class Category_model extends GN_Model {
     public $protected_attributes = ['category_id'];
     public $before_create = ['slug', 'create_log'];
     public $before_update = ['slug', 'update_log'];
+    public $has_many = [
+        'post' => [
+            'model' => 'gaportal/post_to_category_model',
+            'primary_key' => 'category_id'
+        ]
+    ];
 
     public function __construct() {
         parent::__construct();

@@ -16,10 +16,13 @@ class Building_plan extends GN_Controller {
     public function __construct() {
         parent::__construct();
 
-        $this->_building_plan_unit = ['I' => 'Unit I', 'II' => 'Unit II', 'III' => 'Unit III'];
-        for ($i = 1; $i < 10; $i++)
+        $this->_building_plan_unit = [NULL => 'Select a state', 'I' => 'Unit I', 'II' => 'Unit II', 'III' => 'Unit III'];
+        for ($i = 0; $i < 10; $i++) {
+            if ($i == 0)
+                $i = NULL;
             $this->_building_plan_level[$i] = 'Level ' . $i;
-
+        }
+        
         $this->data['form'] = [
             [
                 'name' => 'building_plan_unit',

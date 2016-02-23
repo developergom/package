@@ -43,7 +43,7 @@ if (!function_exists('time_elapsed')) {
             60 => 'minute',
             1 => 'second'
         ];
-        
+
         $a_plural = ['year' => 'years',
             'month' => 'months',
             'day' => 'days',
@@ -73,11 +73,11 @@ if (!function_exists('script_tag')) {
 
         if ($src !== '') {
             if (strpos($src, '://') !== FALSE) {
-                $script .= 'src="asset/js/' . $src . '.js' . $v . '" ';
+                $script .= 'src="assets/scripts/' . $src . '.js' . $v . '" ';
             } elseif ($index_page === TRUE) {
-                $script .= 'src="' . $CI->config->site_url('asset/js/' . $src . '.js' . $v) . '" ';
+                $script .= 'src="' . $CI->config->site_url('assets/scripts/' . $src . '.js' . $v) . '" ';
             } else {
-                $script .= 'src="' . $CI->config->slash_item('base_url') . 'asset/js/' . $src . '.js' . $v . '" ';
+                $script .= 'src="' . $CI->config->slash_item('base_url') . 'assets/scripts/' . $src . '.js' . $v . '" ';
             }
         }
         $script .= ' ></script>';
@@ -225,4 +225,40 @@ if (!function_exists('find_array')) {
 
 }
 
+if (!function_exists('rectangle_image')) {
 
+    function rectangle_image($img, $dimension) {
+
+        list($width, $height) = getimagesize($img);
+
+        if ($width < $height) {
+            // portrait
+            $x_axis = ($width / 2) - ($dimension / 2);
+            $y_axis = ($height / 4) - ($dimension / 2);
+        } else if ($width > $height) {
+            // landscape
+            $x_axis = ($width / 4) - ($dimension / 2);
+            $y_axis = ($height / 2) - ($dimension / 2);
+        } else if ($width == $height) {
+            $x_axis = $width;
+            $y_axis = $height;
+        }
+
+        return [
+            //'master_dim' => 'auto',
+            'width' => $dimension,
+            'height' => $dimension,
+            'x_axis' => $x_axis,
+            'y_axis' => $y_axis
+        ];
+    }
+
+}
+
+if (!function_exists('distinct_array')) {
+
+    function distinct_array($array = array()) {
+        return (!empty($array) && is_array($array)) ? array_map('unserialize', array_unique(array_map('serialize', $array))) : $array;
+    }
+
+}

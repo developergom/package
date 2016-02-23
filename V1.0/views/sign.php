@@ -10,7 +10,7 @@
         <?php
         $style = ['bootstrap.min', 'AdminLTE.min', 'font-awesome.min', 'bootstrap-validator.min'];
         foreach ($style as $css)
-            echo link_tag('asset/css/' . $css . '.css');
+            echo link_tag('assets/styles/' . $css . '.css');
         ?>
         <!--[if lt IE 9]>
             <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>

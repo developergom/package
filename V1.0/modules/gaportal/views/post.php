@@ -26,38 +26,41 @@
                             <?php
                             if (!empty($datagrid)) {
                                 foreach ($datagrid as $index => $row) {
-                                    echo sprintf('<tr class="tr" data-key="%s">', $row->$id);
+                                    echo sprintf('<tr class="tr" data-key="%s">', $row->post_id);
                                     $title = $row->post_title;
-                                    $title .= sprintf('<div class="small action" id="qe-%s">', $row->$id);
-                                    $title .= anchor($base . '/update/' . $row->$id, '<i class="fa fa-edit"></i>' . nbs() . 'Edit', 'title="Edit data"') . nbs(2) . '<span class="text-muted small">|</span>' . nbs(2);
-                                    $title .= anchor('#', '<i class="fa fa-trash"></i>' . nbs() . 'Delete', 'class="text-danger" title="Delete user" data-toggle="modal" data-target="#confirm-delete" data-href="' . base_url($base . '/delete/' . $row->$id) . '"');
+                                    $title .= $row->post_status == 'draft' ? '<span class="text-muted">&nbsp; &HorizontalLine; &nbsp;Draft</span>' : NULL;
+                                    $title .= sprintf('<div class="small action" id="qe-%s">', $row->post_id);
+                                    $title .= anchor($base . '/update/' . $row->post_id, '<i class="fa fa-edit"></i>' . nbs() . 'Edit', 'title="Edit data"') . nbs(2) . '<span class="text-muted small">|</span>' . nbs(2);
+                                    $title .= anchor('#', '<i class="fa fa-trash"></i>' . nbs() . 'Delete', 'class="text-danger" title="Delete user" data-toggle="modal" data-target="#confirm-delete" data-href="' . base_url($base . '/delete/' . $row->post_id) . '"');
                                     $title .= '</div>';
-                                    
+
                                     echo sprintf('<td>%s</td>', $title);
                                     echo sprintf('<td>%s</td>', $row->create_by);
 
                                     if (empty($row->ptc)) {
-                                        $ptc = ['-'];
+                                        $ptc = [$row->post_id => ['-']];
                                     } else {
                                         foreach ($row->ptc as $category)
-                                            $ptc[$row->$id][] = $categories[$category->category_id];
+                                            $ptc[$row->post_id][] = $categories[$category->category_id];
                                     }
-                                    echo sprintf('<td>%s</td>', implode(', ', $ptc[$row->$id]));
+
+                                    echo sprintf('<td>%s</td>', implode(', ', $ptc[$row->post_id]));
 
                                     if (empty($row->ptt)) {
-                                        $ptt = ['-'];
+                                        $ptt = [$row->post_id => ['-']];
                                     } else {
                                         foreach ($row->ptt as $tag)
-                                            $ptt[$row->$id][] = $tags[$tag->tag_id];
+                                            $ptt[$row->post_id][] = $tags[$tag->tag_id];
                                     }
-                                    echo sprintf('<td>%s</td>', implode(', ', $ptt[$row->$id]));
+
+                                    echo sprintf('<td>%s</td>', implode(', ', $ptt[$row->post_id]));
 
                                     if (!empty($row->post_publish_when)) {
                                         echo sprintf('<td><span class="text-success">%s</span></td>', 'Published' . br() . time_elapsed($row->post_publish_when));
                                     } else {
                                         echo sprintf('<td>%s</td>', 'Last update' . br() . time_elapsed($row->update_when));
                                     }
-                                    unset($row->$id);
+                                    unset($row->post_id);
                                     echo '</tr>';
                                 }
                             } else {

@@ -1,12 +1,8 @@
 $.widget.bridge('uibutton', $.ui.button);
 "use strict";
 $(document).ready(function () {
-    //var base_url = window.location.protocol + '//' + window.location.host + '/package/';
-    //var base_url = window.location.protocol + '//' + window.location.host + '/';
-
-
     setTimeout(function () {
-        $('select').select2();
+        $('select').select2({allowClear: true});
         $('.dataTables_filter').find('input').css('width', '200px');
         $('input[type="checkbox"]').iCheck({
             checkboxClass: 'icheckbox_flat-blue'
@@ -90,7 +86,7 @@ $(document).ready(function () {
     $('#summernote').summernote({
         height: 300
     });
-    
+
     $('[data-toggle="tooltip"]').tooltip();
     //$('#editor').wysihtml5();
 
