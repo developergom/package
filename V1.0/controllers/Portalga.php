@@ -15,17 +15,14 @@ class Portalga extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-
         $this->load->helper(['text', 'date']);
         $this->load->model('gaportal/post_model', 'post');
         $this->load->model('gaportal/post_to_category_model', 'post_to_category');
         $this->load->model('gaportal/post_to_tag_model', 'post_to_tag');
         $this->load->model('gaportal/category_model', 'category');
         $this->load->model('gaportal/tag_model', 'tag');
-
         $this->header['menu'] = $this->__set_menu();
         $this->header['meta'] = 'GOM General Affairs';
-
         $this->categories = $this->category->as_array()->get_all();
         $this->tags = $this->tag->as_array()->get_all();
     }
@@ -56,7 +53,6 @@ class Portalga extends CI_Controller {
                 }
             }
         }
-
         return $category;
     }
 
@@ -67,12 +63,10 @@ class Portalga extends CI_Controller {
             $category_id[] = $procat['category_id'];
             $category_id[] = $procat['category_parent'];
         }
-
         foreach ($this->post_to_category->with('post')->limit(9)->as_array()->get_many_by('category_id', $category_id) as $ptc) {
             $procurement['post_to_category'][] = object_to_array($ptc['post']) + ['index' => url_title($category[$ptc['category_id']])];
             $procurement['category'][] = $category[$ptc['category_id']];
         }
-
         return $procurement;
     }
 
@@ -81,20 +75,17 @@ class Portalga extends CI_Controller {
         $post_to_category = $this->post_to_category->with('post')->limit(5)->as_array()->get_many_by('category_id', $engineering['category']['category_id']);
         foreach ($post_to_category as $ptc)
             $engineering['post_to_category'][] = object_to_array($ptc['post']);
-
         return $engineering;
     }
-    
+
     private function __security() {
         $security = [];
         foreach ($this->__category('security') as $procat) {
             $category_id[] = $procat['category_id'];
             $category_id[] = $procat['category_parent'];
         }
-
         foreach ($this->post_to_category->with('post')->limit(4)->as_array()->get_many_by('category_id', array_unique($category_id)) as $ptc)
             $security[] = object_to_array($ptc['post']);
-
         return distinct_array($security);
     }
 
@@ -127,7 +118,6 @@ class Portalga extends CI_Controller {
     public function article($slug = NULL) {
         if (empty($slug))
             $this->notfound();
-
         $article = $this->post->with('ptc')->with('ptt')->get_by('post_slug', $slug);
         if (!empty($article->ptt)) {
             foreach (array_intersect_key($this->tags, $article->ptt) as $tag)
@@ -135,7 +125,6 @@ class Portalga extends CI_Controller {
         } else {
             $meta = ['GOM', 'Portal GA'];
         }
-
         $this->header['meta'] = implode(', ', $meta);
         $this->load->view('gaportal/header', $this->header);
         $this->load->view('gaportal/article', ['article' => $article, 'categories' => $this->categories, 'tags' => $this->tags]);

@@ -17,9 +17,9 @@ class Sign extends CI_Controller {
     }
 
     public function index() {
-        if($this->session->userdata('user')!==null) {
+        if ($this->session->userdata('user') !== null) {
             $this->out();
-        }else{
+        } else {
             $this->load->view('sign');
         }
     }
