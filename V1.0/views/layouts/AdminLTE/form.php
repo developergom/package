@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-sm-12">
-        <div class="box box-info">
+        <div class="box box-primary">
             <?php echo form_open($action, 'class="form-horizontal validate" role="form"', isset($record) ? [$id => $record->{$id}] : []) ?>
             <div class="box-header">
                 <?php echo heading('<i class="fa fa-pencil"></i> Form', 3, 'class="box-title"') ?>

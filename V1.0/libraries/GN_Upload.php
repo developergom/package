@@ -2,62 +2,17 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/**
- * Description of Post
- *
- * @author nanank
- */
 class GN_Upload extends CI_Upload {
 
     protected $_multi_upload_data = [];
     protected $_multi_file_name_override = NULL;
-    
-    public function __construct($config = array()) {
+
+    public function __construct($config = []) {
         parent::__construct($config);
     }
 
     public function initialize(Array $config = [], $reset = TRUE) {
-        $defaults = [
-            'max_size' => 0,
-            'max_width' => 0,
-            'max_height' => 0,
-            'max_filename' => 0,
-            'allowed_types' => NULL,
-            'file_temp' => NULL,
-            'file_name' => NULL,
-            'orig_name' => NULL,
-            'file_type' => NULL,
-            'file_size' => NULL,
-            'file_ext' => NULL,
-            'upload_path' => NULL,
-            'overwrite' => FALSE,
-            'encrypt_name' => FALSE,
-            'is_image' => FALSE,
-            'image_width' => NULL,
-            'image_height' => NULL,
-            'image_type' => NULL,
-            'image_size_str' => NULL,
-            'error_msg' => [],
-            'mimes' => [],
-            'remove_spaces' => TRUE,
-            'xss_clean' => FALSE,
-            'temp_prefix' => 'temp_file_',
-            'client_name' => NULL
-        ];
-
-        foreach ($defaults as $key => $val) {
-            if (isset($config[$key])) {
-                $method = "set_{$key}";
-                if (method_exists($this, $method)) {
-                    $this->$method($config[$key]);
-                } else {
-                    $this->$key = $config[$key];
-                }
-            } else {
-                $this->$key = $val;
-            }
-        }
-
+        parent::initialize($config, $reset);
         if (!empty($this->file_name)) {
             if (is_array($this->file_name)) {
                 $this->_file_name_override = NULL;
@@ -70,14 +25,22 @@ class GN_Upload extends CI_Upload {
     }
 
     protected function _file_mime_type($file, $count = 0) {
-        $tmp_name = is_array($file['name']) ? $file['tmp_name'][$count] : $file['tmp_name'];
-        $type = is_array($file['name']) ? $file['type'][$count] : $file['type'][$count];
-        $regexp = "/^([a-z\-]+\/[a-z0-9\-\.\+]+)(;\s.+)?$/";
+        if (is_array($file['name'])) {
+            $tmp_name = $file['tmp_name'][$count];
+            $type = $file['type'][$count];
+        } else {
+            $tmp_name = $file['tmp_name'];
+            $type = $file['type'];
+        }
+
+        $regexp = '/^([a-z\-]+\/[a-z0-9\-\.\+]+)(;\s.+)?$/';
+
         if (function_exists('finfo_file')) {
             $finfo = finfo_open(FILEINFO_MIME);
             if (is_resource($finfo)) {
                 $mime = @finfo_file($finfo, $tmp_name);
                 finfo_close($finfo);
+
                 if (is_string($mime) && preg_match($regexp, $mime, $matches)) {
                     $this->file_type = $matches[1];
                     return;
@@ -127,6 +90,7 @@ class GN_Upload extends CI_Upload {
             if (strlen($this->file_type) > 0)
                 return;
         }
+
         $this->file_type = $type;
     }
 
@@ -155,17 +119,17 @@ class GN_Upload extends CI_Upload {
 
     public function do_multi_upload($field) {
         $this->_multi_upload_data = [];
-        if (!isset($_FILES[$field]))
+        if (isset($_FILES[$field]) === FALSE)
             return FALSE;
 
-        if (!is_array($_FILES[$field]['name']))
+        if (is_array($_FILES[$field]['name']) === FALSE)
             return $this->do_upload($field);
 
-        if (!$this->validate_upload_path())
+        if ($this->validate_upload_path() === FALSE)
             return FALSE;
 
         foreach ($_FILES[$field]['name'] as $i => $v) {
-            if (!is_uploaded_file($_FILES[$field]['tmp_name'][$i])) {
+            if (is_uploaded_file($_FILES[$field]["tmp_name"][$i]) === FALSE) {
                 $error = (!isset($_FILES[$field]['error'][$i])) ? 4 : $_FILES[$field]['error'][$i];
                 switch ($error) {
                     case 1:
@@ -193,6 +157,7 @@ class GN_Upload extends CI_Upload {
                         $this->set_error('upload_no_file_selected');
                         break;
                 }
+
                 return FALSE;
             }
 
@@ -205,12 +170,12 @@ class GN_Upload extends CI_Upload {
             $this->file_ext = $this->get_extension($this->file_name);
             $this->client_name = $this->file_name;
 
-            if (!$this->is_allowed_filetype()) {
+            if ($this->is_allowed_filetype() === FALSE) {
                 $this->set_error('upload_invalid_filetype');
                 return FALSE;
             }
 
-            if (!empty($this->_multi_file_name_override[$i])) {
+            if (empty($this->_multi_file_name_override[$i]) === FALSE) {
                 $this->file_name = $this->_prep_filename($this->_multi_file_name_override[$i]);
                 if (strpos($this->_multi_file_name_override[$i], '.') === FALSE) {
                     $this->file_name .= $this->file_ext;
@@ -218,7 +183,7 @@ class GN_Upload extends CI_Upload {
                     $this->file_ext = $this->get_extension($this->_multi_file_name_override[$i]);
                 }
 
-                if (!$this->is_allowed_filetype(TRUE)) {
+                if ($this->is_allowed_filetype(TRUE) === FALSE) {
                     $this->set_error('upload_invalid_filetype');
                     return FALSE;
                 }
@@ -227,17 +192,18 @@ class GN_Upload extends CI_Upload {
             if ($this->file_size > 0)
                 $this->file_size = round($this->file_size / 1024, 2);
 
-            if (!$this->is_allowed_filesize()) {
+            if ($this->is_allowed_filesize() === FALSE) {
                 $this->set_error('upload_invalid_filesize');
                 return FALSE;
             }
 
-            if (!$this->is_allowed_dimensions()) {
+            if ($this->is_allowed_dimensions() === FALSE) {
                 $this->set_error('upload_invalid_dimensions');
                 return FALSE;
             }
 
             $this->file_name = $this->clean_file_name($this->file_name);
+
             if ($this->max_filename > 0)
                 $this->file_name = $this->limit_filename_length($this->file_name, $this->max_filename);
 
@@ -247,8 +213,9 @@ class GN_Upload extends CI_Upload {
             $this->orig_name = $this->file_name;
             if ($this->overwrite == FALSE) {
                 $this->file_name = $this->set_filename($this->upload_path, $this->file_name);
-                if ($this->file_name === FALSE)
+                if ($this->file_name === FALSE) {
                     return FALSE;
+                }
             }
 
             if ($this->xss_clean) {
@@ -258,7 +225,7 @@ class GN_Upload extends CI_Upload {
                 }
             }
 
-            if (!@copy($this->file_temp, $this->upload_path . $this->file_name)) {
+            if (@copy($this->file_temp, $this->upload_path . $this->file_name) === FALSE) {
                 if (!@move_uploaded_file($this->file_temp, $this->upload_path . $this->file_name)) {
                     $this->set_error('upload_destination_error');
                     return FALSE;
@@ -268,10 +235,12 @@ class GN_Upload extends CI_Upload {
             $this->set_image_properties($this->upload_path . $this->file_name);
             $this->set_multi_upload_data();
         }
+
         return TRUE;
     }
 
     protected function clean_file_name($filename) {
         return get_instance()->security->sanitize_filename($filename);
     }
+
 }

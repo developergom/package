@@ -16,17 +16,16 @@ class Media extends GN_Controller {
         $this->data['title'] = 'Media Library';
     }
     
-//    protected function index() {
-//        //$this->data['style'] = ['thumbnail-gallery'];
-//        $this->view = 'media';
-//    }
-    
-    protected function create() {
-        $this->data['style'] = ['dropzone.min', 'thumbnail-gallery'];
-        $this->data['script'] = ['dropzone.min'];
-        $this->view = 'form_media';
-        $this->data['action'] = $this->base . '/upload/';
+    protected function index($page = 0) {
+        $this->data['style'] = ['AldiraChena'];
+        $this->data['script'] = ['AldiraChena'];
+        $this->view = 'media';
     }
+    
+//    protected function create() {
+//        $this->view = 'form_media';
+//        $this->data['action'] = $this->base . '/upload/';
+//    }
 
 
     protected function upload() {

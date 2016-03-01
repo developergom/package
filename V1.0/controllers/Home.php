@@ -20,7 +20,7 @@ class Home extends GN_Controller {
         $this->data['script'] = [];
     }
 
-    public function index() {
+    public function index($page = 0) {
         //$this->load->view('home');
         $this->data['datagrid_header'] = [];
     }

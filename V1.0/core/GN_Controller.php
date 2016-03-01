@@ -16,7 +16,7 @@ class GN_Controller extends CI_Controller {
     protected $models = [];
     protected $model_string = '%_model';
     protected $helpers = [];
-    protected $alias = [];
+    protected $module;
     protected $base;
     protected $perpage = 5;
     private $_primary_key;
@@ -29,7 +29,8 @@ class GN_Controller extends CI_Controller {
         $this->load->library('sso_new');
 
         $this->perpage = ROW_PERPAGE;
-        $this->base = $this->router->fetch_module() . '/' . $this->router->fetch_class();
+        $this->module = $this->router->fetch_module();
+        $this->base = $this->module . '/' . $this->router->fetch_class();
         if (isset($this->{$this->router->fetch_class()}->primary_key))
             $this->_primary_key = $this->{$this->router->fetch_class()}->primary_key;
 
@@ -39,7 +40,7 @@ class GN_Controller extends CI_Controller {
         $this->data['base'] = $this->base;
         $this->data['breadcrumb'] = [
             '<i class="fa fa-home"></i> Home',
-            strlen($this->router->fetch_module()) > 3 ? humanize($this->router->fetch_module()) : strtoupper($this->router->fetch_module()),
+            strlen($this->module) > 3 ? humanize($this->module) : strtoupper($this->module),
             strlen($this->router->fetch_class()) > 3 ? humanize($this->router->fetch_class()) : strtoupper($this->router->fetch_class())
         ];
     }
@@ -99,10 +100,10 @@ class GN_Controller extends CI_Controller {
             $this->load->helper($helper);
     }
 
-    protected function index() {
+    protected function index($page = 0) {
         $this->sso_new->check_access('r');
         $this->load->library(['pagination', 'table']);
-        $page = !empty($this->uri->segment(4)) ? $this->perpage * ($this->uri->segment(4) - 1) : 0;
+        $page = !empty($page) ? $this->perpage * ($page - 1) : 0;
         $config['base_url'] = base_url($this->base . '/index/');
         $config['total_rows'] = $this->{$this->router->fetch_class()}->count_all();
         $this->_set_datagrid_header(isset($this->data['recursive']) ? $this->data['recursive'][1] : NULL);
@@ -114,6 +115,10 @@ class GN_Controller extends CI_Controller {
             $recursive = data_recursive($this->{$this->router->fetch_class()}->as_array()->get_all(), $this->data['recursive'][0], $this->data['recursive'][1]);
             foreach (datagrid_recursive($recursive, $this->data['recursive'][2]) as $index => $row) {
                 foreach ($row as $k => $v) {
+                    if (strpos($k, '_status')) {
+                        $status_state = json_decode_db(STATUS_STATE);
+                        $row[$k] = $status_state[$row[$k]];
+                    }
                     if (!empty($items) && array_key_exists($k, $items))
                         $row[$k] = empty($v) ? $v : $items[$k][$v];
                 }
@@ -166,26 +171,24 @@ class GN_Controller extends CI_Controller {
 
     protected function create() {
         $this->sso_new->check_access('c');
-        $this->view = 'layouts/AdminLTE/form';
+        $this->view = sprintf('layouts/%s/form', LAYOUT);
         $this->data['action'] = $this->base . '/insert/';
     }
 
     protected function insert() {
         $this->sso_new->check_access('c');
         if ($this->validation($this->data['form']) === FALSE) {
-            $this->view = 'layouts/AdminLTE/form';
-            $this->data['action'] = $this->base . '/insert/';
+            $this->create();
         } else {
             $this->{$this->router->fetch_class()}->insert($this->input->post());
             redirect($this->base . '?message=insert&status=success', 'refresh');
         }
     }
 
-    protected function update() {
+    protected function update($primary_key = 0) {
         $this->sso_new->check_access('u');
-        $this->view = 'layouts/AdminLTE/form';
+        $this->view = sprintf('layouts/%s/form', LAYOUT);
         $this->data['action'] = $this->base . '/edit/';
-        $primary_key = $this->uri->segment(4);
         $this->data['record'] = $this->{$this->router->fetch_class()}->get($primary_key);
     }
 
@@ -194,10 +197,7 @@ class GN_Controller extends CI_Controller {
         $record = $this->{$this->router->fetch_class()}->get($this->input->post($this->_primary_key));
         if (!empty($record)) {
             if ($this->validation($this->data['form']) === FALSE) {
-                $this->view = 'layouts/AdminLTE/form';
-                $this->data['action'] = $this->base . '/edit/';
-                $primary_key = $this->uri->segment(4);
-                $this->data['record'] = $this->{$this->router->fetch_class()}->get($primary_key);
+                $this->update($record->{$this->_primary_key});
             } else {
                 $this->{$this->router->fetch_class()}->update($record->{$this->_primary_key}, $this->input->post());
                 redirect($this->base . '?message=update&status=success', 'refresh');
@@ -205,9 +205,8 @@ class GN_Controller extends CI_Controller {
         }
     }
 
-    protected function delete() {
+    protected function delete($primary_key = 0) {
         $this->sso_new->check_access('d');
-        $primary_key = $this->uri->segment(4);
         $this->{$this->router->fetch_class()}->delete($primary_key);
         redirect($this->base . '?message=delete&status=success', 'refresh');
     }
@@ -233,5 +232,7 @@ class GN_Controller extends CI_Controller {
             return $data;
         }
     }
+
+    
 
 }

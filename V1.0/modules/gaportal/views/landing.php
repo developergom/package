@@ -3,16 +3,16 @@
         <div class="carousel-inner">
             <?php
             foreach ($slider as $index => $row) {
-                $thumb = json_decode_db($row['post_featured_img']);
+                $thumb = json_decode_db($row->post_featured_img);
                 ?>
-                <div class="item <?php echo $index == FALSE ? 'active' : NULL ?>" style="background-image: url(./assets/images/gaportal/post/slider/<?php echo (string) $thumb[0] ?>)">
+                <div class="item <?php echo $index == FALSE ? 'active' : NULL ?>" style="background-image: url(<?php echo $thumb[0] ?>)">
                     <div class="carousel-caption container">
                         <div class="row">
                             <div class="col-sm-9">
                                 <?php
-                                echo heading(anchor('portalga/article/' . $row['post_slug'], $row['post_title']));
-                                echo heading($row['post_subtitle'], 2);
-                                echo sprintf('<p>%s</p>', word_limiter(strip_tags($row['post_content']), 20));
+                                echo heading(anchor('portalga/article/read/' . $row->post_slug, $row->post_title));
+                                echo heading($row->post_subtitle, 2);
+                                echo sprintf('<p>%s</p>', word_limiter(strip_tags($row->post_content), 20));
                                 ?>
                             </div>
                         </div>
@@ -38,12 +38,12 @@
             </div>
 
             <?php
-            foreach ($general_services as $gs) {
+            foreach ($general_service as $gs) {
                 ?>
                 <div class="col-md-4 col-sm-6 st-service">
                     <?php
-                    echo heading('<i class="fa fa-info-circle"></i>' . $gs['category_name'], 2);
-                    echo sprintf('<p>%s</p>', $gs['category_description']);
+                    echo heading('<i class="fa fa-info-circle"></i>' . $gs->category_name, 2);
+                    echo sprintf('<p>%s</p>', $gs->category_description);
                     ?>
                 </div>
                 <?php
@@ -68,31 +68,32 @@
                     <ul class="filter">
                         <li><a class="active" href="#" data-filter="*">All</a></li>	
                         <?php
-                        foreach ($procurement['category'] as $pcat) {
-                            echo sprintf('<li><a href="#" data-filter=".%s">%s</a></li>', url_title($pcat), $pcat);
-                        }
+                        foreach ($procurement['sub'] as $pcat)
+                            echo sprintf('<li><a href="#" data-filter=".%s">%s</a></li>', $pcat->category_slug, $pcat->category_name);
                         ?>
                     </ul>
                 </div>
 
                 <div class="portfolio-items">
                     <?php
-                    foreach ($procurement['post_to_category'] as $ptc) {
-                        $thumb = json_decode_db($ptc['post_featured_img']);
-                        ?>
-                        <div class="col-md-4 col-sm-6 work-grid <?php echo $ptc['index'] ?>">
-                            <div class="portfolio-content">
-                                <img class="img-responsive" src="./assets/images/gaportal/post/thumb/<?php echo $thumb[0] ?>" alt="">
-                                <div class="portfolio-overlay">
-                                    <a href="./assets/images/gaportal/post/thumb/<?php echo $thumb[0] ?>"><i class="fa fa-camera-retro"></i></a>
-                                    <?php
-                                    echo heading($ptc['post_title'], 5);
-                                    echo sprintf('<p>%s</p>', word_limiter(strip_tags($ptc['post_content']), 10));
-                                    ?>
-                                </div>
-                            </div>	
-                        </div>
-                        <?php
+                    foreach ($procurement['post'] as $index => $ptc) {
+                        foreach ($ptc as $post) {
+                            $thumb = json_decode_db($post->post_featured_img);
+                            ?>
+                            <div class="col-md-4 col-sm-6 work-grid <?php echo $index ?>">
+                                <div class="portfolio-content">
+                                    <?php echo img($thumb[0], TRUE, 'class="img-responsive"') ?>
+                                    <div class="portfolio-overlay">
+                                        <a href="<?php echo $thumb[0] ?>"><i class="fa fa-camera-retro"></i></a>
+                                        <?php
+                                        echo heading($post->post_title, 5);
+                                        echo sprintf('<p>%s</p>', word_limiter(strip_tags($post->post_content), 10));
+                                        ?>
+                                    </div>
+                                </div>	
+                            </div>
+                            <?php
+                        }
                     }
                     ?>
                 </div>				
@@ -115,9 +116,9 @@
             <div class="col-sm-6">
                 <div class="about-us text-center">
                     <?php
-                    echo heading($engineering['category']['category_name'], 4);
-                    echo sprintf('<p>%s</p>', $engineering['category']['category_description']);
-                    echo anchor('#', 'View More', 'class="btn btn-send"');
+                    echo heading($engineering['category']->category_name, 4);
+                    echo sprintf('<p>%s</p>', $engineering['category']->category_description);
+                    echo anchor('article/category/' . $engineering['category']->category_slug, 'View More', 'class="btn btn-send"');
                     ?>
                 </div>
             </div>
@@ -125,12 +126,12 @@
                 <div id="office-carousel" class="carousel slide" data-ride="carousel">			
                     <div class="carousel-inner">
                         <?php
-                        foreach ($engineering['post_to_category'] as $ieptc => $eptc) {
+                        foreach ($engineering['post'] as $ieptc => $eptc) {
                             $eactive = $ieptc == FALSE ? 'active' : NULL;
-                            $thumb = json_decode_db($eptc['post_featured_img']);
+                            $thumb = json_decode_db($eptc->post_featured_img);
                             ?>
                             <div class="item <?php echo $eactive ?>">
-                                <img src="./assets/images/gaportal/post/thumb/<?php echo $thumb[0] ?>" alt="">
+                                <?php echo img($thumb[0]) ?>
                             </div>
                             <?php
                         }
@@ -155,16 +156,16 @@
             </div>
             <?php
             foreach ($security as $sptc) {
-                $thumb = json_decode_db($sptc['post_featured_img']);
+                $thumb = json_decode_db($sptc->post_featured_img);
                 ?>
                 <div class="col-md-3 col-sm-6">
                     <div class="team-member">
                         <div class="member-image">
-                            <img class="img-responsive" src="./assets/images/gaportal/members/team1.jpg" alt="">
+                            <?php echo img($thumb[0], TRUE, 'class="img-responsive"') ?>
                         </div>
                         <div class="member-info">
                             <?php
-                            echo heading(anchor('#', $sptc['post_title']), 4);
+                            echo heading(anchor('article/read/' . $sptc->post_slug, $sptc->post_title), 4);
                             //echo sprintf('<span>%s</span>', $post['post_subtitle']);
                             ?>
                         </div>

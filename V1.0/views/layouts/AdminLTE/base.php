@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-xs-12">
-        <div class="box box-info">
+        <div class="box box-primary">
             <div class="box-header with-border">
                 <?php 
                 if(in_array('c',$this->sso_new->curr_access))
@@ -10,7 +10,7 @@
                     <?php echo form_open('#', ['method' => 'GET']) ?>
                     <div class="input-group input-group-sm">
                         <?php echo form_input('search', '', 'class="form-control pull-right" placeholder="Search..."') ?>
-                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                        <span class="fa fa-search form-control-feedback"></span>
                     </div>
                     <?php echo form_close() ?>
                 </div>

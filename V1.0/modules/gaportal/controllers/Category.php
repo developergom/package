@@ -34,7 +34,7 @@ class Category extends GN_Controller {
                 'label' => 'Description',
                 'type' => 'textarea',
                 'items' => NULL,
-                'rules' => 'required'
+                'rules' => NULL
             ]
         ];
     }

@@ -17,11 +17,12 @@ class Sign extends CI_Controller {
     }
 
     public function index() {
-        if ($this->session->userdata('user') !== null) {
-            $this->out();
-        } else {
+//        if ($this->session->userdata('user') !== null) {
+//            $this->out();
+//        } else {
+//            $this->load->view('sign');
+//        }
             $this->load->view('sign');
-        }
     }
 
     public function in() {

@@ -3,7 +3,7 @@
     <head>
         <base href="<?php echo base_url() ?>" />
         <title><?php echo APP_NAME . ' | ' . $title ?></title>
-        <?php echo link_tag('asset/img/fav.gif', 'shortcut icon') ?>
+        <?php echo link_tag('assets/images/fav.gif', 'shortcut icon') ?>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
@@ -23,6 +23,9 @@
 //            'bootstrap3-wysihtml5.min',
         ];
 
+        foreach ($css as $v)
+            echo link_tag('assets/styles/' . $v . '.css');
+        
         if (!empty($style)) {
             if (!is_array($style))
                 $style = [$style];
@@ -31,8 +34,6 @@
                 echo link_tag('assets/styles/' . $_style . '.css');
         }
 
-        foreach ($css as $v)
-            echo link_tag('assets/styles/' . $v . '.css');
 
         echo link_tag('assets/styles/initialize.css');
         ?>
@@ -76,38 +77,16 @@
                                     <li class="footer"><a href="#">View all</a></li>
                                 </ul>
                             </li>
-                            <li class="dropdown user user-menu">
 
-                                <ul class="dropdown-menu">
-                                    <li class="user-header">
-                                        <img src="asset/img/avatar/<?php echo $this->session->userdata('avatar'); ?>" class="img-circle" alt="User Image" />
-                                        <p>
-                                            <?php echo '<strong>' . $this->session->userdata('username') . '</strong><br/>' . $this->session->userdata('firstname') . ' ' . $this->session->userdata('lastname'); ?>
-                                        </p>
-                                    </li>
-                                    <li class="user-body">
-                                        <div class="col-xs-12 text-center">
-                                        </div>
-                                    </li>
-                                    <li class="user-footer">
-                                        <div class="pull-left">
-                                            <?php echo anchor('profile/index/' . $this->session->userdata('user'), '<i class="fa fa-user"></i> Profile', 'class="btn btn-default btn-flat"') ?>
-                                        </div>
-                                        <div class="pull-right">
-                                            <?php echo anchor('sign', '<i class="fa fa-sign-out"></i> Sign out', 'class="btn btn-default btn-flat"') ?>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </li>
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <img src="<?php echo IMAGE_PATH ?>avatar/default.png" class="user-image" alt="User Image">
+                                    <?php echo img(IMAGE_PATH . 'avatar/' . $this->session->userdata('avatar'), TRUE, 'class="user-image" alt="User Image"') ?>
                                     <span class="hidden-xs"><?php echo $this->session->userdata('firstname') . nbs() . $this->session->userdata('lastname') ?></span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <!-- User image -->
                                     <li class="user-header">
-                                        <img src="<?php echo IMAGE_PATH ?>avatar/default.png" class="img-circle" alt="User Image">
+                                        <?php echo img(IMAGE_PATH . 'avatar/' . $this->session->userdata('avatar'), TRUE, 'class="img-circle" alt="User Image"') ?>
                                         <p>
                                             <?php echo $this->session->userdata('firstname') . nbs() . $this->session->userdata('lastname') ?> - Web Developer
                                             <small>Member since Nov. 2012</small>
@@ -119,7 +98,7 @@
                                             <a href="#" class="btn btn-default btn-flat">Profile</a>
                                         </div>
                                         <div class="pull-right">
-                                            <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                            <?php echo anchor('sign/out', '<i class="fa fa-sign-out"></i> Sign out', 'class="btn btn-default btn-flat"') ?>
                                         </div>
                                     </li>
                                 </ul>
@@ -132,7 +111,7 @@
                 <section class="sidebar">
                     <div class="user-panel">
                         <div class="pull-left image">
-                            <img src="asset/img/avatar/<?php echo $this->session->userdata('avatar'); ?>" class="img-circle" alt="User Image" />
+                            <img src="assets/images/avatar/<?php echo $this->session->userdata('avatar') ?>" class="img-circle" alt="User Image" />
                         </div>
                         <div class="pull-left info">
                             <p><?php echo $this->session->userdata('firstname') . ' ' . $this->session->userdata('lastname'); ?></p>
@@ -141,7 +120,7 @@
                     </div>
                     <ul class="sidebar-menu">
                         <li class="header">THE NAVIGATION</li>
-                        <!-- <li><?php echo anchor('/', '<i class="fa fa-home"></i> <span>Home</span>') ?></li> -->
+                        <li><?php //echo anchor('/', '<i class="fa fa-home"></i> <span>Home</span>') ?></li>
                         <?php echo $this->sso_new->menu ?>
                     </ul>
                 </section>

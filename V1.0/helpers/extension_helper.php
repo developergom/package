@@ -75,9 +75,9 @@ if (!function_exists('script_tag')) {
             if (strpos($src, '://') !== FALSE) {
                 $script .= 'src="assets/scripts/' . $src . '.js' . $v . '" ';
             } elseif ($index_page === TRUE) {
-                $script .= 'src="' . $CI->config->site_url('assets/scripts/' . $src . '.js' . $v) . '" ';
+                $script .= 'src="' . $CI->config->site_url(SCRIPT_PATH . $src . '.js' . $v) . '" ';
             } else {
-                $script .= 'src="' . $CI->config->slash_item('base_url') . 'assets/scripts/' . $src . '.js' . $v . '" ';
+                $script .= 'src="' . $CI->config->slash_item('base_url') . SCRIPT_PATH . $src . '.js' . $v . '" ';
             }
         }
         $script .= ' ></script>';

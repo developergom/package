@@ -33,7 +33,7 @@
                                                     foreach ($post_featured_img as $i => $banner) {
                                                         $active = $i == FALSE ? 'active' : NULL;
                                                         echo '<div class="item ' . $active . '">';
-                                                        echo img('./assets/images/gaportal/post/thumb/' . $banner) . '</div>';
+                                                        echo img($banner) . '</div>';
                                                     }
                                                     ?>
                                                 </div>
@@ -46,11 +46,11 @@
                                         if (!empty($post_featured_img))
                                             $post_featured_img = reset($post_featured_img);
                                         ?>
-                                        <div class="post-thumb"><?php echo img('./assets/images/gaportal/post/thumb/' . $post_featured_img, FALSE, 'class="img-responsive" alt="' . $article->post_title . '"') ?></div>
+                                        <div class="post-thumb"><?php echo img($post_featured_img, FALSE, 'class="img-responsive" alt="' . $article->post_title . '"') ?></div>
                                         <?php
                                     }
                                     ?>
-                                    <?php echo heading(anchor('portalga/article/' . $article->post_slug, $article->post_title), 4, ' class="post-title"') ?>
+                                    <?php echo heading(anchor('portalga/article/read/' . $article->post_slug, $article->post_title), 4, ' class="post-title"') ?>
                                     <div class="post-meta text-uppercase">
                                         <span><?php echo unix_to_human(strtotime($article->post_publish_when), TRUE, 'us') ?></span>
                                         <?php
@@ -67,7 +67,7 @@
                                     <div class="post-article">
                                         <?php echo word_limiter(strip_tags($article->post_content), 41) ?>
                                     </div>
-                                    <?php echo anchor('portalga/article/' . $article->post_slug, 'Read More', 'class="btn btn-readmore"') ?>
+                                    <?php echo anchor('portalga/article/read/' . $article->post_slug, 'Read More', 'class="btn btn-readmore"') ?>
                                 </article>
                             </div>
                             <hr>
@@ -96,7 +96,7 @@
                     echo heading('Categories', 4);
                     echo '<ul>';
                     foreach ($categories as $cat => $category)
-                        echo sprintf('<li>%s</li>', anchor('portalga/category/' . $category['category_slug'], $category['category_name']));
+                        echo sprintf('<li>%s</li>', anchor('portalga/article/category/' . $category->category_slug, $category->category_name));
 
                     echo '</ul>';
                     ?>
@@ -107,7 +107,7 @@
                     echo heading('Tags', 4);
                     echo '<div class="tagcloud">';
                     foreach ($tags as $t => $tag)
-                        echo anchor('portalga/tag/' . $tag['tag_slug'], $tag['tag_content']);
+                        echo anchor('portalga/article/tag/' . $tag->tag_slug, $tag->tag_content);
 
                     echo '</div>';
                     ?>

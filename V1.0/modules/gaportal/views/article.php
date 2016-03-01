@@ -10,7 +10,7 @@
                         if (!empty($article->ptc)) {
                             $ptc = [];
                             foreach (array_intersect_key($categories, $article->ptc) as $category)
-                                $ptc[] = sprintf('<span>%s</span>', anchor('portalga/category/' . $category['category_slug'], $category['category_name']));
+                                $ptc[] = sprintf('<span>%s</span>', anchor('portalga/article/category/' . $category->category_slug, $category->category_name));
 
                             echo '<span>In</span>' . implode(', ', $ptc);
                         }
@@ -54,7 +54,7 @@
                     echo heading('Categories', 4);
                     echo '<ul>';
                     foreach ($categories as $cat => $category)
-                        echo sprintf('<li>%s</li>', anchor('portalga/category/' . $category['category_slug'], $category['category_name']));
+                        echo sprintf('<li>%s</li>', anchor('portalga/article/category/' . $category->category_slug, $category->category_name));
 
                     echo '</ul>';
                     ?>
@@ -65,7 +65,7 @@
                     echo heading('Tags', 4);
                     echo '<div class="tagcloud">';
                     foreach ($tags as $t => $tag)
-                        echo anchor('portalga/tag/' . $tag['tag_slug'], $tag['tag_content']);
+                        echo anchor('portalga/article/tag/' . $tag->tag_slug, $tag->tag_content);
 
                     echo '</div>';
                     ?>

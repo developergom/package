@@ -63,7 +63,7 @@ label{
 }
 
 #pre-status, .preload-placeholder {
-    background-image: url(../img/preloader.gif);
+    background-image: url(../../images/preloader.gif);
     background-position: center;
     background-repeat: no-repeat;
     height: 40px;
@@ -222,6 +222,11 @@ label{
     line-height:27px;
     letter-spacing:2px;
     font-weight:100;
+}
+
+.carousel-caption h1 a {
+    color: #fff;
+    text-shadow: 1px 1px 1px #aaa;
 }
 
 .carousel-caption h2 {
@@ -506,6 +511,10 @@ label{
     right:0;
 }
 
+#office-carousel .item {
+    max-height: 480px;
+
+}
 #office-carousel .item img{
     width: 100%;
 }
@@ -520,7 +529,15 @@ label{
 }
 
 .member-image{
+    width: auto;
+    max-height: 160px;
+    overflow: hidden;
     position: relative;
+}
+
+.member-image img {
+    height: 100%;
+    width: 100%;
 }
 
 .member-info{

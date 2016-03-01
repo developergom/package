@@ -23,6 +23,13 @@ and open the template in the editor.
     margin-bottom: 35px;
 }
 
+.post-thumb {
+    width: auto;
+    max-height: 480px;
+    overflow: hidden;
+    position: relative;
+}
+
 .post-title{
     margin-top: 20px;
     margin-bottom: 5px;

@@ -51,8 +51,10 @@
                         <div class="row">
                             <div class="col-md-9">
                                 <?php
-                                if (isset($record->post_slug))
-                                    echo sprintf('<p class="pull-right text-right">%s</p>', anchor('portalga/article/' . $record->post_slug, base_url('portalga/article/' . $record->post_slug), 'target="__blank"'));
+                                if (isset($record->post_slug)) {
+                                    $url = 'portalga/article/read/' . $record->post_slug;
+                                    echo sprintf('<p class="pull-right text-right">%s</p>', anchor($url, base_url($url), 'target="__blank"'));
+                                }
                                 ?>
                                 <div class="row">
                                     <div class="col-md-12">
@@ -63,17 +65,8 @@
                                 </div>
                             </div>
                             <div class="col-md-3">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <?php echo form_upload('post_featured_img[]', NULL, 'aria-describedby="helpBlock" multiple="multiple" class="filestyle" data-buttonText="&nbsp;Banner&nbsp;" data-iconName="fa fa-cloud-upload" data-input="false"') ?>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="checkbox">
-                                            <?php echo form_label(form_checkbox('crop', TRUE, TRUE) . nbs() . 'Crop Image?') ?>
-                                        </div>
-                                    </div>
-                                </div>
-                                <span id="helpBlock" class="help-block">Max upload filesize 0MB (0px &times; 0px)</span>
+                                <?php echo form_upload('post_featured_img[]', NULL, 'aria-describedby="helpBlock" multiple="multiple" class="filestyle" data-buttonText="&nbsp;Banner&nbsp;" data-iconName="fa fa-cloud-upload" data-input="false"') ?>
+                                <span id="helpBlock" class="help-block">Max upload filesize <strong><?php echo byte_format(MAX_UPLOAD_SIZE) ?></strong></span>
                                 <div class="clearfix">&nbsp;</div>
                                 <div class="box box-default">
                                     <div class="box-header">

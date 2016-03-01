@@ -5,8 +5,8 @@
         <title>GA Portal</title>
         <?php
         echo meta('keyword', $meta);
-        echo link_tag('assets/styles/bootstrap.min.css');
-        echo link_tag('assets/styles/font-awesome.min.css');
+        echo link_tag(STYLE_PATH . 'bootstrap.min.css');
+        echo link_tag(STYLE_PATH . 'font-awesome.min.css');
         $css = [
             'owl.carousel',
             'magnific-popup',
@@ -15,7 +15,7 @@
             'article',
         ];
         foreach ($css as $v)
-            echo link_tag('assets/styles/gaportal/' . $v . '.css');
+            echo link_tag(STYLE_PATH . 'gaportal/' . $v . '.css');
         ?>
 
         <!-- Favicon -->
@@ -33,13 +33,12 @@
 
     </head>
     <body>
-
         <div id="st-preloader">
             <div id="pre-status">
                 <div class="preload-placeholder"></div>
             </div>
         </div>
-        
+
         <header id="header">
             <nav class="navbar st-navbar navbar-fixed-top">
                 <div class="container">
@@ -50,7 +49,7 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <?php echo anchor('portalga', img(base_url('assets/images/gom.png')), 'class="logo"') ?>
+                        <?php echo anchor('portalga/', img(IMAGE_PATH . 'gom.png'), 'class="logo"') ?>
                     </div>
 
                     <div class="collapse navbar-collapse" id="st-navbar-collapse">

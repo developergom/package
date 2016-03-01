@@ -3,6 +3,7 @@ $.widget.bridge('uibutton', $.ui.button);
 $(document).ready(function () {
     setTimeout(function () {
         $('select').select2();
+        $('.filestyle').filestyle();
         $('.dataTables_filter').find('input').css('width', '200px');
         $('input[type="checkbox"]').iCheck({
             checkboxClass: 'icheckbox_flat-blue'
@@ -73,7 +74,7 @@ $(document).ready(function () {
     });
 
 
-    $(":file").filestyle({
+    $(':file').filestyle({
         input: false,
         buttonText: "&nbsp;Add Media"
     });
@@ -81,7 +82,7 @@ $(document).ready(function () {
 
     setInterval(function () {
         $('.alert').fadeOut();
-    }, 3000);
+    }, 5000);
 
     $('#summernote').summernote({
         height: 300

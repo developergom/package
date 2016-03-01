@@ -10,24 +10,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Post extends GN_Controller {
 
     protected $models = ['post', 'category', 'post_to_category', 'tag', 'post_to_tag', 'media', 'media_to_post'];
-    protected $helpers = ['text'];
-    private $_banner_type = [
-        'thumb' => [
-            'width' => 850,
-            'height' => 480,
-            'ratio' => 6
-        ],
-        'slider' => [
-            'width' => 1600,
-            'height' => 600,
-            'ratio' => 6
-        ],
-        'video'
-    ];
+    protected $helpers = ['text', 'number'];
+    private $_banner_type;
     private $_validation;
 
     public function __construct() {
         parent::__construct();
+
+        $this->_banner_type = json_decode_db(BANNER_TYPE);
+        $this->load->library('upload');
         $this->data['style'] = ['summernote'];
         $this->data['script'] = ['summernote.min'];
         $this->data['categories'] = $this->category->multiselect('category_name');
@@ -44,19 +35,22 @@ class Post extends GN_Controller {
                 'rules' => 'required'
             ],
             [
+                'name' => 'post_featured_img',
+                'label' => 'Banner',
+                'rules' => 'callback_handle_upload'
+            ],
+            [
                 'name' => 'categories[]',
                 'label' => 'Categories',
                 'rules' => 'required'
             ]
         ];
-        
     }
 
-    protected function index() {
+    protected function index($page = 0) {
         $this->load->library('pagination');
-        $page = !empty($this->uri->segment(4)) ? $this->perpage * ($this->uri->segment(4) - 1) : 0;
+        $page = !empty($page) ? $this->perpage * ($page - 1) : 0;
         $config['base_url'] = base_url($this->base . '/index/');
-        $config['per_page'] = $this->perpage;
         $config['total_rows'] = $this->post->count_all();
         $this->pagination->initialize($config);
         $this->view = 'gaportal/post';
@@ -80,10 +74,9 @@ class Post extends GN_Controller {
                 'post_publish_when' => $this->input->post('post_status') == 'publish' ? date('Y-m-d H:i:s') : NULL
             ];
 
-            $upload = $this->_upload_banner(url_title($this->input->post('post_title')), $this->input->post('crop'));
+            $upload = $this->_upload_banner($data['post_title']);
             if (is_array($upload))
                 $data['post_featured_img'] = json_encode_db($upload);
-
 
             $post_id = $this->post->insert($data);
             $this->_set_category($post_id, $this->input->post('categories'));
@@ -94,17 +87,18 @@ class Post extends GN_Controller {
         }
     }
 
-    protected function update() {
+    protected function update($post_id = 0) {
         $this->view = 'gaportal/form_post';
         $this->data['action'] = $this->base . '/edit/';
-        $this->data['record'] = $this->post->with('ptc')->with('ptt')->get($this->uri->segment(4));
+        $this->data['record'] = $this->post->with('ptc')->with('ptt')->get($post_id);
     }
 
     protected function edit() {
+        $post_id = $this->input->post('post_id');
+
         if ($this->validation($this->_validation) === FALSE) {
-            $this->update();
+            $this->update($post_id);
         } else {
-            $post_id = $this->input->post('post_id');
             $post = $this->post->get($post_id);
             if (!empty($post)) {
                 $data = [
@@ -120,11 +114,10 @@ class Post extends GN_Controller {
                     $data['post_publish_when'] = NULL;
                 }
 
-                $upload = $this->_upload_banner($this->input->post('post_title'), $this->input->post('crop'));
+                $upload = $this->_upload_banner($data['post_title']);
                 if (is_array($upload))
                     $data['post_featured_img'] = json_encode_db($upload);
 
-                $this->validation($this->_validation);
                 $this->post->update($post->post_id, $data);
                 $this->_set_category($post->post_id, $this->input->post('categories'));
 
@@ -136,16 +129,12 @@ class Post extends GN_Controller {
         }
     }
 
-    protected function delete() {
-        $post_id = $this->uri->segment(4);
+    protected function delete($post_id = 0) {
         $post = $this->post->get($post_id);
-        if (!empty($post_id) && !empty($post_id)) {
+        if (!empty($post)) {
             foreach (json_decode_db($post->post_featured_img) as $banner) {
-                if (file_exists('./assets/images/gaportal/post/thumb/' . $banner))
-                    unlink('./assets/images/gaportal/post/thumb/' . $banner);
-
-                if (file_exists('./assets/images/gaportal/post/slider/' . $banner))
-                    unlink('./assets/images/gaportal/post/slider/' . $banner);
+                if (file_exists($banner))
+                    unlink($banner);
             }
 
             $this->post->delete($post->post_id);
@@ -183,57 +172,52 @@ class Post extends GN_Controller {
         $this->post_to_tag->insert_many($post_to_tag);
     }
 
-    private function _upload_banner($title, $crop = TRUE) {
+    private function _upload_banner($name) {
+        $path = UPLOAD_PATH . $this->module;
         if (count($_FILES['post_featured_img']['name']) > 1) {
-            for ($i = 0; $i < count($_FILES['post_featured_img']['name']); $i++)
-                $name[] = url_title($title) . '-' . $i;
+            for ($i = 1; $i <= count($_FILES['post_featured_img']['name']); ++$i)
+                $filename[] = url_title($name) . '-' . $i;
         } else {
-            $name = [url_title($title)];
+            $filename = [url_title($name)];
         }
 
-        $config['file_name'] = $name;
-        $config['upload_path'] = './assets/images/gaportal/post/';
-        $config['allowed_types'] = 'gif|jpg|png';
-        $config['max_size'] = 5000;
-        $config['max_width'] = 96000;
-        $config['max_height'] = 17680;
+        $config['upload_path'] = $path;
+        $config['file_name'] = $filename;
+        $config['allowed_types'] = IMAGE_ALLOWED;
+        $config['max_size'] = MAX_UPLOAD_SIZE;
         $config['overwrite'] = TRUE;
+        $this->upload->initialize($config);
 
-        $this->load->library('upload', $config);
-        if ($this->upload->do_multi_upload('post_featured_img') === FALSE) {
-            return $this->upload->display_errors();
-        } else {
-            foreach ($this->upload->get_multi_upload_data() as $banner) {
-                $filename[] = $banner['file_name'];
-                if ($crop) {
-                    $this->_create_banner($banner, 'slider');
-                    $this->_create_banner($banner, 'thumb');
-                }
-                unlink($banner['full_path']);
-            }
+        if ($this->upload->do_multi_upload('post_featured_img')) {
+            foreach ($this->upload->get_multi_upload_data() as $banner)
+                $return[] = $path . '/' . $banner['file_name'];
+
+            return $return;
         }
-
-        return $filename;
     }
 
-    private function _create_banner($img, $type = NULL) {
-        $this->load->library('image_lib');
-        $this->image_lib->initialize([
-            'image_library' => 'GD2',
-            'quality' => 100,
-            'source_image' => $img['full_path'],
-            'new_image' => $img['file_path'] . '/' . $type . '/' . $img['file_name'],
-            //'master_dim' => 'auto',
-            'maintain_ratio' => FALSE,
-            'create_thumb' => FALSE,
-            'width' => (int) $this->_banner_type[$type]['width'],
-            'height' => (int) $this->_banner_type[$type]['height'],
-            'x_axis' => $this->_banner_type[$type]['width'] / $this->_banner_type[$type]['ratio'],
-            'y_axis' => $this->_banner_type[$type]['height'] / $this->_banner_type[$type]['ratio']
-        ]);
+    public function handle_upload() {
+        $config['upload_path'] = UPLOAD_PATH;
+        $config['allowed_types'] = IMAGE_ALLOWED;
+        $config['max_size'] = MAX_UPLOAD_SIZE;
+        $config['min_width'] = 570;
+        $config['min_height'] = 600;
+        $this->upload->initialize($config);
 
-        if ($this->image_lib->crop() === FALSE)
-            return $this->image_lib->display_errors();
+        //if (isset($_FILES['post_featured_img'])) {
+        if ($this->upload->do_multi_upload('post_featured_img')) {
+            foreach ($this->upload->get_multi_upload_data() as $img)
+                unlink($img['full_path']);
+
+            return TRUE;
+        } else {
+            $this->form_validation->set_message('handle_upload', str_replace(['<p>', '</p>'], NULL, $this->upload->display_errors()));
+            return FALSE;
+        }
+        //} else {
+        //$this->form_validation->set_message('handle_upload', 'You must upload an image!');
+        //return FALSE;
+        //}
     }
 
 }
