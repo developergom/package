@@ -75,7 +75,7 @@ class Sso_new {
                 $this->get_current_access($modules['module_id']);
             }
         } else {
-            redirect(404);
+            //redirect(404);
         }
     }
 

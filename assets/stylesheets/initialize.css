@@ -20,3 +20,19 @@ and open the template in the editor.
 .quick-form {
     display: none;
 }
+
+/*.thumbnail {
+    width: auto;
+    max-height: 180px;
+    overflow: hidden;
+    position: relative;
+}*/
+
+
+/*.thumbnail i {
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    margin-left: -25px;
+    margin-top: -30px;
+}*/

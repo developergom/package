@@ -2,6 +2,7 @@ $.widget.bridge('uibutton', $.ui.button);
 "use strict";
 $(document).ready(function () {
     setTimeout(function () {
+        
         $('select').select2();
         $('.filestyle').filestyle();
         $('.dataTables_filter').find('input').css('width', '200px');
@@ -9,7 +10,7 @@ $(document).ready(function () {
             checkboxClass: 'icheckbox_flat-blue'
         });
 
-        $('[data-mask]').inputmask();
+        //$('.AldiraChena').AldiraChena();
         /*$('.datepicker').datepicker({
          format: 'yyyy/mm/dd'
          });*/
@@ -54,6 +55,7 @@ $(document).ready(function () {
 
     $('.connectedSortable .box-header, .connectedSortable .nav-tabs-custom').css('cursor', 'move');
 
+    $('[data-toggle="tooltip"]').tooltip();
 
     $('tr.tr').each(function () {
         var id = $(this).data('key');
@@ -73,26 +75,27 @@ $(document).ready(function () {
         });
     });
 
+    
 
-    $(':file').filestyle({
-        input: false,
-        buttonText: "&nbsp;Add Media"
-    });
+//    $(':file').filestyle({
+//        input: false,
+//        buttonText: "&nbsp;Add Media"
+//    });
 
 
     setInterval(function () {
         $('.alert').fadeOut();
     }, 5000);
 
-    $('#summernote').summernote({
-        height: 300
-    });
 
-    $('[data-toggle="tooltip"]').tooltip();
     //$('#editor').wysihtml5();
 
 //    $("button:submit").click(function () {
 //        $('#editor').text($('#editor').Editor("getText"));
 //    });
 
+    $('#summernote').summernote({
+        height: 300
+    });
+    $('[data-mask]').inputmask();
 });

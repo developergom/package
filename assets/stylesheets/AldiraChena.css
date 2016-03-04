@@ -7,17 +7,18 @@ and open the template in the editor.
     Created on : 29 Feb 16, 15:25:21
     Author     : nanank
 */
-.col-center {
-    margin: 0 auto;
-    float: none;
-}
-.dropbox {
-    padding: 150px;
-    background-color: #fff;
+
+.AldiraChena {
+    padding: 200px;
     border: 10px dashed #3C8DBC;
+    background-color: white;
+}
+
+.AldiraChena h3 {
     color: #3C8DBC;
 }
 
-.dropbox h3, .dropbox p {
-    text-align: center;
+.col-center {
+    margin: 0 auto;
+    float: none;
 }

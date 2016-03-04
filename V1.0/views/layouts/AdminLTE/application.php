@@ -24,18 +24,18 @@
         ];
 
         foreach ($css as $v)
-            echo link_tag('assets/styles/' . $v . '.css');
+            echo link_tag(STYLE_PATH . $v . '.css');
         
         if (!empty($style)) {
             if (!is_array($style))
                 $style = [$style];
 
             foreach ($style as $_style)
-                echo link_tag('assets/styles/' . $_style . '.css');
+                echo link_tag(STYLE_PATH . $_style . '.css');
         }
 
 
-        echo link_tag('assets/styles/initialize.css');
+        echo link_tag(STYLE_PATH . 'initialize.css');
         ?>
         <!--[if lt IE 9]>
             <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -270,6 +270,7 @@
         $js = [
             'jQuery-2.2.0.min',
             'jquery-ui.min',
+            'ajaxFileUpload',
             'bootstrap.min',
             'bootstrap-validator.min',
             'bootstrap-filestyle.min',
@@ -283,6 +284,7 @@
             //'jquery.inputmask.extensions',
             //'jquery.inputmask.date.extensions',
             'jquery.slimscroll.min',
+            'jquery.filedrop.min',
             //'fastclick.min',
             //'demo',
             'app.min'

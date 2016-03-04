@@ -10,26 +10,85 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Media extends GN_Controller {
 
     protected $models = ['media'];
+    protected $helpers = ['number', 'file'];
+    private $_thumbnail;
 
     public function __construct() {
         parent::__construct();
+        $this->load->library('upload');
         $this->data['title'] = 'Media Library';
+
+        $media_property = json_decode_db(MEDIA_PROPERTY);
+        $this->_thumbnail = $media_property['thumbnail'];
     }
-    
+
     protected function index($page = 0) {
+        $this->perpage = 18;
+        $this->load->library('pagination');
+        $config['per_page'] = $this->perpage;
+        $config['base_url'] = base_url($this->base . '/index/');
+        $config['total_rows'] = $this->media->count_all();
+        $page = !empty($page) ? $this->perpage * ($page - 1) : 0;
+        $this->pagination->initialize($config);
+
+        $this->view = 'media';
         $this->data['style'] = ['AldiraChena'];
         $this->data['script'] = ['AldiraChena'];
-        $this->view = 'media';
-    }
-    
-//    protected function create() {
-//        $this->view = 'form_media';
-//        $this->data['action'] = $this->base . '/upload/';
-//    }
 
+        $this->data['datagrid'] = $this->media->order_by('media_id', 'ASC')->limit($this->perpage, $page)->get_all();
+        $this->data['links'] = $this->pagination->create_links();
+    }
 
     protected function upload() {
-        debug($_FILES);
+        if ($this->upload->do_upload('upload_media')) {
+            $media = $this->upload->data();
+            $insert = [
+                'media_type' => $media['file_type'],
+                'media_mime' => $media['file_type'],
+                'media_extension' => $media['file_ext'],
+                'media_filesize' => $media['file_size'],
+                'media_description' => $media['client_name'],
+                'media_path' => UPLOAD_PATH . $media['file_name'],
+                'media_status' => 'active'
+            ];
+
+            if ($media['is_image'])
+                $this->__crop($media);
+
+            $this->media->insert($insert);
+            return $media;
+        } else {
+            return str_replace(['<p>', '</p>'], NULL, $this->upload->display_errors());
+        }
+    }
+
+    private function __crop(Array $img = []) {
+        $config['image_library'] = 'gd2';
+        $config['source_image'] = UPLOAD_PATH . $img['file_name'];
+        $config['create_thumb'] = TRUE;
+        $config['maintain_ratio'] = FALSE;
+        $this->load->library('image_lib', $config + $this->__rectangle($img['image_width'], $img['image_height']));
+
+        if (!$this->image_lib->crop())
+            echo $this->image_lib->display_errors();
+    }
+
+    private function __rectangle() {
+        list($width, $height) = func_get_args();
+        $return = [];
+        if ($width > $this->_thumbnail['length'] && $height > $this->_thumbnail['length']) {
+            $return['width'] = $this->_thumbnail['length'];
+            $return['height'] = $this->_thumbnail['length'];
+            $return['x_axis'] = $width - $this->_thumbnail['length'];
+            $return['y_axis'] = $height - $this->_thumbnail['length'];
+        } else {
+            $return['width'] = $this->_thumbnail['length'] / $this->_thumbnail['ratio'];
+            $return['height'] = $this->_thumbnail['length'] / $this->_thumbnail['ratio'];
+            $return['x_axis'] = $width - ($this->_thumbnail['length'] / $this->_thumbnail['ratio']);
+            $return['y_axis'] = $height - ($this->_thumbnail['length'] / $this->_thumbnail['ratio']);
+        }
+
+        return $return;
     }
 
 //    protected function upload() {

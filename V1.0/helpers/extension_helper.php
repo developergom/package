@@ -262,3 +262,21 @@ if (!function_exists('distinct_array')) {
     }
 
 }
+
+if (!function_exists('str_pos')) {
+
+    function str_pos($haystack, $needles = [], $offset = 0) {
+        $word = [];
+        foreach ($needles as $needle) {
+            $res = strpos($haystack, $needle, $offset);
+            if ($res)
+                $word[$needle] = $res;
+        }
+
+        if (empty($word))
+            return FALSE;
+
+        return min($word);
+    }
+
+}

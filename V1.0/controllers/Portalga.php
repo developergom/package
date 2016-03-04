@@ -2,6 +2,11 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+/**
+ * Description of Post
+ *
+ * @author nanank
+ */
 class Portalga extends CI_Controller {
 
     protected $header;
@@ -11,8 +16,6 @@ class Portalga extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-
-        //$this->perpage = ROW_PERPAGE;
         $this->load->helper(['text', 'date']);
         $this->load->model('gaportal/post_model', 'post');
         $this->load->model('gaportal/post_to_category_model', 'post_to_category');

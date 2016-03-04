@@ -10,7 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Post extends GN_Controller {
 
     protected $models = ['post', 'category', 'post_to_category', 'tag', 'post_to_tag', 'media', 'media_to_post'];
-    protected $helpers = ['text', 'number'];
+    protected $helpers = ['text', 'number', 'file'];
     private $_banner_type;
     private $_validation;
 
@@ -207,7 +207,7 @@ class Post extends GN_Controller {
         //if (isset($_FILES['post_featured_img'])) {
         if ($this->upload->do_multi_upload('post_featured_img')) {
             foreach ($this->upload->get_multi_upload_data() as $img)
-                unlink($img['full_path']);
+                delete_files($img['full_path']);
 
             return TRUE;
         } else {

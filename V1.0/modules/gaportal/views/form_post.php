@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-sm-12">
-        <div class="box box-info">
+        <div class="box box-primary">
             <?php echo form_open_multipart($action, 'class="validate" role="form"', isset($record) ? ['post_id' => $record->post_id] : []) ?>
             <div class="box-header">
                 <?php //echo heading('<i class="fa fa-pencil"></i> Form', 3, 'class="box-title"') ?>
@@ -66,7 +66,7 @@
                             </div>
                             <div class="col-md-3">
                                 <?php echo form_upload('post_featured_img[]', NULL, 'aria-describedby="helpBlock" multiple="multiple" class="filestyle" data-buttonText="&nbsp;Banner&nbsp;" data-iconName="fa fa-cloud-upload" data-input="false"') ?>
-                                <span id="helpBlock" class="help-block">Max upload filesize <strong><?php echo byte_format(MAX_UPLOAD_SIZE) ?></strong></span>
+                                <span id="helpBlock" class="help-block">Maximum upload file size <strong><?php echo byte_format(MAX_UPLOAD_SIZE) ?></strong>.</span>
                                 <div class="clearfix">&nbsp;</div>
                                 <div class="box box-default">
                                     <div class="box-header">
