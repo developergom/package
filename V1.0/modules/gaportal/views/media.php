@@ -20,78 +20,35 @@
                         $mimes = explode('/', $row->media_mime);
                         ?>
                         <div class="col-xs-6 col-md-3 col-lg-2">
-                            <a class="thumbnail">
+                            <div class="thumbnail">
+                                <div class="caption">
+                                    <?php
+                                    echo heading(nbs(), 4);
+                                    echo sprintf('<p>%s</p>', ellipsize($row->media_description, 13));
+                                    ?>
+                                    <p>
+                                        <?php echo anchor('#', '<i class="fa fa-search"></i>&nbsp;Details', 'class="label label-danger" rel="tooltip" title="Zoom"') ?>
+                                    </p>
+                                </div>
                                 <?php
                                 if (in_array('image', $mimes)) {
-                                    $path = explode('.', $row->media_path);
-                                    echo img('.' . $path[1] . '_thumb.' . $path[2], TRUE, 'class="img-rounded img-responsive"');
+                                    $path = explode('/', $row->media_path);
+                                    echo img('./' . $path[1] . '/' . $path[2] . '/thumbnails/' . $path[3], FALSE, 'class="img-responsive"');
                                 } else if (str_pos($mimes[1], ['spreadsheet', 'ms-excel'])) {
-                                    echo img(IMAGE_PATH . 'file-type/file-excel-o.png', TRUE, 'class="img-rounded img-responsive"');
+                                    echo img(IMAGE_PATH . 'file-type/file-excel-o.png', FALSE, 'class="img-responsive"');
                                 } else if (str_pos($mimes[1], ['wordprocessingml', 'ms-word'])) {
-                                    echo img(IMAGE_PATH . 'file-type/file-word-o.png', TRUE, 'class="img-rounded img-responsive"');
+                                    echo img(IMAGE_PATH . 'file-type/file-word-o.png', FALSE, 'class="img-responsive"');
                                 } else if (str_pos($mimes[1], ['presentationml', 'ms-powerpoint'])) {
-                                    echo img(IMAGE_PATH . 'file-type/file-powerpoint-o.png', TRUE, 'class="img-rounded img-responsive"');
+                                    echo img(IMAGE_PATH . 'file-type/file-powerpoint-o.png', FALSE, 'class="img-responsive"');
                                 } else if (str_pos($mimes[1], ['zip', 'rar'])) {
-                                    echo img(IMAGE_PATH . 'file-type/file-zip-o.png', TRUE, 'class="img-rounded img-responsive"');
+                                    echo img(IMAGE_PATH . 'file-type/file-zip-o.png', FALSE, 'class="img-responsive"');
                                 } else if (in_array('plain', $mimes)) {
-                                    echo img(IMAGE_PATH . 'file-type/file-text-o.png', TRUE, 'class="img-rounded img-responsive"');
+                                    echo img(IMAGE_PATH . 'file-type/file-text-o.png', FALSE, 'class="img-responsive"');
                                 } else if (in_array('pdf', $mimes)) {
-                                    echo img(IMAGE_PATH . 'file-type/file-pdf-o.png', TRUE, 'class="img-rounded img-responsive"');
+                                    echo img(IMAGE_PATH . 'file-type/file-pdf-o.png', FALSE, 'class="img-responsive"');
                                 }
                                 ?>
-                            </a>
-                            <!--a class="thumbnail">
-                            <?php
-                            if (strpos($row->media_mime, 'vnd')) {
-                                ?>
-                                                                                    <div class="info-box bg-green">
-                                                                                        <span class="info-box-icon">
-                                                                                            <i class="fa fa-file-excel-o"></i>
-                                                                                        </span>
-                                                                                        <div class="info-box-content">
-                                                                                            <span class="info-box-text"><?php echo $row->media_description ?></span>
-                                                                                        </div>
-                                                                                    </div>
-
-                                <?php
-                            } else if (strpos($row->media_mime, 'pdf')) {
-                                ?>
-                                                                                    <div class="info-box bg-red">
-                                                                                        <span class="info-box-icon">
-                                                                                            <i class="fa fa-file-pdf-o"></i>
-                                                                                        </span>
-                                                                                        <div class="info-box-content">
-                                                                                            <span class="info-box-text"><?php echo $row->media_description ?></span>
-                                                                                        </div>
-                                                                                    </div>
-                                <?php
-                            } else if (strpos($row->media_mime, 'rar')) {
-                                ?>
-                                                                                    <div class="info-box bg-fuchsia">
-                                                                                        <span class="info-box-icon">
-                                                                                            <i class="fa fa-file-zip-o"></i>
-                                                                                        </span>
-                                                                                        <div class="info-box-content">
-                                                                                            <span class="info-box-text"><?php echo $row->media_description ?></span>
-                                                                                        </div>
-                                                                                    </div>
-                                <?php
-                            } else if (strpos($row->media_mime, 'plain')) {
-                                ?>
-                                                                                    <div class="info-box bg-olive">
-                                                                                        <span class="info-box-icon">
-                                                                                            <i class="fa fa-file-text-o"></i>
-                                                                                        </span>
-                                                                                        <div class="info-box-content">
-                                                                                            <span class="info-box-text"><?php echo $row->media_description ?></span>
-                                                                                        </div>
-                                                                                    </div>
-                                <?php
-                            } else if (in_array('image', explode('/', $row->media_mime))) {
-                                echo img($row->media_path, TRUE, 'class="img-rounded img-responsive"');
-                            }
-                            ?>
-                            </a-->
+                            </div>
                         </div>
                         <?php
                     }
@@ -115,10 +72,6 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-lg-12">
-                            <?php
-//                            for ($a = 0; $a < 10;  ++$a)
-//                                echo br();
-                            ?>
                             <div class="AldiraChena"></div>
                         </div>
                     </div>

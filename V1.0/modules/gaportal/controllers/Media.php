@@ -10,7 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Media extends GN_Controller {
 
     protected $models = ['media'];
-    protected $helpers = ['number', 'file'];
+    protected $helpers = ['number', 'file', 'text'];
     private $_thumbnail;
 
     public function __construct() {
@@ -65,18 +65,19 @@ class Media extends GN_Controller {
     private function __crop(Array $img = []) {
         $config['image_library'] = 'gd2';
         $config['source_image'] = UPLOAD_PATH . $img['file_name'];
-        $config['create_thumb'] = TRUE;
+        $config['new_image'] = UPLOAD_PATH . 'thumbnails/' . $img['file_name'];
+        $config['create_thumb'] = FALSE;
         $config['maintain_ratio'] = FALSE;
         $this->load->library('image_lib', $config + $this->__rectangle($img['image_width'], $img['image_height']));
 
-        if (!$this->image_lib->crop())
+        if ($this->image_lib->crop() === FALSE)
             echo $this->image_lib->display_errors();
     }
 
     private function __rectangle() {
         list($width, $height) = func_get_args();
         $return = [];
-        if ($width > $this->_thumbnail['length'] && $height > $this->_thumbnail['length']) { // gambar lebih besar dari ukuran thumbnail
+        if ($width > $this->_thumbnail['length'] && $height > $this->_thumbnail['length']) {
             $return['width'] = $this->_thumbnail['length'];
             $return['height'] = $this->_thumbnail['length'];
             $return['x_axis'] = ($width - $this->_thumbnail['length']) / 2;
