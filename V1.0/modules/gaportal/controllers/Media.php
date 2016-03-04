@@ -76,16 +76,16 @@ class Media extends GN_Controller {
     private function __rectangle() {
         list($width, $height) = func_get_args();
         $return = [];
-        if ($width > $this->_thumbnail['length'] && $height > $this->_thumbnail['length']) {
+        if ($width > $this->_thumbnail['length'] && $height > $this->_thumbnail['length']) { // gambar lebih besar dari ukuran thumbnail
             $return['width'] = $this->_thumbnail['length'];
             $return['height'] = $this->_thumbnail['length'];
-            $return['x_axis'] = $width - $this->_thumbnail['length'];
-            $return['y_axis'] = $height - $this->_thumbnail['length'];
+            $return['x_axis'] = ($width - $this->_thumbnail['length']) / 2;
+            $return['y_axis'] = ($height - $this->_thumbnail['length']) / 2;
         } else {
             $return['width'] = $this->_thumbnail['length'] / $this->_thumbnail['ratio'];
             $return['height'] = $this->_thumbnail['length'] / $this->_thumbnail['ratio'];
-            $return['x_axis'] = $width - ($this->_thumbnail['length'] / $this->_thumbnail['ratio']);
-            $return['y_axis'] = $height - ($this->_thumbnail['length'] / $this->_thumbnail['ratio']);
+            $return['x_axis'] = ($width - ($this->_thumbnail['length'] / $this->_thumbnail['ratio'])) / 2;
+            $return['y_axis'] = ($height - ($this->_thumbnail['length'] / $this->_thumbnail['ratio'])) / 2;
         }
 
         return $return;
