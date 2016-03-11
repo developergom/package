@@ -1,32 +1,6 @@
 <?php
 
 // ------------------------------------------------------------------------
-if (!function_exists('app_name')) {
-
-    function app_name() {
-        $ci = & get_instance();
-        return $ci->setting->app_name;
-    }
-
-}
-
-
-
-// ------------------------------------------------------------------------
-if (!function_exists('singular_plural')) {
-
-    function singular_plural($int = 0, $text = NULL) {
-
-        if ((int) $int > 1)
-            return (int) $int . nbs() . plural($text);
-
-
-        return (int) $int . nbs() . $text;
-    }
-
-}
-
-// ------------------------------------------------------------------------
 if (!function_exists('time_elapsed')) {
 
     function time_elapsed($time = NULL) {
@@ -225,36 +199,6 @@ if (!function_exists('find_array')) {
 
 }
 
-if (!function_exists('rectangle_image')) {
-
-    function rectangle_image($img, $dimension) {
-
-        list($width, $height) = getimagesize($img);
-
-        if ($width < $height) {
-            // portrait
-            $x_axis = ($width / 2) - ($dimension / 2);
-            $y_axis = ($height / 4) - ($dimension / 2);
-        } else if ($width > $height) {
-            // landscape
-            $x_axis = ($width / 4) - ($dimension / 2);
-            $y_axis = ($height / 2) - ($dimension / 2);
-        } else if ($width == $height) {
-            $x_axis = $width;
-            $y_axis = $height;
-        }
-
-        return [
-            //'master_dim' => 'auto',
-            'width' => $dimension,
-            'height' => $dimension,
-            'x_axis' => $x_axis,
-            'y_axis' => $y_axis
-        ];
-    }
-
-}
-
 if (!function_exists('distinct_array')) {
 
     function distinct_array($array = array()) {
@@ -277,6 +221,47 @@ if (!function_exists('str_pos')) {
             return FALSE;
 
         return min($word);
+    }
+
+}
+
+if (!function_exists('thumb_file_type')) {
+
+    function thumb_file_type($mime) {
+        switch ($mime) {
+            case 'text/plain':
+                $thumb_file_type = 'file-text-o';
+                break;
+
+            case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+            case 'application/vnd.ms-excel':
+                $thumb_file_type = 'file-excel-o';
+                break;
+
+            case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
+            case 'application/powerpoint' :
+                $thumb_file_type = 'file-powerpoint-o';
+                break;
+            
+            case 'application/msword':
+            case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+                $thumb_file_type = 'file-word-o';
+                break;
+
+            case 'application/pdf':
+                $thumb_file_type = 'file-pdf-o';
+                break;
+
+            case 'application/x-rar':
+            case 'application/x-gzip':
+            case 'application/x-zip':
+                $thumb_file_type = 'file-zip-o';
+                break;
+
+            default: $thumb_file_type = 'file-o';
+        }
+
+        return $thumb_file_type . '.png';
     }
 
 }

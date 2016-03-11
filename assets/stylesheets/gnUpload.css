@@ -4,17 +4,21 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 */
 /* 
-    Created on : 29 Feb 16, 15:25:21
+    Created on : 10 Mar 16, 12:22:39
     Author     : nanank
 */
 
-.AldiraChena {
-    padding: 200px;
+.gnUpload {
+    padding: 150px 0px;
     border: 10px dashed #3C8DBC;
     background-color: white;
 }
 
-.AldiraChena h3 {
+.gnUpload h3, .gnUpload p {
+    text-align: center;
     color: #3C8DBC;
 }
 
+/*.gnUpload:hover {
+    background-color: lightblue;
+}*/

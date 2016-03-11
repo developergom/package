@@ -64,11 +64,12 @@
                                         $row->{$key[1]} .= anchor($base . '/update/' . $row->$id, '<i class="fa fa-edit"></i>' . nbs() . 'Edit', 'title="Edit data"') . nbs(2) . '<span class="text-muted small"></span>' . nbs(2);
                                     
                                     if(in_array('d',$this->sso_new->curr_access))
-                                        $row->{$key[1]} .= anchor('#', '<i class="fa fa-trash"></i>' . nbs() . 'Delete', 'class="text-danger" title="Delete user" data-toggle="modal" data-target="#confirm-delete" data-href="' . base_url($base . '/delete/' . $row->$id) . '"');
+                                        $row->{$key[1]} .= anchor('#', '<i class="fa fa-trash"></i>' . nbs() . 'Delete', 'class="text-danger" title="Delete row" data-toggle="modal" data-target="#confirm-delete" data-href="' . base_url($base . '/delete/' . $row->$id) . '"');
                                     
                                     $row->{$key[1]} .= '</div>';
                                     if ($show_pk === FALSE)
                                         unset($row->$id);
+                                    
                                     foreach ($row as $key => $value)
                                         echo sprintf('<td aria-name="%s">%s</td>', $key, $value);
 

@@ -1,9 +1,58 @@
+<div class="modal fade" id="media-detail">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <?php echo heading('Media Details', 4, 'class="modal-title"') ?>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-8 col-lg-8">
+                            <img class="img-responsive" />
+                        </div>
+                        <div class="col-sm-8 col-lg-4">
+                            <div class="media-info">
+                                <div class="media-details"></div>
+                                <div class="media-setting"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <?php echo anchor('#', '<i class="fa fa-trash"></i>' . nbs() . 'Delete', 'class="btn btn-danger pull-left" title="Delete media" data-toggle="modal" data-target="#confirm-delete"') ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-primary" id="form-media">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <?php echo heading('New Media', 4, 'class="modal-title"') ?>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="gnUpload"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="row">
     <div class="col-xs-12">
         <div class="box box-primary">
             <div class="box-header with-border">
+                <?php //echo heading('<a href="#form-media" data-toggle="modal"><i class="fa fa-plus"></i> Create New</a>', 3, 'class="box-title"') ?>
                 <?php echo heading('<a href="#form-media" data-toggle="modal"><i class="fa fa-plus"></i> Create New</a>', 3, 'class="box-title"') ?>
-                <?php //echo heading(anchor($base . '/create', '<i class="fa fa-plus"></i> Create New'), 3, 'class="box-title"') ?>
                 <div class="box-tools pull-right">
                     <?php echo form_open('#', ['method' => 'GET']) ?>
                     <div class="input-group input-group-sm">
@@ -17,35 +66,22 @@
                 <div class="row">
                     <?php
                     foreach ($datagrid as $index => $row) {
-                        $mimes = explode('/', $row->media_mime);
                         ?>
-                        <div class="col-xs-6 col-md-3 col-lg-2">
+                        <div class="col-xs-4 col-md-2 col-lg-2">
                             <div class="thumbnail">
                                 <div class="caption">
                                     <?php
                                     echo heading(nbs(), 4);
-                                    echo sprintf('<p>%s</p>', ellipsize($row->media_description, 13));
+                                    echo sprintf('<p>%s</p>', empty($row->media_title) ? ellipsize($row->media_filename, 13) : $row->media_title);
                                     ?>
-                                    <p>
-                                        <?php echo anchor('#', '<i class="fa fa-search"></i>&nbsp;Details', 'class="label label-danger" rel="tooltip" title="Zoom"') ?>
-                                    </p>
+                                    <button class="btn btn-outline" rel="tooltip" title="<?php echo isset($row->media_title) ? $row->media_title : 'Detail' ?>" data-toggle="modal" data-target="#media-detail" data-media="<?php echo $row->media_id ?>"><i class="fa fa-search"></i></button>
                                 </div>
                                 <?php
-                                if (in_array('image', $mimes)) {
-                                    $path = explode('/', $row->media_path);
-                                    echo img('./' . $path[1] . '/' . $path[2] . '/thumbnails/' . $path[3], FALSE, 'class="img-responsive"');
-                                } else if (str_pos($mimes[1], ['spreadsheet', 'ms-excel'])) {
-                                    echo img(IMAGE_PATH . 'file-type/file-excel-o.png', FALSE, 'class="img-responsive"');
-                                } else if (str_pos($mimes[1], ['wordprocessingml', 'ms-word'])) {
-                                    echo img(IMAGE_PATH . 'file-type/file-word-o.png', FALSE, 'class="img-responsive"');
-                                } else if (str_pos($mimes[1], ['presentationml', 'ms-powerpoint'])) {
-                                    echo img(IMAGE_PATH . 'file-type/file-powerpoint-o.png', FALSE, 'class="img-responsive"');
-                                } else if (str_pos($mimes[1], ['zip', 'rar'])) {
-                                    echo img(IMAGE_PATH . 'file-type/file-zip-o.png', FALSE, 'class="img-responsive"');
-                                } else if (in_array('plain', $mimes)) {
-                                    echo img(IMAGE_PATH . 'file-type/file-text-o.png', FALSE, 'class="img-responsive"');
-                                } else if (in_array('pdf', $mimes)) {
-                                    echo img(IMAGE_PATH . 'file-type/file-pdf-o.png', FALSE, 'class="img-responsive"');
+                                if ($row->media_is_image) {
+                                    $media_url = explode('/', $row->media_url);
+                                    echo img($media_url[0] . '/' . $media_url[1] . '/thumbnails/' . $media_url[2], TRUE, 'class="img-responsive" alt="' . $row->media_alt_text . '"');
+                                } else {
+                                    echo img(IMAGE_PATH . 'file-type/' . thumb_file_type($row->media_mime), TRUE, 'class="img-responsive"');
                                 }
                                 ?>
                             </div>
@@ -61,22 +97,3 @@
 </div>
 
 
-<div id="form-media" class="modal fade modal-primary">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <?php echo heading('New Media', 4, 'class="modal-title"') ?>
-            </div>
-            <div class="modal-body">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="AldiraChena"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>

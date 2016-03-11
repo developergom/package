@@ -23,7 +23,7 @@ class Media extends GN_Controller {
     }
 
     protected function index($page = 0) {
-        $this->perpage = 18;
+        $this->perpage = 12;
         $this->load->library('pagination');
         $config['per_page'] = $this->perpage;
         $config['base_url'] = base_url($this->base . '/index/');
@@ -32,23 +32,51 @@ class Media extends GN_Controller {
         $this->pagination->initialize($config);
 
         $this->view = 'media';
-        $this->data['style'] = ['AldiraChena'];
-        $this->data['script'] = ['AldiraChena'];
+        $this->data['style'] = ['gnUpload'];
+        $this->data['script'] = ['gnUpload', 'media'];
 
-        $this->data['datagrid'] = $this->media->order_by('media_id', 'ASC')->limit($this->perpage, $page)->get_all();
+        $this->data['datagrid'] = $this->media->order_by('create_when', 'DESC')->limit($this->perpage, $page)->get_all();
         $this->data['links'] = $this->pagination->create_links();
+    }
+
+    protected function edit() {
+        $this->sso_new->check_access('u');
+        $record = $this->media->get($this->input->post('media_id'));
+        if (!empty($record)) {
+            $update = $this->media->update($record->media_id, $this->input->post());
+            exit($update);
+        }
+
+        exit();
+    }
+
+    protected function delete($primary_key = 0) {
+        $this->sso_new->check_access('d');
+        $record = $this->media->get($primary_key);
+        if (!empty($record)) {
+            unlink($record->media_url);
+            if ($record->media_is_image) {
+                $media_url = explode('/', $record->media_url);
+                unlink($media_url[0] . '/' . $media_url[1] . '/thumbnails/' . $media_url[2]);
+            }
+            $delete = $this->media->delete($record->media_id);
+            if ($delete)
+                redirect('gaportal/media/?message=delete&status=success', 'refresh');
+        }
     }
 
     protected function upload() {
         if ($this->upload->do_upload('upload_media')) {
             $media = $this->upload->data();
             $insert = [
-                'media_type' => $media['file_type'],
+                'media_filename' => $media['client_name'],
+                'media_is_image' => $media['is_image'],
                 'media_mime' => $media['file_type'],
+                'media_dimension' => $media['image_size_str'],
                 'media_extension' => $media['file_ext'],
                 'media_filesize' => $media['file_size'],
-                'media_description' => $media['client_name'],
-                'media_path' => UPLOAD_PATH . $media['file_name'],
+                'media_url' => UPLOAD_PATH . $media['file_name'],
+                'media_path' => $media['full_path'],
                 'media_status' => 'active'
             ];
 
@@ -56,9 +84,9 @@ class Media extends GN_Controller {
                 $this->__crop($media);
 
             $this->media->insert($insert);
-            return $media;
+            exit('gaportal/media/');
         } else {
-            return str_replace(['<p>', '</p>'], NULL, $this->upload->display_errors());
+            echo str_replace(['<p>', '</p>'], NULL, $this->upload->display_errors());
         }
     }
 
@@ -90,6 +118,13 @@ class Media extends GN_Controller {
         }
 
         return $return;
+    }
+
+    protected function detail() {
+        $media_id = $this->input->post('media_id');
+        $media = $this->media->get($media_id);
+        echo json_encode($media);
+        exit();
     }
 
 //    protected function upload() {

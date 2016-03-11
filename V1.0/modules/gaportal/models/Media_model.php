@@ -11,6 +11,7 @@ class Media_model extends GN_Model {
 
     public $_db_group = 'GAPORTAL';
     public $primary_key = 'media_id';
+    public $protected_attributes = ['media_id'];
     public $before_create = ['create_log'];
     public $before_update = ['update_log'];
 

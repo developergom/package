@@ -25,7 +25,7 @@
 
         foreach ($css as $v)
             echo link_tag(STYLE_PATH . $v . '.css');
-        
+
         if (!empty($style)) {
             if (!is_array($style))
                 $style = [$style];
@@ -43,10 +43,24 @@
         <![endif]-->
     </head>
     <body class="skin-blue sidebar-mini sidebar-collapse">
+        <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <i class="fa fa-warning fa-3x pull-left"></i>
+                        <strong> Are you sure want to delete this data ?</strong>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <a href="#" class="btn btn-danger delete">Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="wrapper">
             <header class="main-header">
                 <a href="#" class="logo">
-                    <span class="logo-mini"><strong><?php echo substr(APP_NAME, 0, 3); ?></strong></span>
+                    <span class="logo-mini"><strong><?php echo substr(APP_NAME, 0, 3) ?></strong></span>
                     <span class="logo-lg"><?php echo APP_NAME; ?></span>
                 </a>
                 <nav class="navbar navbar-static-top" role="navigation">
@@ -120,7 +134,7 @@
                     </div>
                     <ul class="sidebar-menu">
                         <li class="header">THE NAVIGATION</li>
-                        <li><?php //echo anchor('/', '<i class="fa fa-home"></i> <span>Home</span>') ?></li>
+                        <li><?php //echo anchor('/', '<i class="fa fa-home"></i> <span>Home</span>')  ?></li>
                         <?php echo $this->sso_new->menu ?>
                     </ul>
                 </section>
@@ -150,20 +164,7 @@
                 </div>
             </footer>
         </div>
-        <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-sm">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <i class="fa fa-warning fa-3x pull-left"></i>
-                        <strong> Are you sure want to delete this data ?</strong>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                        <a href="#" class="btn btn-danger delete">Delete</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+
         <script type="text/javascript">
             var base_url = window.location.protocol + '//' + window.location.host + '/package/';
             //var base_url = window.location.protocol + '//' + window.location.host + '/';
@@ -264,7 +265,17 @@
                     md: 992,
                     lg: 1200
                 }
-            }
+            };
+            
+            var allowedUploadFiletype = [
+                'text/plain',
+                'image/jpeg', 'image/png', 'image/gif', 
+                'application/pdf', 
+                'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 
+                'application/powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+                'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'application/x-rar', 'application/x-gzip', 'application/x-zip'
+            ];
         </script>
         <?php
         $js = [
@@ -274,6 +285,8 @@
             'bootstrap.min',
             'bootstrap-validator.min',
             'bootstrap-filestyle.min',
+            'humanize.min',
+            'moment.min',
             //'bootstrap-datepicker',
             //'raphael-2.1.0.min',
             //'morris.min',

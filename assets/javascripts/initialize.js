@@ -2,7 +2,7 @@ $.widget.bridge('uibutton', $.ui.button);
 "use strict";
 $(document).ready(function () {
     setTimeout(function () {
-        
+
         $('select').select2();
         $('.filestyle').filestyle();
         $('.dataTables_filter').find('input').css('width', '200px');
@@ -27,22 +27,6 @@ $(document).ready(function () {
     $('#confirm-delete').on('show.bs.modal', function (e) {
         $(this).find('.delete').attr('href', $(e.relatedTarget).data('href'));
     });
-//    $('#confirm-delete').on('show.bs.modal', function (e) {
-//        if ($(e.relatedTarget).data('href') === 'submit') {
-//            if ($('form.simplegrid').serializeArray().length <= 1) {
-//                $(this).find('.modal-body > strong').html('Please check (<i class="fa fa-check"></i>) at least one data before deleting.');
-//                $(this).find('.modal-footer > a').remove();
-//                $(this).find('.modal-footer > button').text('Ok');
-//            } else {
-//                $(this).find('.delete').click(function (e) {
-//                    $('form.simplegrid').submit();
-//                    e.preventDefault();
-//                });
-//            }
-//        } else {
-//            $(this).find('.delete').attr('href', $(e.relatedTarget).data('href'));
-//        }
-//    });
 
     $('.connectedSortable').sortable({
         placeholder: 'sort-highlight',
@@ -75,7 +59,7 @@ $(document).ready(function () {
         });
     });
 
-    
+
 
 //    $(':file').filestyle({
 //        input: false,
@@ -85,8 +69,18 @@ $(document).ready(function () {
 
     setInterval(function () {
         $('.alert').fadeOut();
-    }, 5000);
+    }, 6000 * 5);
 
+    $('.thumbnail').hover(function () {
+        $(this).find('.caption').fadeIn(250);
+    }, function () {
+        $(this).find('.caption').fadeOut(250);
+    });
+
+    $('.gnUpload').gnUpload({
+        url: base_url + 'gaportal/media/upload/',
+        paramName: 'upload_media'
+    });
 
     //$('#editor').wysihtml5();
 
@@ -98,4 +92,12 @@ $(document).ready(function () {
         height: 300
     });
     $('[data-mask]').inputmask();
+});
+
+$(document).on('show.bs.modal', '.modal', function () {
+    var zIndex = 1040 + (10 * $('.modal:visible').length);
+    $(this).css('z-index', zIndex);
+    setTimeout(function () {
+        $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
+    }, 0);
 });

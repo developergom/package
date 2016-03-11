@@ -11,13 +11,11 @@ class Post extends GN_Controller {
 
     protected $models = ['post', 'category', 'post_to_category', 'tag', 'post_to_tag', 'media', 'media_to_post'];
     protected $helpers = ['text', 'number', 'file'];
-    private $_banner_type;
     private $_validation;
 
     public function __construct() {
         parent::__construct();
 
-        $this->_banner_type = json_decode_db(BANNER_TYPE);
         $this->load->library('upload');
         $this->data['style'] = ['summernote'];
         $this->data['script'] = ['summernote.min'];

@@ -118,7 +118,7 @@
                     <?php
                     echo heading($engineering['category']->category_name, 4);
                     echo sprintf('<p>%s</p>', $engineering['category']->category_description);
-                    echo anchor('article/category/' . $engineering['category']->category_slug, 'View More', 'class="btn btn-send"');
+                    echo anchor('portalga/article/category/' . $engineering['category']->category_slug, 'View More', 'class="btn btn-send"');
                     ?>
                 </div>
             </div>
