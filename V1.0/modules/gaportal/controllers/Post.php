@@ -52,7 +52,7 @@ class Post extends GN_Controller {
         $config['total_rows'] = $this->post->count_all();
         $this->pagination->initialize($config);
         $this->view = 'gaportal/post';
-        $this->data['datagrid'] = $this->post->with('ptc')->with('ptt')->order_by('post_id', 'ASC')->limit($this->perpage, $page)->get_all();
+        $this->data['datagrid'] = $this->post->with('ptc')->with('ptt')->order_by('create_when', 'DESC')->limit($this->perpage, $page)->get_all();
         $this->data['links'] = $this->pagination->create_links();
     }
 
@@ -93,7 +93,6 @@ class Post extends GN_Controller {
 
     protected function edit() {
         $post_id = $this->input->post('post_id');
-
         if ($this->validation($this->_validation) === FALSE) {
             $this->update($post_id);
         } else {
@@ -194,7 +193,7 @@ class Post extends GN_Controller {
         }
     }
 
-    public function handle_upload() {
+    public function handle_upload($file, $status) {
         $config['upload_path'] = UPLOAD_PATH;
         $config['allowed_types'] = IMAGE_ALLOWED;
         $config['max_size'] = MAX_UPLOAD_SIZE;
@@ -202,7 +201,6 @@ class Post extends GN_Controller {
         $config['min_height'] = 600;
         $this->upload->initialize($config);
 
-        //if (isset($_FILES['post_featured_img'])) {
         if ($this->upload->do_multi_upload('post_featured_img')) {
             foreach ($this->upload->get_multi_upload_data() as $img)
                 delete_files($img['full_path']);
@@ -212,10 +210,6 @@ class Post extends GN_Controller {
             $this->form_validation->set_message('handle_upload', str_replace(['<p>', '</p>'], NULL, $this->upload->display_errors()));
             return FALSE;
         }
-        //} else {
-        //$this->form_validation->set_message('handle_upload', 'You must upload an image!');
-        //return FALSE;
-        //}
     }
 
 }

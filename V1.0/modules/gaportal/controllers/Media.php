@@ -23,6 +23,7 @@ class Media extends GN_Controller {
     }
 
     protected function index($page = 0) {
+        $this->sso_new->check_access('r');
         $this->perpage = 12;
         $this->load->library('pagination');
         $config['per_page'] = $this->perpage;
@@ -32,9 +33,7 @@ class Media extends GN_Controller {
         $this->pagination->initialize($config);
 
         $this->view = 'media';
-        $this->data['style'] = ['gnUpload'];
-        $this->data['script'] = ['gnUpload', 'media'];
-
+        $this->data['script'] = ['media'];
         $this->data['datagrid'] = $this->media->order_by('create_when', 'DESC')->limit($this->perpage, $page)->get_all();
         $this->data['links'] = $this->pagination->create_links();
     }
@@ -66,6 +65,7 @@ class Media extends GN_Controller {
     }
 
     protected function upload() {
+        $this->sso_new->check_access('u');
         if ($this->upload->do_upload('upload_media')) {
             $media = $this->upload->data();
             $insert = [
@@ -125,64 +125,6 @@ class Media extends GN_Controller {
         $media = $this->media->get($media_id);
         echo json_encode($media);
         exit();
-    }
-
-//    protected function upload() {
-//        if ($_FILES['file']['error'] != 4) {
-//            if (file_exists('asset/img/gaportal/blog/' . $_FILES['file']['name']))
-//                unlink('asset/img/gaportal/blog/' . $_FILES['file']['name']);
-//
-//            $config['upload_path'] = 'asset/img/gaportal/blog/';
-//            $config['allowed_types'] = 'gif|jpg|png';
-//            //$config['max_size'] = $this->Setting->findByKey('image_max_size');
-//            $this->load->library('upload', $config);
-//
-//            if ($this->upload->do_upload("file")) {
-//                $image = $this->upload->data();
-//                $url = 'asset/img/gaportal/blog/' . $image['orig_name'];
-//                $media = [
-//                    'media_type' => 'post',
-//                    'media_mime' => $image['file_type'],
-//                    'media_extension' => $image['file_ext'],
-//                    'media_filesize' => $image['file_size'],
-//                    'media_description' => $image['raw_name'],
-//                    'media_path' => $url
-//                ];
-//
-//                $this->media->insert($media);
-//                exit(json_encode([
-//                    'path' => $url,
-//                    'name' => $image["raw_name"]
-//                ]));
-//            } else {
-//                $errors = $this->upload->display_errors();
-//                exit($errors);
-//            }
-//        }
-//        exit;
-//    }
-
-    protected function upload_from_url() {
-        $media = [
-            'media_type' => 'post',
-//            'media_mime' => $image['file_type'],
-//            'media_extension' => $image['file_ext'],
-//            'media_filesize' => $image['file_size'],
-//            'media_description' => $image['raw_name'],
-            'media_path' => $this->input->post('file')
-        ];
-        $this->media->insert($media);
-        exit(json_encode([
-            'path' => $url,
-            'name' => $image["raw_name"]
-        ]));
-    }
-
-    protected function browse() {
-
-        $this->data['medias'] = $this->media->as_array()->get_all();
-        $this->layout = FALSE;
-        $this->view = 'gaportal/browse';
     }
 
 }

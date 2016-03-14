@@ -57,7 +57,7 @@ class Module extends GN_Controller {
 
     }
 
-    public function index() {
+    public function index($page = 0) {
         $this->sso_new->check_access('r');
         $this->load->library(['pagination', 'table']);
         $page = !empty($this->uri->segment(4)) ? $this->_perpage * ($this->uri->segment(4) - 1) : 0;
@@ -126,7 +126,7 @@ class Module extends GN_Controller {
         }
     }
 
-    public function update() {
+    public function update($primary_key = 0) {
         $this->sso_new->check_access('u');
         $this->view = 'layouts/AdminLTE/form';
         $this->data['action'] = $this->_base . '/edit/';

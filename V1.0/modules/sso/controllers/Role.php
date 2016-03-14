@@ -8,7 +8,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author soniibrol
  */
 class Role extends GN_Controller {
-    protected $models = ['role','menu','action','module','role_module'];
+
+    protected $models = ['role', 'menu', 'action', 'module', 'role_module'];
     protected $helpers = [];
     protected $return_type = 'array';
     protected $_base = '';
@@ -46,26 +47,26 @@ class Role extends GN_Controller {
         $this->sso_new->check_access('c');
         $this->load->helper('recursive');
 
-        $recursive = data_recursive(object_to_array($this->menu->get_all()),'menu_id','menu_parent');
-        $this->data['menu'] = datagrid_recursive($recursive,'menu_name');
-        foreach($this->data['menu'] as $row => $val) {
+        $recursive = data_recursive(object_to_array($this->menu->get_all()), 'menu_id', 'menu_parent');
+        $this->data['menu'] = datagrid_recursive($recursive, 'menu_name');
+        foreach ($this->data['menu'] as $row => $val) {
             $this->data['menu'][$row]['_action'] = [];
             $module = object_to_array($this->module->get($val['module_id']));
-            foreach(unserialize($module['module_action']) as $k => $v) {
+            foreach (unserialize($module['module_action']) as $k => $v) {
                 $act = object_to_array($this->action->get($v));
-                array_push($this->data['menu'][$row]['_action'],$v);
+                array_push($this->data['menu'][$row]['_action'], $v);
             }
         }
         $this->data['action'] = object_to_array($this->action->get_all());
-        
-        $this->view = 'sso/role/create';   
+
+        $this->view = 'sso/role/create';
     }
 
     protected function insert() {
         $this->sso_new->check_access('c');
-        if($this->validation($this->data['form'])===FALSE) {
+        if ($this->validation($this->data['form']) === FALSE) {
             $this->view = 'layouts/AdminLTE/form';
-            $this->data['action'] = $this->_base . '/insert/'; 
+            $this->data['action'] = $this->_base . '/insert/';
         } else {
             $data_role = [
                 'role_name' => $this->input->post('role_name'),
@@ -75,32 +76,32 @@ class Role extends GN_Controller {
 
             $insert_id = $this->{$this->router->fetch_class()}->insert($data_role);
 
-            $this->insert_role_module($insert_id);            
+            $this->insert_role_module($insert_id);
 
             redirect($this->_base, 'refresh');
         }
     }
 
-    public function update() {
+    public function update($primary_key = 0) {
         $this->sso_new->check_access('u');
         $this->load->helper('recursive');
 
-        $recursive = data_recursive(object_to_array($this->menu->get_all()),'menu_id','menu_parent');
-        $this->data['menu'] = datagrid_recursive($recursive,'menu_name');
-        foreach($this->data['menu'] as $row => $val) {
+        $recursive = data_recursive(object_to_array($this->menu->get_all()), 'menu_id', 'menu_parent');
+        $this->data['menu'] = datagrid_recursive($recursive, 'menu_name');
+        foreach ($this->data['menu'] as $row => $val) {
             $this->data['menu'][$row]['_action'] = [];
             $module = object_to_array($this->module->get($val['module_id']));
-            foreach(unserialize($module['module_action']) as $k => $v) {
+            foreach (unserialize($module['module_action']) as $k => $v) {
                 $act = object_to_array($this->action->get($v));
-                array_push($this->data['menu'][$row]['_action'],$v);
+                array_push($this->data['menu'][$row]['_action'], $v);
             }
 
             //looping untuk access_key
             $role_module = object_to_array($this->role_module->get_many_by(['role_id' => $this->uri->segment(4), 'module_id' => $val['module_id']]));
-            foreach($role_module as $key => $value) 
+            foreach ($role_module as $key => $value)
                 $this->data['menu'][$row]['_access_key'] = unserialize($value['access_key']);
         }
-        
+
         $this->data['actions'] = object_to_array($this->action->get_all());
 
         $this->view = 'sso/role/update';
@@ -113,7 +114,7 @@ class Role extends GN_Controller {
         $this->sso_new->check_access('u');
         $record = $this->{$this->router->fetch_class()}->get($this->input->post($this->_primary_key));
         if (!empty($record)) {
-            if($this->validation($this->data['form'])===FALSE) {
+            if ($this->validation($this->data['form']) === FALSE) {
                 $this->view = 'layouts/AdminLTE/form';
                 $this->data['action'] = $this->_base . '/edit/';
                 $primary_key = $this->uri->segment(4);
@@ -126,7 +127,7 @@ class Role extends GN_Controller {
                 ];
                 $this->{$this->router->fetch_class()}->update($record->{$this->_primary_key}, $data_role);
 
-                $this->role_module->delete_by("role_id = ".$this->input->post($this->_primary_key)."");
+                $this->role_module->delete_by("role_id = " . $this->input->post($this->_primary_key) . "");
 
                 $this->insert_role_module($record->{$this->_primary_key});
 
@@ -137,12 +138,12 @@ class Role extends GN_Controller {
 
     protected function insert_role_module($role_id) {
         $modules = object_to_array($this->module->get_all());
-        foreach($modules as $key => $value) {
+        foreach ($modules as $key => $value) {
             $access_key = [];
             $action = unserialize($value['module_action']);
-            foreach($action as $k => $v) {
-                if(isset($_POST['action_' . $value['module_id'] . '_' . $v]))
-                    array_push($access_key,$v);
+            foreach ($action as $k => $v) {
+                if (isset($_POST['action_' . $value['module_id'] . '_' . $v]))
+                    array_push($access_key, $v);
             }
 
             $data_role_module = [

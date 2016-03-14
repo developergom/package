@@ -20,9 +20,11 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <?php echo anchor('#', '<i class="fa fa-trash"></i>' . nbs() . 'Delete', 'class="btn btn-danger pull-left" title="Delete media" data-toggle="modal" data-target="#confirm-delete"') ?>
-            </div>
+            <?php if (in_array('d', $this->sso_new->curr_access)) { ?>
+                <div class="modal-footer">
+                    <?php echo anchor('#', '<i class="fa fa-trash"></i>' . nbs() . 'Delete', 'class="btn btn-danger pull-left" title="Delete media" data-toggle="modal" data-target="#confirm-delete"') ?>
+                </div>
+            <?php } ?>
         </div>
     </div>
 </div>
@@ -51,8 +53,10 @@
     <div class="col-xs-12">
         <div class="box box-primary">
             <div class="box-header with-border">
-                <?php //echo heading('<a href="#form-media" data-toggle="modal"><i class="fa fa-plus"></i> Create New</a>', 3, 'class="box-title"') ?>
-                <?php echo heading('<a href="#form-media" data-toggle="modal"><i class="fa fa-plus"></i> Create New</a>', 3, 'class="box-title"') ?>
+                <?php
+                if (in_array('c', $this->sso_new->curr_access))
+                    echo heading('<a href="#form-media" data-toggle="modal"><i class="fa fa-plus"></i> Create New</a>', 3, 'class="box-title"');
+                ?>
                 <div class="box-tools pull-right">
                     <?php echo form_open('#', ['method' => 'GET']) ?>
                     <div class="input-group input-group-sm">
@@ -65,27 +69,35 @@
             <div class="box-body">
                 <div class="row">
                     <?php
-                    foreach ($datagrid as $index => $row) {
-                        ?>
-                        <div class="col-xs-4 col-md-2 col-lg-2">
-                            <div class="thumbnail">
-                                <div class="caption">
+                    if (!empty($datagrid)) {
+                        foreach ($datagrid as $index => $row) {
+                            ?>
+                            <div class="col-xs-4 col-md-2 col-lg-2">
+                                <div class="thumbnail">
+                                    <div class="caption">
+                                        <?php
+                                        echo heading(nbs(), 4);
+                                        echo sprintf('<p>%s</p>', empty($row->media_title) ? ellipsize($row->media_filename, 13) : $row->media_title);
+                                        if (in_array('d', $this->sso_new->curr_access)) {
+                                            ?>
+                                            <button class="btn btn-outline" rel="tooltip" title="<?php echo isset($row->media_title) ? $row->media_title : 'Detail' ?>" data-toggle="modal" data-target="#media-detail" data-media="<?php echo $row->media_id ?>"><i class="fa fa-search"></i></button>
+                                        <?php } ?>
+                                    </div>
                                     <?php
-                                    echo heading(nbs(), 4);
-                                    echo sprintf('<p>%s</p>', empty($row->media_title) ? ellipsize($row->media_filename, 13) : $row->media_title);
+                                    if ($row->media_is_image) {
+                                        $media_url = explode('/', $row->media_url);
+                                        echo img($media_url[0] . '/' . $media_url[1] . '/thumbnails/' . $media_url[2], TRUE, 'class="img-responsive" alt="' . $row->media_alt_text . '"');
+                                    } else {
+                                        echo img(IMAGE_PATH . 'file-type/' . thumb_file_type($row->media_mime), TRUE, 'class="img-responsive"');
+                                    }
                                     ?>
-                                    <button class="btn btn-outline" rel="tooltip" title="<?php echo isset($row->media_title) ? $row->media_title : 'Detail' ?>" data-toggle="modal" data-target="#media-detail" data-media="<?php echo $row->media_id ?>"><i class="fa fa-search"></i></button>
                                 </div>
-                                <?php
-                                if ($row->media_is_image) {
-                                    $media_url = explode('/', $row->media_url);
-                                    echo img($media_url[0] . '/' . $media_url[1] . '/thumbnails/' . $media_url[2], TRUE, 'class="img-responsive" alt="' . $row->media_alt_text . '"');
-                                } else {
-                                    echo img(IMAGE_PATH . 'file-type/' . thumb_file_type($row->media_mime), TRUE, 'class="img-responsive"');
-                                }
-                                ?>
                             </div>
-                        </div>
+                            <?php
+                        }
+                    } else {
+                        ?>
+                        <div class="col-xs-12 col-md-12 col-lg-12">Empty data...</div>
                         <?php
                     }
                     ?>

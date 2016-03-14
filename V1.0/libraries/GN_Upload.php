@@ -2,6 +2,11 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+/**
+ * Description of GN_Upload
+ *
+ * @author nanank
+ */
 class GN_Upload extends CI_Upload {
 
     protected $_multi_upload_data = [];

@@ -12,7 +12,7 @@
                             <div class="alert alert-warning alert-dismissible">
                                 <?php
                                 echo form_button('button', '&times;', 'class="close" data-dismiss="alert" aria-hidden="true"');
-                                echo heading('<i class="icon fa fa-info"></i> Alert!', 4);
+                                echo heading('<i class="icon fa fa-warning"></i> Oh Snap!', 4);
                                 echo validation_errors();
                                 ?>
                             </div>

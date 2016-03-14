@@ -11,7 +11,7 @@
 
         var modal = $(this);
         var media_id = $(e.relatedTarget).data('media');
-        var overlay = $('<div/>', {class: 'overlay'}).append($('<div/>', {class: 'fa fa refresh fa-spin'}));
+        //var overlay = $('<div/>', {class: 'overlay'}).append($('<div/>', {class: 'fa fa refresh fa-spin'}));
         var spinner = $('<p/>', {class: 'text-center hidden preloader'}).append('<i class="fa fa-spinner fa-pulse fa-lg"></i>');
         
         //modal.find('.media-details').append(spinner);
@@ -46,7 +46,7 @@
                 var formData = {};
                 media_setting.find('.form-group > input[type="text"], .form-group > textarea').each(function () {
                     $(this).on('blur', function () {
-                        $('p.preloader').removeClass('hidden').addClass('show');
+                        $('p.preloader').removeClass('hidden').addClass('show fade in');
                         formData['media_id'] = $(this).data('primary-key');
                         formData[$(this).attr('name')] = $(this).val();
                         $.ajax({

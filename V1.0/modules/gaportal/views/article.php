@@ -9,8 +9,10 @@
                         <?php
                         if (!empty($article->ptc)) {
                             $ptc = [];
-                            foreach (array_intersect_key($categories, $article->ptc) as $category)
-                                $ptc[] = sprintf('<span>%s</span>', anchor('portalga/article/category/' . $category->category_slug, $category->category_name));
+                            foreach (object_to_array($categories) as $category) {
+                                if (in_array($category['category_id'], array_map('array_pop', object_to_array($article->ptc))))
+                                    $ptc[] = sprintf('<span>%s</span>', anchor('portalga/article/category/' . $category['category_slug'], $category['category_name']));
+                            }
 
                             echo '<span>In</span>' . implode(', ', $ptc);
                         }
@@ -39,14 +41,12 @@
             <div class="col-md-3">
                 <div class="sidebar-widget">
                     <div class="blog-search">
-                        <form>
-                            <input type="text" name="search">
-                            <span>
-                                <button id="submit_btn" class="search-submit" type="submit">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
-                        </form>
+                        <?php
+                        echo form_open('portalga/article/search/', ['method' => 'GET']);
+                        echo form_input('key');
+                        echo sprintf('<span>%s</span>', form_button(['id' => 'submit_btn', 'class' => 'search-submit', 'type' => 'button', 'content' => '<i class="fa fa-search"></i>']));
+                        echo form_close();
+                        ?>
                     </div>
                 </div>
                 <div class="sidebar-widget">

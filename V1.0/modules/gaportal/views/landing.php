@@ -165,7 +165,7 @@
                         </div>
                         <div class="member-info">
                             <?php
-                            echo heading(anchor('article/read/' . $sptc->post_slug, $sptc->post_title), 4);
+                            echo heading(anchor('portalga/article/read/' . $sptc->post_slug, $sptc->post_title), 4);
                             //echo sprintf('<span>%s</span>', $post['post_subtitle']);
                             ?>
                         </div>

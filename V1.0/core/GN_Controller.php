@@ -16,7 +16,7 @@ class GN_Controller extends CI_Controller {
     protected $models = [];
     protected $model_string = '%_model';
     protected $helpers = [];
-    protected $module;
+    protected $module_name;
     protected $base;
     protected $perpage = 5;
     private $_primary_key;
@@ -29,8 +29,8 @@ class GN_Controller extends CI_Controller {
         $this->load->library('sso_new');
 
         $this->perpage = ROW_PERPAGE;
-        $this->module = $this->router->fetch_module();
-        $this->base = $this->module . '/' . $this->router->fetch_class();
+        $this->module_name = $this->router->fetch_module();
+        $this->base = $this->module_name . '/' . $this->router->fetch_class();
         if (isset($this->{$this->router->fetch_class()}->primary_key))
             $this->_primary_key = $this->{$this->router->fetch_class()}->primary_key;
 
@@ -40,7 +40,7 @@ class GN_Controller extends CI_Controller {
         $this->data['base'] = $this->base;
         $this->data['breadcrumb'] = [
             '<i class="fa fa-home"></i> Home',
-            strlen($this->module) > 3 ? humanize($this->module) : strtoupper($this->module),
+            strlen($this->module_name) > 3 ? humanize($this->module_name) : strtoupper($this->module_name),
             strlen($this->router->fetch_class()) > 3 ? humanize($this->router->fetch_class()) : strtoupper($this->router->fetch_class())
         ];
     }
@@ -232,7 +232,5 @@ class GN_Controller extends CI_Controller {
             return $data;
         }
     }
-
-    
 
 }

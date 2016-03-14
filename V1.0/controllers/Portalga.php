@@ -100,13 +100,14 @@ class Portalga extends CI_Controller {
     private function __top_category() {
         $categories = [];
         foreach ($this->categories as $category) {
-            if ($category->category_parent == FALSE && $category->category_name != 'Information' && $category->category_name != 'Uncategorized')
+            if ($category->category_parent == FALSE && $category->category_name != 'Information' && $category->category_name != 'Uncategorized') {
                 $categories[] = [
                     'id' => $category->category_id,
                     'parent' => $category->category_parent,
                     'name' => $category->category_name,
                     'slug' => $category->category_slug
                 ];
+            }
         }
 
         return array_to_object($categories);
@@ -126,6 +127,9 @@ class Portalga extends CI_Controller {
             case 'read' :
                 $this->load->view('article', $data + $this->__read($slug));
                 break;
+            case 'search':
+                $this->load->view('articles', $data + $this->__type($this->input->get('key')));
+                break;
             default :
                 $this->load->view('articles', $data + $this->__type());
         }
@@ -137,19 +141,25 @@ class Portalga extends CI_Controller {
         $slug = func_get_args();
         $type = $this->uri->segment(3);
 
+
         if (!empty($type) && $type != 'page') {
             if (empty($slug))
                 show_404();
 
-            $slug_type = [];
-            foreach ($this->{plural($type)} as $row) {
-                if ($row->{$type . '_slug'} == $slug[0])
-                    $slug_type = $row;
+            if ($type == 'search') {
+                $this->__search($slug);
+            } else {
+                $slug_type = [];
+                foreach ($this->{plural($type)} as $row) {
+                    if ($row->{$type . '_slug'} == $slug[0])
+                        $slug_type = $row;
+                }
             }
         }
 
+        $article = [];
         if (empty($type) OR $type == 'page') {
-            $article = $this->post->get_many_by('post_status', 'publish');
+            $article = $this->post->with('ptc')->get_many_by('post_status', 'publish');
         } else {
             foreach ($this->{'post_to_' . $type}->with('post')->get_many($slug_type->{$type . '_id'}) as $value) {
                 if ($value->post->post_status == 'publish')
@@ -160,9 +170,11 @@ class Portalga extends CI_Controller {
         $segment = (!empty($type) && $type != 'page') ? 6 : 4;
         $url = (!empty($type) && $type != 'page') ? $type . '/' . $slug_type->{$type . '_slug'} . '/page/' : 'page/';
         $page = !empty($this->uri->segment($segment)) ? $this->perpage * ($this->uri->segment($segment) - 1) : 0;
-        usort($article, function($a, $b) {
-            return strcmp($a->post_publish_when, $b->post_publish_when);
-        });
+        if (!empty($article)) {
+            usort($article, function($a, $b) {
+                return strcmp($a->post_publish_when, $b->post_publish_when);
+            });
+        }
 
         $config['base_url'] = base_url('portalga/article/' . $url);
         $config['total_rows'] = count($article);
@@ -186,6 +198,10 @@ class Portalga extends CI_Controller {
         }
         $this->header['meta'] = implode(', ', $meta);
         return ['article' => $article];
+    }
+
+    private function __search($keyword) {
+        debug($keyword);
     }
 
     private function __set_menu() {
