@@ -3,7 +3,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * Description of Post
+ * Description of Portalga
  *
  * @author nanank
  */
@@ -31,6 +31,7 @@ class Portalga extends CI_Controller {
     public function index() {
         $this->load->view('gaportal/header', $this->header);
         $this->load->view('gaportal/landing', $this->__data());
+        //$this->load->view('table');
         $this->load->view('gaportal/footer');
     }
 
@@ -55,8 +56,9 @@ class Portalga extends CI_Controller {
                 $engineering['post'] = $this->__get_post_by_category($category->id);
             }
 
-            if ($category->slug == 'security')
+            if ($category->slug == 'security') {
                 $security = $this->__get_post_by_category($category->id);
+            }
         }
 
         return [
@@ -69,22 +71,58 @@ class Portalga extends CI_Controller {
     }
 
     private function __get_post_by_category($category_id = 0) {
+        $sub_category = [$category_id];
+        foreach ($this->__get_sub_category($category_id) as $sub_cat)
+            $sub_category[] = $sub_cat->category_id;
+
+
         $post_to_category = [];
-        if (empty($category_id)) {
-            $get = $this->post_to_category->with('post')->get_all();
+        if (empty($sub_category)) {
+            $post_to_category = $this->post->with('ptc')->order_by('post_publish_when', 'DESC')->limit($this->perpage)->get_many_by('post_status', 'publish');
         } else {
-            $get = $this->post_to_category->with('post')->get_many($category_id);
+            $ptc = [];
+            foreach ($this->post_to_category->with('post')->get_many($sub_category) as $row) {
+                if ($row->post->post_status == 'publish')
+                    $ptc[] = $row->post;
+            }
+            
+            $post_to_category = array_slice($ptc, 0, $this->perpage);
         }
 
-        foreach ($get as $index => $ptc) {
-            if ($ptc->post->post_status == 'publish')
-                $post_to_category[] = $ptc->post;
-
-            if ($index == $this->perpage)
-                break;
-        }
-
-        return distinct_array($post_to_category);
+//        debug($post_to_category);
+//        $get = $this->post->with('ptc')->order_by('post_publish_when', 'DESC')->get_many_by('post_status', 'publish');
+//        foreach ($get as $index => $row) {
+//            if (!empty($category_id)) {
+//                foreach ($row->ptc as $ptc) {
+//                    if (in_array($ptc->category_id, $sub_category))
+//                        $post_to_category[] = $get[$index];
+//                }
+//            } else {
+//                $post_to_category[$index] = $row;
+//            }
+//
+//            if (($index + 1) == $this->perpage)
+//                break;
+//        }
+        //debug($post_to_category);
+        return $post_to_category;
+//        $post_to_category = [];
+//        if (empty($category_id)) {
+//            $get = $this->post_to_category->with('post')->get_all();
+//        } else {
+//            $get = $this->post_to_category->with('post')->get_many($category_id);
+//        }
+//        
+//        
+//        foreach ($get as $index => $ptc) {
+//            if ($ptc->post->post_status == 'publish')
+//                $post_to_category[] = $ptc->post;
+//
+//            if ($index == $this->perpage)
+//                break;
+//        }
+//
+//        return distinct_array($post_to_category);
     }
 
     private function __get_sub_category($category_id = 0) {
@@ -128,7 +166,7 @@ class Portalga extends CI_Controller {
                 $this->load->view('article', $data + $this->__read($slug));
                 break;
             case 'search':
-                $this->load->view('articles', $data + $this->__type($this->input->get('key')));
+                $this->load->view('articles_search', $data + $this->__search($this->input->get('key')));
                 break;
             default :
                 $this->load->view('articles', $data + $this->__type());
@@ -141,26 +179,21 @@ class Portalga extends CI_Controller {
         $slug = func_get_args();
         $type = $this->uri->segment(3);
 
-
         if (!empty($type) && $type != 'page') {
             if (empty($slug))
                 show_404();
 
-            if ($type == 'search') {
-                $this->__search($slug);
-            } else {
-                $slug_type = [];
-                foreach ($this->{plural($type)} as $row) {
-                    if ($row->{$type . '_slug'} == $slug[0])
-                        $slug_type = $row;
-                }
+            $slug_type = [];
+            foreach ($this->{plural($type)} as $row) {
+                if ($row->{$type . '_slug'} == $slug[0])
+                    $slug_type = $row;
             }
         }
 
         $article = [];
         if (empty($type) OR $type == 'page') {
             $article = $this->post->with('ptc')->get_many_by('post_status', 'publish');
-        } else {
+        } else if ($type != 'search') {
             foreach ($this->{'post_to_' . $type}->with('post')->get_many($slug_type->{$type . '_id'}) as $value) {
                 if ($value->post->post_status == 'publish')
                     $article[] = $value->post;
@@ -171,9 +204,11 @@ class Portalga extends CI_Controller {
         $url = (!empty($type) && $type != 'page') ? $type . '/' . $slug_type->{$type . '_slug'} . '/page/' : 'page/';
         $page = !empty($this->uri->segment($segment)) ? $this->perpage * ($this->uri->segment($segment) - 1) : 0;
         if (!empty($article)) {
-            usort($article, function($a, $b) {
-                return strcmp($a->post_publish_when, $b->post_publish_when);
-            });
+            $post_publish_when = [];
+            foreach ($article as $k => $v)
+                $post_publish_when[$k] = $v->post_publish_when;
+
+            array_multisort($post_publish_when, SORT_DESC, SORT_STRING, $article);
         }
 
         $config['base_url'] = base_url('portalga/article/' . $url);
@@ -201,12 +236,16 @@ class Portalga extends CI_Controller {
     }
 
     private function __search($keyword) {
-        debug($keyword);
+        if (empty($keyword))
+            return;
+
+        $article = $this->post->get_wildcard($keyword);
+        return ['articles' => array_to_object($article)];
     }
 
     private function __set_menu() {
         $menu = [
-            anchor('portalga#header', 'Home'),
+            //anchor('portalga#header', 'Home'),
             '<a href="#general_service">General Service</a>',
             '<a href="#procurement">Procurement</a>',
             '<a href="#engineering">Engineering</a>',

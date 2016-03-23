@@ -30,11 +30,13 @@
     <div class="container">
         <div class="row">
             <div class="col-md-9">
-                <div class="row">
-                    <div class="col-md-11">
-                        <?php echo $article->post_content ?>
-                    </div>
-                </div>
+                <?php
+                if ($this->input->get('highlight') !== NULL) {
+                    echo highlight_phrase($article->post_content, $this->input->get('highlight'), '<mark>', '</mark>');
+                } else {
+                    echo $article->post_content;
+                }
+                ?>
                 <div class="clearfix"></div>
                 <div class="clearfix"></div>
             </div>

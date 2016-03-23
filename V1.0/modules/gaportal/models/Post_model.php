@@ -47,5 +47,27 @@ class Post_model extends GN_Model {
         if (!empty($post_to_tag))
             $this->post_to_tag->delete_by('post_id', $post_to_tag->post_id);
     }
+    
+    public function get_by_category($category_id) {
+        debug($category_id);
+    }
+
+    public function get_wildcard($keyword) {
+        $result = [];
+        $wildcard = $this->_database->like('post_content', $keyword)->get($this->_table);
+        foreach ($wildcard->result_array() as $row) {
+            $ptc = $this->_database->where('post_id', $row['post_id'])->get('post_to_category');
+            $ptt = $this->_database->where('tag_id', $row['post_id'])->get('post_to_tag');
+            if (!empty($ptc))
+                $row['ptc'] = $ptc->result_array();
+            
+            if(!empty($ptt))
+                $row['ptt'] = $ptt->result_array();
+            
+            $result[] = $row;
+        }
+        
+        return $result;
+    }
 
 }

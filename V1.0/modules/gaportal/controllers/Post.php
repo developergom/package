@@ -32,11 +32,11 @@ class Post extends GN_Controller {
                 'label' => 'Content',
                 'rules' => 'required'
             ],
-            [
-                'name' => 'post_featured_img',
-                'label' => 'Banner',
-                'rules' => 'callback_handle_upload'
-            ],
+//            [
+//                'name' => 'post_featured_img',
+//                'label' => 'Banner',
+//                'rules' => 'callback_handle_upload'
+//            ],
             [
                 'name' => 'categories[]',
                 'label' => 'Categories',
@@ -72,9 +72,9 @@ class Post extends GN_Controller {
                 'post_publish_when' => $this->input->post('post_status') == 'publish' ? date('Y-m-d H:i:s') : NULL
             ];
 
-            $upload = $this->_upload_banner($data['post_title']);
-            if (is_array($upload))
-                $data['post_featured_img'] = json_encode_db($upload);
+//            $upload = $this->_upload_banner($data['post_title']);
+//            if (is_array($upload))
+//                $data['post_featured_img'] = json_encode_db($upload);
 
             $post_id = $this->post->insert($data);
             $this->_set_category($post_id, $this->input->post('categories'));
@@ -170,7 +170,7 @@ class Post extends GN_Controller {
     }
 
     private function _upload_banner($name) {
-        $path = UPLOAD_PATH . $this->module;
+        $path = UPLOAD_PATH . $this->module_name;
         if (count($_FILES['post_featured_img']['name']) > 1) {
             for ($i = 1; $i <= count($_FILES['post_featured_img']['name']); ++$i)
                 $filename[] = url_title($name) . '-' . $i;
@@ -201,14 +201,16 @@ class Post extends GN_Controller {
         $config['min_height'] = 600;
         $this->upload->initialize($config);
 
-        if ($this->upload->do_multi_upload('post_featured_img')) {
-            foreach ($this->upload->get_multi_upload_data() as $img)
-                delete_files($img['full_path']);
+        if (count($_FILES['post_featured_img']['name']) > 0) {
+            if ($this->upload->do_multi_upload('post_featured_img')) {
+                foreach ($this->upload->get_multi_upload_data() as $img)
+                    delete_files($img['full_path']);
 
-            return TRUE;
-        } else {
-            $this->form_validation->set_message('handle_upload', str_replace(['<p>', '</p>'], NULL, $this->upload->display_errors()));
-            return FALSE;
+                return TRUE;
+            } else {
+                $this->form_validation->set_message('handle_upload', str_replace(['<p>', '</p>'], NULL, $this->upload->display_errors()));
+                return FALSE;
+            }
         }
     }
 

@@ -3,7 +3,7 @@
         <div class="carousel-inner">
             <?php
             foreach ($slider as $index => $row) {
-                $thumb = json_decode_db($row->post_featured_img);
+                $thumb = !empty($row->post_featured_img) ? json_decode_db($row->post_featured_img) : ['http://placehold.it/1600x600'];
                 ?>
                 <div class="item <?php echo $index == FALSE ? 'active' : NULL ?>" style="background-image: url(<?php echo $thumb[0] ?>)">
                     <div class="carousel-caption container">
@@ -78,7 +78,7 @@
                     <?php
                     foreach ($procurement['post'] as $index => $ptc) {
                         foreach ($ptc as $post) {
-                            $thumb = json_decode_db($post->post_featured_img);
+                            $thumb = !empty($post->post_featured_img) ? json_decode_db($post->post_featured_img) : ['http://placehold.it/800x600'];
                             ?>
                             <div class="col-md-4 col-sm-6 work-grid <?php echo $index ?>">
                                 <div class="portfolio-content">
@@ -128,7 +128,7 @@
                         <?php
                         foreach ($engineering['post'] as $ieptc => $eptc) {
                             $eactive = $ieptc == FALSE ? 'active' : NULL;
-                            $thumb = json_decode_db($eptc->post_featured_img);
+                            $thumb = !empty($eptc->post_featured_img) ? json_decode_db($eptc->post_featured_img) : ['http://placehold.it/800x530'];
                             ?>
                             <div class="item <?php echo $eactive ?>">
                                 <?php echo img($thumb[0]) ?>
@@ -156,7 +156,7 @@
             </div>
             <?php
             foreach ($security as $sptc) {
-                $thumb = json_decode_db($sptc->post_featured_img);
+                $thumb = !empty($sptc->post_featured_img) ? json_decode_db($sptc->post_featured_img) : ['http://placehold.it/570x675'];
                 ?>
                 <div class="col-md-3 col-sm-6">
                     <div class="team-member">

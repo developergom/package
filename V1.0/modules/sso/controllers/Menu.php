@@ -117,7 +117,7 @@ class Menu extends GN_Controller {
         }
     }
 
-    public function update() {
+    public function update($primary_key = 0) {
         $this->sso_new->check_access('u');
         $this->view = 'sso/menu/update';
         $this->data['action'] = $this->_base . '/edit/';

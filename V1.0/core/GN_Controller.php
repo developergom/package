@@ -115,13 +115,13 @@ class GN_Controller extends CI_Controller {
             $recursive = data_recursive($this->{$this->router->fetch_class()}->as_array()->get_all(), $this->data['recursive'][0], $this->data['recursive'][1]);
             foreach (datagrid_recursive($recursive, $this->data['recursive'][2]) as $index => $row) {
                 foreach ($row as $k => $v) {
-                    if (strpos($k, '_status')) {
-                        $status_state = json_decode_db(STATUS_STATE);
-                        $row[$k] = $status_state[$row[$k]];
-                    }
+                    if (strpos($k, '_status'))
+                        $row[$k] = $this->_status_state($row[$k]);
+
                     if (!empty($items) && array_key_exists($k, $items))
                         $row[$k] = empty($v) ? $v : $items[$k][$v];
                 }
+
                 $this->data['datagrid'][$index] = array_intersect_key($row, $unshift);
             }
 
@@ -133,6 +133,9 @@ class GN_Controller extends CI_Controller {
             foreach ($this->{$this->router->fetch_class()}->get_all() as $index => $row) {
                 $row = object_to_array($row);
                 foreach ($row as $k => $v) {
+                    if (strpos($k, '_status'))
+                        $row[$k] = $this->_status_state($row[$k]);
+
                     if (!empty($items) && array_key_exists($k, $items))
                         $row[$k] = empty($v) ? $v : $items[$k][$v];
                 }
@@ -144,6 +147,14 @@ class GN_Controller extends CI_Controller {
 
         $this->pagination->initialize($config);
         $this->data['links'] = $this->pagination->create_links();
+    }
+
+    private function _status_state($status) {
+        if (empty($status))
+            return;
+
+        $status_state = json_decode_db(STATUS_STATE);
+        return html_entity_decode($status_state[$status]);
     }
 
     private function _get_items() {

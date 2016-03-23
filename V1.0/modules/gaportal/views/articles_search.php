@@ -3,7 +3,10 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="section-title">
-                    <?php echo heading(!empty($this->uri->segment(4)) ? humanize($this->uri->segment(4)) : nbs()) ?>
+                    <?php echo heading('Search Results') ?>
+                    <div class="post-meta text-uppercase">
+                        Search finished, found <?php echo count($articles) ?> article(s) matching the search query.
+                    </div>
                     <span class="st-border"></span>
                 </div>
             </div>
@@ -22,34 +25,13 @@
                         <div class="single-blog">
                             <article>
                                 <?php
-                                $post_featured_img = json_decode_db($article->post_featured_img);
-                                if (count($post_featured_img) > 1) {
-                                    ?>
-                                    <div class="post-slider">
-                                        <div id="post-carousel" class="carousel slide" data-ride="carousel">			
-                                            <div class="carousel-inner">
-                                                <?php
-                                                foreach ($post_featured_img as $i => $banner) {
-                                                    $active = $i == FALSE ? 'active' : NULL;
-                                                    echo '<div class="item ' . $active . '">';
-                                                    echo img($banner) . '</div>';
-                                                }
-                                                ?>
-                                            </div>
-                                            <a class="post-carousel-left" href="#post-carousel" data-slide="prev"><i class="fa fa-angle-left"></i></a>
-                                            <a class="post-carousel-right" href="#post-carousel" data-slide="next"><i class="fa fa-angle-right"></i></a>
-                                        </div>		
-                                    </div> 
-                                    <?php
+                                if ($this->input->get('key') !== NULL) {
+                                    $phrase = '?highlight=' . $this->input->get('key');
                                 } else {
-                                    if (!empty($post_featured_img))
-                                        $post_featured_img = reset($post_featured_img);
-                                    ?>
-                                    <div class="post-thumb"><?php echo img($post_featured_img, FALSE, 'class="img-responsive" alt="' . $article->post_title . '"') ?></div>
-                                    <?php
+                                    $phrase = NULL;
                                 }
+                                    echo heading(anchor('portalga/article/read/' . $article->post_slug . $phrase, $article->post_title), 4, ' class="post-title"');
                                 ?>
-                                <?php echo heading(anchor('portalga/article/read/' . $article->post_slug, $article->post_title), 4, ' class="post-title"') ?>
                                 <div class="post-meta text-uppercase">
                                     <span><?php echo unix_to_human(strtotime($article->post_publish_when), TRUE, 'us') ?></span>
                                     <?php
@@ -65,10 +47,6 @@
                                     ?>
                                     <span>By <?php echo $article->create_by ?></span>
                                 </div>
-                                <div class="post-article">
-                                    <?php echo word_limiter(strip_tags($article->post_content), 41) ?>
-                                </div>
-                                <?php echo anchor('portalga/article/read/' . $article->post_slug, 'Read More', 'class="btn btn-readmore"') ?>
                             </article>
                         </div>
                         <hr>
@@ -77,7 +55,6 @@
                 } else {
                     echo heading('Oh Snap! There is empty post...', 4);
                 }
-                echo isset($pagination) ? $pagination : br();
                 ?>
 
             </div>

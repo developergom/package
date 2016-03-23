@@ -38,7 +38,8 @@ class Configs extends GN_Controller {
         ];
     }
 
-    public function edit() {
+    public function edit($primary_key = 0) {
+        debug($this->input->post());
         $this->sso_new->check_access('u');
         $custom_rules = [
             [
@@ -56,20 +57,19 @@ class Configs extends GN_Controller {
         ];
 
         $actual = $this->configs->get($this->input->post('config_id'));
-        if($this->input->post('config_key')!==$actual->config_key) { 
-            array_push($custom_rules, 
-                [
-                    'name' => 'config_key',
-                    'label' => 'Key',
-                    'type' => 'input',
-                    'rules' => 'required|max_length[100]|is_unique[configs.config_key]|alpha_dash'
-                ]
+        if ($this->input->post('config_key') !== $actual->config_key) {
+            array_push($custom_rules, [
+                'name' => 'config_key',
+                'label' => 'Key',
+                'type' => 'input',
+                'rules' => 'required|max_length[100]|is_unique[configs.config_key]|alpha_dash'
+                    ]
             );
         }
 
         $record = $this->configs->get($this->input->post('config_id'));
         if (!empty($record)) {
-            if($this->validation($custom_rules)===FALSE) {
+            if ($this->validation($custom_rules) === FALSE) {
                 redirect($this->_base . '/update/' . $this->input->post('config_key'));
             } else {
                 $data_config = [

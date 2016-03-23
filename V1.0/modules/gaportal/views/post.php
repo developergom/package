@@ -30,6 +30,7 @@
                                     $title = $row->post_title;
                                     $title .= $row->post_status == 'draft' ? '<span class="text-muted">&nbsp; &HorizontalLine; &nbsp;Draft</span>' : NULL;
                                     $title .= sprintf('<div class="small action" id="qe-%s">', $row->post_id);
+                                    $title .= anchor('portalga/article/read/' . $row->post_slug, '<i class="fa fa-external-link"></i>' . nbs() . 'Read', 'class="text-success" title="Read Article" target="__blank"') . nbs(2) . '<span class="text-muted small">|</span>' . nbs(2);
                                     $title .= anchor($base . '/update/' . $row->post_id, '<i class="fa fa-edit"></i>' . nbs() . 'Edit', 'title="Edit data"') . nbs(2) . '<span class="text-muted small">|</span>' . nbs(2);
                                     $title .= anchor('#', '<i class="fa fa-trash"></i>' . nbs() . 'Delete', 'class="text-danger" title="Delete user" data-toggle="modal" data-target="#confirm-delete" data-href="' . base_url($base . '/delete/' . $row->post_id) . '"');
                                     $title .= '</div>';
