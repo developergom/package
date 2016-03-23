@@ -529,16 +529,9 @@ label{
 }
 
 .member-image{
-    width: auto;
-    max-height: 160px;
-    overflow: hidden;
     position: relative;
 }
 
-.member-image img {
-    height: 100%;
-    width: 100%;
-}
 
 .member-info{
     background-color: #f5f5f5;

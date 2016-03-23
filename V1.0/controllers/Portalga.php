@@ -71,41 +71,53 @@ class Portalga extends CI_Controller {
     }
 
     private function __get_post_by_category($category_id = 0) {
-        $sub_category = [$category_id];
+        $category = [$category_id];
         foreach ($this->__get_sub_category($category_id) as $sub_cat)
-            $sub_category[] = $sub_cat->category_id;
+            $category[] = $sub_cat->category_id;
 
-
-        $post_to_category = [];
-        if (empty($sub_category)) {
-            $post_to_category = $this->post->with('ptc')->order_by('post_publish_when', 'DESC')->limit($this->perpage)->get_many_by('post_status', 'publish');
+        if (empty($category)) {
+            $get = $this->post_to_category->with('post')->get_all();
         } else {
-            $ptc = [];
-            foreach ($this->post_to_category->with('post')->get_many($sub_category) as $row) {
-                if ($row->post->post_status == 'publish')
-                    $ptc[] = $row->post;
-            }
-            
-            $post_to_category = array_slice($ptc, 0, $this->perpage);
+            $get = $this->post_to_category->with('post')->get_many($category);
         }
 
-//        debug($post_to_category);
-//        $get = $this->post->with('ptc')->order_by('post_publish_when', 'DESC')->get_many_by('post_status', 'publish');
-//        foreach ($get as $index => $row) {
-//            if (!empty($category_id)) {
-//                foreach ($row->ptc as $ptc) {
-//                    if (in_array($ptc->category_id, $sub_category))
-//                        $post_to_category[] = $get[$index];
-//                }
-//            } else {
-//                $post_to_category[$index] = $row;
-//            }
+        if (!empty($get)) {
+            $post_publish_when = [];
+            foreach ($get as $k => $v)
+                $post_publish_when[$k] = $v->post->post_publish_when;
+
+            array_multisort($post_publish_when, SORT_DESC, SORT_STRING, $get);
+        }
+
+        $post_to_category = [];
+        foreach ($get as $index => $row) {
+            if ($row->post->post_status == 'publish')
+                $post_to_category[] = $row->post;
+
+            if (($index + 1) == $this->perpage)
+                break;
+        }
+
+        return distinct_array($post_to_category);
+//        $sub_category = [$category_id];
+//        foreach ($this->__get_sub_category($category_id) as $sub_cat)
+//            $sub_category[] = $sub_cat->category_id;
 //
-//            if (($index + 1) == $this->perpage)
-//                break;
+//
+//        $post_to_category = [];
+//        if (empty($sub_category)) {
+//            $post_to_category = $this->post->with('ptc')->order_by('post_publish_when', 'DESC')->limit($this->perpage)->get_many_by('post_status', 'publish');
+//        } else {
+//            $ptc = [];
+//            foreach ($this->post_to_category->with('post')->get_many($sub_category) as $row) {
+//                if ($row->post->post_status == 'publish')
+//                    $ptc[] = $row->post;
+//            }
+//            
+//            $post_to_category = array_slice($ptc, 0, $this->perpage);
 //        }
-        //debug($post_to_category);
-        return $post_to_category;
+//
+//        return $post_to_category;
 //        $post_to_category = [];
 //        if (empty($category_id)) {
 //            $get = $this->post_to_category->with('post')->get_all();
@@ -193,7 +205,7 @@ class Portalga extends CI_Controller {
         $article = [];
         if (empty($type) OR $type == 'page') {
             $article = $this->post->with('ptc')->get_many_by('post_status', 'publish');
-        } else if ($type != 'search') {
+        } else {
             foreach ($this->{'post_to_' . $type}->with('post')->get_many($slug_type->{$type . '_id'}) as $value) {
                 if ($value->post->post_status == 'publish')
                     $article[] = $value->post;
@@ -249,7 +261,8 @@ class Portalga extends CI_Controller {
             '<a href="#general_service">General Service</a>',
             '<a href="#procurement">Procurement</a>',
             '<a href="#engineering">Engineering</a>',
-            '<a href="#security">Security</a>'
+            '<a href="#security">Security</a>',
+            //anchor('portalga/article', 'Article')
         ];
         return $menu;
     }

@@ -48,10 +48,6 @@ class Post_model extends GN_Model {
             $this->post_to_tag->delete_by('post_id', $post_to_tag->post_id);
     }
     
-    public function get_by_category($category_id) {
-        debug($category_id);
-    }
-
     public function get_wildcard($keyword) {
         $result = [];
         $wildcard = $this->_database->like('post_content', $keyword)->get($this->_table);

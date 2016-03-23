@@ -33,43 +33,47 @@
         </div>
         <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
             <div class="panel-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-condensed table-hover table-striped">
-                        <tbody>
-                            <tr>
-                                <td class="text-center">5306047</td>
-                                <td>Direct</td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">31100</td>
-                                <td>Direktur</td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">31101</td>
-                                <td><strong>Sekretariat</strong> Lucia</td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">31105</td>
-                                <td>&nbsp;</td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">31107</td>
-                                <td>&nbsp;</td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">31108</td>
-                                <td>Kang Odeng</td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">32160</td>
-                                <td>&nbsp;</td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">32164</td>
-                                <td>Tomy Ngalusi</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="row">
+                    <div class="col-xs-offset-1 col-xs-10 col-sm-offset-1 col-sm-10 col-md-offset-1 col-md-10 col-lg-offset-1 col-lg-10">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-condensed table-hover table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">5306047</td>
+                                        <td>Direct</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31100</td>
+                                        <td>Direktur</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31101</td>
+                                        <td><strong>Sekretariat</strong> Lucia</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31105</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31107</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31108</td>
+                                        <td>Kang Odeng</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">32160</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">32164</td>
+                                        <td>Tomy Ngalusi</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -161,7 +165,6 @@
                                 </tbody>
                             </table>
                         </div>
-
                         <p><strong>FO &amp; BO</strong></p>
                         <div class="table-responsive">
                             <table class="table table-bordered table-condensed table-hover table-hover table-striped">
@@ -275,7 +278,6 @@
                                 </tbody>
                             </table>
                         </div>
-
                         <p><strong>GMC</strong></p>
                         <div class="table-responsive">
                             <table class="table table-bordered table-condensed table-hover table-hover table-striped">
@@ -299,7 +301,6 @@
                                 </tbody>
                             </table>
                         </div>
-
                         <p><strong>Sirkulasi</strong></p>
                         <div class="table-responsive">
                             <table class="table table-bordered table-condensed table-hover table-hover table-striped">
@@ -386,6 +387,53 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <p><strong>Publisher</strong></p>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-condensed table-hover table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">5304717</td>
+                                        <td>Fax</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">33600</td>
+                                        <td><strong>GM</strong> Devy S.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">3222</td>
+                                        <td><strong>Sekretariat</strong> Pipit, Dini</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">32225</td>
+                                        <td><strong>BM</strong> Fitriana</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">32222</td>
+                                        <td>Itha, Dira, Sibil, Yurista, Romi, Dani</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">32223</td>
+                                        <td>Iput, Laura, Acid, Novi, Ayu, Hafiz, Sony</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">32224</td>
+                                        <td>Rini, Wining, Bepe, Efanto</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">32200</td>
+                                        <td>Koes Sabandiyah, Retno</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">32201</td>
+                                        <td>Cece, Iben, Desti, Galis, Ajoy, Puti, Miko, Aryo</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">32206</td>
+                                        <td>Gudang anak Unit 2</td>
+                                    </tr>                                    
+                                </tbody>
+                            </table>
+                        </div>
                         <p><strong>Nova</strong></p>
                         <div class="table-responsive">
                             <table class="table table-bordered table-condensed table-hover table-hover table-striped">
@@ -453,7 +501,6 @@
                                 </tbody>
                             </table>
                         </div>
-
                         <p><strong>Sedap Saji</strong></p>
                         <div class="table-responsive">
                             <table class="table table-bordered table-condensed table-hover table-hover table-striped">
@@ -577,7 +624,6 @@
                                 </tbody>
                             </table>
                         </div>
-
                         <p><strong>XY Kids</strong></p>
                         <div class="table-responsive">
                             <table class="table table-bordered table-condensed table-hover table-hover table-striped">
@@ -605,7 +651,6 @@
                                 </tbody>
                             </table>
                         </div>
-
                         <p><strong>Disney Mombi</strong></p>
                         <div class="table-responsive">
                             <table class="table table-bordered table-condensed table-hover table-hover table-striped">
@@ -639,7 +684,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -654,7 +698,272 @@
         </div>
         <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
             <div class="panel-body">
-                <h4>Publishing General Interest Media</h4>
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <p><strong>Publisher</strong></p>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-condensed table-hover table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">5306417</td>
+                                        <td>Fax</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">32504</td>
+                                        <td>Ida Farida</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">32301</td>
+                                        <td>Alwin, Acan</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">32302</td>
+                                        <td>Harry Kris</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">32303</td>
+                                        <td>Diky, Ima, Amar, Gory</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">32304</td>
+                                        <td>Reiza B Maspaitella</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">32500</td>
+                                        <td>Pius</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">32501</td>
+                                        <td>Teguh, Wiji, Alwin, Achan</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">32502</td>
+                                        <td>Aput</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">32503</td>
+                                        <td>Irene, Frans, Reno, Arlies</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p><strong>Intisari</strong></p>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-condensed table-hover table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">5320607</td>
+                                        <td>Fax</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">33501</td>
+                                        <td>Tatik</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">33502</td>
+                                        <td><strong>Reporter</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">33503</td>
+                                        <td><strong>Redaksi</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">33504</td>
+                                        <td>YDS, Ade, Designer grafis</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">33505</td>
+                                        <td>Yoyok</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p><strong>Hai, Ridebike, Switch</strong></p>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-condensed table-hover table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">5330070</td>
+                                        <td>Fax</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">33301</td>
+                                        <td><strong>Sekretariat</strong> Niken</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">33300</td>
+                                        <td>Dani Satrio</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">33302</td>
+                                        <td>Junior Respati (Ryo)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">33303</td>
+                                        <td>Mate,Yorgi,Ananda R,Andwi F, Ridho N, Daus, Ilham, Budi</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">33304</td>
+                                        <td>Gio, Mas Bo, Batak, Dosir, Eta, Danang</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">33305</td>
+                                        <td>Imam, Muluk</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">33306</td>
+                                        <td>Teguh A, Ayu, Seruni, Agung</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">33307</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">33309</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p><strong>Sinyal, Games</strong></p>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-condensed table-hover table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">33361</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">33391</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">33350</td>
+                                        <td>Andra</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <p><strong>National Geographic</strong></p>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-condensed table-hover table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">5330179</td>
+                                        <td>Direct</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">33590</td>
+                                        <td><strong>Sekretariat</strong> Desy</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">33591</td>
+                                        <td>Daus,Andy, Fredy, Asti, Vega Hafidz, Yoan, Anti</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">33592</td>
+                                        <td>Didi</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">33593</td>
+                                        <td>Bayu,Lambok, Soni</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p><strong>Idea</strong></p>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-condensed table-hover table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">5320669</td>
+                                        <td>Fax</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">33522</td>
+                                        <td><strong>Editor In Chief</strong> Wisnu</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">33523</td>
+                                        <td><strong>Redaksi</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">33524</td>
+                                        <td>Atok, Joe</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">33525</td>
+                                        <td>Indra, Sisca, Ade</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p><strong>Rumah</strong></p>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-condensed table-hover table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">5320549</td>
+                                        <td>Fax</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">33811</td>
+                                        <td><strong>Sekretariat</strong> Pangga</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">33810</td>
+                                        <td>Oma, Rahma, Irfan</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">33812</td>
+                                        <td>Ilham, Endy, Fartue</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">33813</td>
+                                        <td>Kumi, Kane</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">33814</td>
+                                        <td><strong>Editor In Chief</strong> Dian</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p><strong>Angkasa</strong></p>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-condensed table-hover table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">5330071</td>
+                                        <td>Fax</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">33341</td>
+                                        <td><strong>Sekretariat</strong> Vero</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">33340</td>
+                                        <td>A. Darmawan</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">33342</td>
+                                        <td>Beny</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">33343</td>
+                                        <td><strong>Artistik</strong> Bay, Aris, Goro, Suryo Lelono, Endang Kamal.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">33344</td>
+                                        <td><strong>Redaksi</strong> Gatot, Roni</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -737,7 +1046,6 @@
                                 </tbody>
                             </table>
                         </div>
-
                         <p><strong>PH TV</strong></p>
                         <div class="table-responsive">
                             <table class="table table-bordered table-condensed table-hover table-striped">
@@ -794,7 +1102,6 @@
                                 </tbody>
                             </table>
                         </div>
-
                         <p><strong>ACT</strong></p>
                         <div class="table-responsive">
                             <table class="table table-bordered table-condensed table-hover table-striped">
@@ -855,7 +1162,6 @@
             </div>
         </div>
     </div>
-
     <div class="panel panel-default">
         <div class="panel-heading" role="tab" id="headingSeven">
             <h4 class="panel-title">
@@ -876,10 +1182,93 @@
                                         <td class="text-center">5349734</td>
                                         <td>Fax</td>
                                     </tr>
+                                    <tr>
+                                        <td class="text-center">31241</td>
+                                        <td><strong>Sekretariat</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31250</td>
+                                        <td>Teguh Wiarso</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31255</td>
+                                        <td>Linda</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31240</td>
+                                        <td><strong>Gudang</strong> Suryaman, Samijo, Ngateno</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31242</td>
+                                        <td>Iben</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31243</td>
+                                        <td>Putri, Samsu</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31251</td>
+                                        <td>Rama</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31254</td>
+                                        <td>Tugiyat</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31256</td>
+                                        <td>Andi</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31235</td>
+                                        <td>Supriyono</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31236</td>
+                                        <td>Itha</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31237</td>
+                                        <td>Myrawan</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31238</td>
+                                        <td>Musi, Abadi, Agus, Emas</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31248</td>
+                                        <td><strong>Kendaraan</strong> Imam, Sofyan, Beni</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31288</td>
+                                        <td>Dominikus Hayon</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31245</td>
+                                        <td><strong>Receptionis</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31246</td>
+                                        <td><strong>Ballroom</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31247</td>
+                                        <td><strong>Studio Foto</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31249</td>
+                                        <td>Viriya, Resik, Mitra</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31260</td>
+                                        <td><strong>Klinik</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31270</td>
+                                        <td><strong>Kantin</strong></td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
-                        
                         <p><strong>Human Resource</strong></p>
                         <div class="table-responsive">
                             <table class="table table-bordered table-condensed table-hover table-striped">
@@ -936,7 +1325,136 @@
                             </table>
                         </div>
                     </div>
-                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6"></div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <p><strong>Comptroller (Fico)</strong></p>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-condensed table-hover table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">5304759</td>
+                                        <td>Fax</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31440</td>
+                                        <td><strong>Data Preparation</strong> Neny, Pardjono</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31441</td>
+                                        <td><strong>Account Payable</strong> Yossie, Salimun</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31442</td>
+                                        <td><strong>Account Payable</strong> Sinta, Indah, Shanti, Nicola</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31443</td>
+                                        <td><strong>Account Receivable/General Leader</strong> Yuli, Rince, Ani, Yudhi, Mia, Ferry, Neny</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31444</td>
+                                        <td><strong>Genaral Leader</strong> Dewi, Lukas, Yustinus</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31445</td>
+                                        <td>Pajak</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31446</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p><strong>Finance, Kasir &amp; Pajak</strong></p>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-condensed table-hover table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">5306185</td>
+                                        <td><strong>Direct</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31401</td>
+                                        <td><strong>Pajak</strong> Anas, Erik, Tanto</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31402</td>
+                                        <td><strong>Kasir</strong> Dewi</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31403</td>
+                                        <td>Yuni, Nurhayati</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31404</td>
+                                        <td>Adit</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31405</td>
+                                        <td>Wulan</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p><strong>CFM Security</strong></p>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-condensed table-hover table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">31222</td>
+                                        <td><strong>Posko Security</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31226</td>
+                                        <td>Pos Lobby Unit I Belakang (Nigth Service)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31223</td>
+                                        <td>Pos Security Lobby Depan Unit I</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31228</td>
+                                        <td>Pos Security Lobby belakang unit I</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31224</td>
+                                        <td>Pos Lobby unit III</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31225</td>
+                                        <td>Pos Gerbang Gedung</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31227</td>
+                                        <td>Pos Security Lobby Unit II</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p><strong>CFM Engineering</strong></p>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-condensed table-hover table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">31230</td>
+                                        <td>Risman Joni, Pur, Kasdi, Joko</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31234</td>
+                                        <td><strong>Piket Engineering</strong> (Yudi, Yafet, Indra, Ibnu, Andre, Rizki, Aan)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31232</td>
+                                        <td>Luhur P.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">31233</td>
+                                        <td>Ruang PABX</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

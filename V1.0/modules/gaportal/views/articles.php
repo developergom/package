@@ -3,7 +3,11 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="section-title">
-                    <?php echo heading(!empty($this->uri->segment(4)) ? humanize($this->uri->segment(4)) : nbs()) ?>
+                    <?php
+                    $segment = $this->uri->segment(4);
+                    $title = is_numeric($segment) == FALSE ? humanize($segment) : sprintf('Page %s', $segment);
+                    echo heading(!empty($title) ? $title : nbs());
+                    ?>
                     <span class="st-border"></span>
                 </div>
             </div>
@@ -22,7 +26,7 @@
                         <div class="single-blog">
                             <article>
                                 <?php
-                                $post_featured_img = json_decode_db($article->post_featured_img);
+                                $post_featured_img = !empty($article->post_featured_img) ? json_decode_db($article->post_featured_img) : ['http://placehold.it/850x480', 'http://placehold.it/850x480'];
                                 if (count($post_featured_img) > 1) {
                                     ?>
                                     <div class="post-slider">

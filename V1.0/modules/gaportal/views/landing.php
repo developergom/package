@@ -42,7 +42,7 @@
                 ?>
                 <div class="col-md-4 col-sm-6 st-service">
                     <?php
-                    echo heading('<i class="fa fa-info-circle"></i>' . $gs->category_name, 2);
+                    echo heading('<i class="fa fa-info-circle"></i>' . anchor('portalga/article/category/' . $gs->category_slug, $gs->category_name), 2);
                     echo sprintf('<p>%s</p>', $gs->category_description);
                     ?>
                 </div>
@@ -86,8 +86,8 @@
                                     <div class="portfolio-overlay">
                                         <a href="<?php echo $thumb[0] ?>"><i class="fa fa-camera-retro"></i></a>
                                         <?php
-                                        echo heading($post->post_title, 5);
-                                        echo sprintf('<p>%s</p>', word_limiter(strip_tags($post->post_content), 10));
+                                        echo heading(anchor('portalga/article/read/' . $post->post_slug, $post->post_title), 6);
+                                        //echo sprintf('<p>%s</p>', word_limiter(strip_tags($post->post_content), 10));
                                         ?>
                                     </div>
                                 </div>	
