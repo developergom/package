@@ -3,9 +3,10 @@
         <div class="carousel-inner">
             <?php
             foreach ($slider as $index => $row) {
-                $thumb = !empty($row->post_featured_img) ? json_decode_db($row->post_featured_img) : ['http://placehold.it/1600x600'];
+                $thumb = !empty($row->post_featured_img) ? json_decode_db($row->post_featured_img) : [];
+                $background_image = !empty($thumb[0]) && file_exists($thumb[0]) ? $thumb[0] : 'http://placehold.it/1600x600';
                 ?>
-                <div class="item <?php echo $index == FALSE ? 'active' : NULL ?>" style="background-image: url(<?php echo $thumb[0] ?>)">
+                <div class="item <?php echo $index == FALSE ? 'active' : NULL ?>" style="background-image: url(<?php echo $background_image ?>)">
                     <div class="carousel-caption container">
                         <div class="row">
                             <div class="col-sm-9">
@@ -78,13 +79,14 @@
                     <?php
                     foreach ($procurement['post'] as $index => $ptc) {
                         foreach ($ptc as $post) {
-                            $thumb = !empty($post->post_featured_img) ? json_decode_db($post->post_featured_img) : ['http://placehold.it/800x600'];
+                            $thumb = !empty($post->post_featured_img) ? json_decode_db($post->post_featured_img) : [];
+                            $portfolio_overlay = !empty($thumb[0]) && file_exists($thumb[0]) ? $thumb[0] : 'http://placehold.it/800x600';
                             ?>
                             <div class="col-md-4 col-sm-6 work-grid <?php echo $index ?>">
                                 <div class="portfolio-content">
-                                    <?php echo img($thumb[0], TRUE, 'class="img-responsive"') ?>
+                                    <?php echo img($portfolio_overlay, TRUE, 'class="img-responsive"') ?>
                                     <div class="portfolio-overlay">
-                                        <a href="<?php echo $thumb[0] ?>"><i class="fa fa-camera-retro"></i></a>
+                                        <a href="<?php echo $portfolio_overlay ?>"><i class="fa fa-camera-retro"></i></a>
                                         <?php
                                         echo heading(anchor('portalga/article/read/' . $post->post_slug, $post->post_title), 6);
                                         //echo sprintf('<p>%s</p>', word_limiter(strip_tags($post->post_content), 10));
@@ -128,10 +130,11 @@
                         <?php
                         foreach ($engineering['post'] as $ieptc => $eptc) {
                             $eactive = $ieptc == FALSE ? 'active' : NULL;
-                            $thumb = !empty($eptc->post_featured_img) ? json_decode_db($eptc->post_featured_img) : ['http://placehold.it/800x530'];
+                            $thumb = !empty($eptc->post_featured_img) ? json_decode_db($eptc->post_featured_img) : [];
+                            $carousel_inner = !empty($thumb[0]) && file_exists($thumb[0]) ? $thumb[0] : 'http://placehold.it/800x530';
                             ?>
                             <div class="item <?php echo $eactive ?>">
-                                <?php echo img($thumb[0]) ?>
+                                <?php echo img($carousel_inner, TRUE, 'class="img-responsive"') ?>
                             </div>
                             <?php
                         }
@@ -156,12 +159,13 @@
             </div>
             <?php
             foreach ($security as $sptc) {
-                $thumb = !empty($sptc->post_featured_img) ? json_decode_db($sptc->post_featured_img) : ['http://placehold.it/570x675'];
+                $thumb = !empty($sptc->post_featured_img) ? json_decode_db($sptc->post_featured_img) : [];
+                $member = !empty($thumb[0]) && file_exists($thumb[0]) ? $thumb[0] : 'http://placehold.it/570x675';
                 ?>
                 <div class="col-md-3 col-sm-6">
                     <div class="team-member">
                         <div class="member-image">
-                            <?php echo img($thumb[0], TRUE, 'class="img-responsive"') ?>
+                            <?php echo img($member, TRUE, 'class="img-responsive"') ?>
                         </div>
                         <div class="member-info">
                             <?php
