@@ -1,6 +1,8 @@
 <?php
 
-$config['table_open'] = '<table class="table table-striped table-hover">';
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+$config['table_open'] = '<table class="table table-condensed table-hover">';
 $config['thead_open'] = '<thead>';
 $config['heading_row_start'] = '<tr>';
 $config['heading_row_end'] = '</tr>';
@@ -18,3 +20,6 @@ $config['cell_alt_start'] = '<td>';
 $config['cell_alt_end'] = '</td>';
 $config['tbody_close'] = '</tbody>';
 $config['table_close'] = '</table>';
+
+/* End of file table.php */
+/* Location: ./application/config/table.php */

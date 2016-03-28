@@ -30,7 +30,6 @@ class Profile extends CI_Controller {
     public function change() {
         $uid = $this->input->post('uid');
         $npass = $this->input->post('npass');
-
         $this->usr->init($uid);
         $this->form_validation->set_rules('uid', '', 'required');
         $this->form_validation->set_rules('npass', 'new password', 'required|min_length[8]');
@@ -47,7 +46,6 @@ class Profile extends CI_Controller {
     public function change_birth() {
         $uid = $this->input->post('uid');
         $ubirth = mdate('%Y-%m-%d', strtotime($this->input->post('ubirth')));
-
         $this->usr->init($uid);
         $this->form_validation->set_rules('uid', '', 'required');
         $this->form_validation->set_rules('ubirth', 'Birthdate', 'required|max_length[10]');
@@ -73,21 +71,15 @@ class Profile extends CI_Controller {
             $config['max_width'] = 1024;
             $config['max_height'] = 1024;
             $config['file_name'] = $uid . '-ava';
-
             $this->load->library('upload', $config);
-
             if (!$this->upload->do_upload('upp')) {
                 $data = array('error' => $this->upload->display_errors());
-
                 $this->index($uid);
             } else {
                 $data = array('upload_data' => $this->upload->data());
-
                 $this->usr->tdata = array('upp' => $data['upload_data']['file_name']);
                 $this->usr->eusr();
-
                 $this->session->set_userdata('uava', $data['upload_data']['file_name']);
-
                 redirect('/', 'refresh');
             }
         }

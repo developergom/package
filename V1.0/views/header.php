@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <base href="<?php echo base_url() ?>" />
-        <title><?php echo $app_name . ' :: ' . $title ?></title>
+        <title><?php //echo $app_name . ' :: ' . $title ?></title>
         <link rel="shortcut icon" href="#">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -10,14 +10,15 @@
         <?php
         $css = [
             'bootstrap.min',
+            'select2.min',
             'bootstrap-validator.min',
             'font-awesome.min',
             'AdminLTE.min',
             'skins/_all-skins.min',
             //'morris',
-            'datepicker3',
-            'daterangepicker-bs3',
-            'bootstrap3-wysihtml5.min'
+            'iCheck/all',
+            //'bootstrap3-wysihtml5.min',
+            'initialize'
         ];
         foreach ($css as $v)
             echo link_tag('asset/css/' . $v . '.css');
@@ -41,9 +42,9 @@
                 <!-- Logo -->
                 <a href="#" class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini"><b><?php echo substr($app_name, 0, 3); ?></b></span>
+                    <span class="logo-mini"><b><?php //echo substr($app_name, 0, 3); ?></b></span>
                     <!-- logo for regular state and mobile devices -->
-                    <span class="logo-lg"><?php echo $app_name; ?></span>
+                    <span class="logo-lg"><?php //echo $app_name; ?></span>
                 </a>
                 <!-- Header Navbar: style can be found in header.less -->
                 <nav class="navbar navbar-static-top" role="navigation">
@@ -102,7 +103,7 @@
                                             <?php echo anchor('profile/index/' . $this->session->userdata('user'), '<i class="fa fa-user"></i> Profile', 'class="btn btn-default btn-flat"') ?>
                                         </div>
                                         <div class="pull-right">
-                                            <?php echo anchor('in/out/', '<i class="fa fa-sign-out"></i> Sign out', 'class="btn btn-default btn-flat"') ?>
+                                            <?php echo anchor('sign/out/', '<i class="fa fa-sign-out"></i> Sign out', 'class="btn btn-default btn-flat"') ?>
                                         </div>
                                     </li>
                                 </ul>
@@ -138,8 +139,8 @@
                     <!-- sidebar menu: : style can be found in sidebar.less -->
                     <ul class="sidebar-menu">
                         <li class="header">THE NAVIGATION</li>
-                        <li><?php echo anchor('/', '<i class="fa fa-home"></i> <span>Home</span>') ?></li>
-                        <?php echo $this->sso->menu ?>
+                        <li><?php echo anchor('home/', '<i class="fa fa-home"></i> <span>Home</span>') ?></li>
+                        <?php //echo $this->sso->menu ?>
                     </ul>
                 </section>
                 <!-- /.sidebar -->
@@ -149,8 +150,8 @@
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
                     <?php
-                    echo heading($content_header, 1);
-                    echo ol($breadcrumb, 'class="breadcrumb"');
+                    //echo heading($content_header, 1);
+                    //echo ol($breadcrumb, 'class="breadcrumb"');
                     ?>
                 </section>
                 <section class="content">

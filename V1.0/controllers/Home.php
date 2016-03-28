@@ -1,26 +1,30 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * Description of home
  *
  * @author nanank
  */
-class Home extends CI_Controller {
-    
-    private $_attr = [];
-    
+class Home extends GN_Controller {
+
+    protected $models = ['home'];
+    protected $helpers = [];
+
     public function __construct() {
         parent::__construct();
-        $this->load->library('template');
-        $this->setting->check_session();
+        $this->data['form'] = [];
+
+        $this->data['style'] = [];
+        $this->data['script'] = [];
     }
-    
-    public function index() {
-        $this->_attr['title'] = 'Home';
-        $this->_attr['breadcrumb'] = [anchor('/', '<i class="fa fa-home"></i> Home')];
-        $this->template->load($this->setting->template . '/default', 'home', $this->_attr);
+
+    public function index($page = 0) {
+        //$this->load->view('home');
+        $this->data['datagrid_header'] = [];
     }
-    
+
 }
 
 /* End of file home.php */
