@@ -13,7 +13,9 @@ class In extends CI_Controller {
     }
 
     public function index() {
-        $this->load->view('in');
+        $this->load->library('encrypt');
+        echo $this->encrypt->encode('uratmadu');
+        //$this->load->view('in');
     }
 
     public function come() {
